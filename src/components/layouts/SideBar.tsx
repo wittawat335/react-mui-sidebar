@@ -30,7 +30,7 @@ import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 
 type SideBarProps = {
   isSidebar: boolean;
-  collapsed: boolean;
+  //collapsed: boolean;
 };
 type Theme = "light" | "dark";
 
@@ -262,7 +262,6 @@ const SideBar = (props: SideBarProps) => {
             id="theme"
             checked={theme === "dark"}
             onChange={handleThemeChange}
-            label="Dark"
           />
           {theme === "dark" ? <HiOutlineSun /> : <HiOutlineMoon />}
         </div>
