@@ -3,21 +3,57 @@ import { Route, Routes } from "react-router-dom";
 import { Box, CssBaseline } from "@mui/material";
 import Dashboard from "./pages/admin/Dashboard";
 import { Header, SideBar } from "./components/layouts";
+import User from "./pages/users/Users";
+import Login from "./pages/auth/Login";
 
-function App() {
-  const [isSidebar, setIsSidebar] = useState(true);
+function UnAuthApp() {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
+    </Routes>
+  );
+}
 
+function AuthApp() {
   return (
     <>
       <CssBaseline />
       <div className="app">
-        <SideBar isSidebar={isSidebar} />
+        <SideBar />
         <main className="content">
           <Header />
           <div className="content_body">
             <Box m="20px">
               <Routes>
-                <Route path="/admin" element={<Dashboard />} />
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/users" element={<User />} />
+                <Route path="/login" element={<Login />} />
+              </Routes>
+            </Box>
+          </div>
+        </main>
+      </div>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <CssBaseline />
+      <div className="app">
+        <SideBar />
+        <main className="content">
+          <Header />
+          <div className="content_body">
+            <Box m="20px">
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/users" element={<User />} />
+                <Route path="/login" element={<Login />} />
               </Routes>
             </Box>
           </div>

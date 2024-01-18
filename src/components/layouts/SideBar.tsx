@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { useState } from "react";
 import {
   Sidebar,
   Menu,
@@ -7,16 +7,7 @@ import {
   MenuItemStyles,
   menuClasses,
 } from "react-pro-sidebar";
-import {
-  Box,
-  IconButton,
-  Typography,
-  useTheme,
-  Badge,
-  Switch,
-} from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
-
+import { Box, IconButton, Typography, Switch } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
@@ -27,9 +18,9 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import TableViewIcon from "@mui/icons-material/TableView";
 import { FaReact } from "react-icons/fa";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
+import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
 
 type SideBarProps = {
-  isSidebar: boolean;
   //collapsed: boolean;
 };
 type Theme = "light" | "dark";
@@ -80,6 +71,7 @@ const hexToRgba = (hex: string, alpha: number) => {
 };
 
 const SideBar = (props: SideBarProps) => {
+  let navigate = useNavigate();
   const [toggled, setToggled] = useState(false);
   const [broken, setBroken] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -210,19 +202,28 @@ const SideBar = (props: SideBarProps) => {
                   </Box>
                 </Box>
               )}
-              <MenuItem icon={<HomeOutlinedIcon />}>Dashboard</MenuItem>
+
+              <MenuItem
+                key="1"
+                icon={<HomeOutlinedIcon />}
+                onClick={() => navigate("/dashboard")}
+              >
+                Dashboard
+              </MenuItem>
 
               <SubMenu icon={<MapOutlinedIcon />} label="Data">
-                <MenuItem icon={<TableViewIcon />}> Table</MenuItem>
-
-                <MenuItem icon={<BarChartOutlinedIcon />}>
+                <MenuItem key="2" icon={<TableViewIcon />}>
+                  {" "}
+                  Table
+                </MenuItem>
+                <MenuItem key="3" icon={<BarChartOutlinedIcon />}>
                   {" "}
                   Line charts
                 </MenuItem>
               </SubMenu>
 
               <SubMenu label="Manage" icon={<PeopleOutlinedIcon />}>
-                <MenuItem>User</MenuItem>
+                <MenuItem onClick={() => navigate("/users")}>User</MenuItem>
                 <MenuItem> Admin</MenuItem>
               </SubMenu>
             </Menu>
