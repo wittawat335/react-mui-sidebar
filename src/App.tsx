@@ -1,14 +1,8 @@
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Box, CssBaseline } from "@mui/material";
-import SideBar from "./components/layouts/SideBar";
-import Header from "./components/layouts/Header";
 import Dashboard from "./pages/admin/Dashboard";
-import Manage from "./pages/admin/Manges";
-import { Playground } from "./pages/Play";
-import Manges from "./pages/admin/Manges";
-import ToggleThemeButton from "./components/layouts/ToggleThemeButton";
-import ResponsiveAppBar from "./components/layouts/ResponsiveAppBar";
+import { Header, SideBar } from "./components/layouts";
 
 type Theme = "light" | "dark";
 const themes = {
@@ -59,15 +53,13 @@ function App() {
     <>
       <CssBaseline />
       <div className="app">
-        <SideBar collapsed={collapsed} isSidebar={isSidebar}></SideBar>
+        <SideBar collapsed={collapsed} isSidebar={isSidebar} />
         <main className="content">
-          <ResponsiveAppBar />
-          {/* <Header setIsSidebar={setIsSidebar} /> */}
+          <Header />
           <div className="content_body">
             <Box m="20px">
               <Routes>
                 <Route path="/admin" element={<Dashboard />} />
-                <Route path="/play" element={<Playground />} />
               </Routes>
             </Box>
           </div>

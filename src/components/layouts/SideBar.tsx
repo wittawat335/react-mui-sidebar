@@ -84,7 +84,7 @@ const SideBar = (props: SideBarProps) => {
   const [broken, setBroken] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [hasImage, setHasImage] = useState(false);
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTheme(e.target.checked ? "dark" : "light");
