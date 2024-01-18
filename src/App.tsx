@@ -5,6 +5,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import { Header, SideBar } from "./components/layouts";
 import User from "./pages/users/Users";
 import Login from "./pages/auth/Login";
+import Error404 from "./pages/404";
 
 function UnAuthApp() {
   return (
@@ -30,6 +31,7 @@ function AuthApp() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/users" element={<User />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="*" element={<Error404 />} />
               </Routes>
             </Box>
           </div>
@@ -40,27 +42,7 @@ function AuthApp() {
 }
 
 function App() {
-  return (
-    <>
-      <CssBaseline />
-      <div className="app">
-        <SideBar />
-        <main className="content">
-          <Header />
-          <div className="content_body">
-            <Box m="20px">
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/users" element={<User />} />
-                <Route path="/login" element={<Login />} />
-              </Routes>
-            </Box>
-          </div>
-        </main>
-      </div>
-    </>
-  );
+  return <AuthApp />;
 }
 
 export default App;
