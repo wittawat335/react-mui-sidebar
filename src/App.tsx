@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Box, CssBaseline } from "@mui/material";
 import Dashboard from "./pages/admin/Dashboard";
 import { Header, SideBar } from "./components/layouts";
 import User from "./pages/users/Users";
 import Login from "./pages/auth/Login";
+import { ToastContainer } from "react-toastify";
 
 function UnAuthApp() {
   return (
@@ -49,8 +50,9 @@ function App() {
           <Header />
           <div className="content_body">
             <Box m="20px">
+              <ToastContainer />
               <Routes>
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/users" element={<User />} />
                 <Route path="/login" element={<Login />} />

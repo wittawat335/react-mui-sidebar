@@ -20,6 +20,8 @@
       "@/components/*":["components/*"],
       "@/pages/*":["pages/*"],
       "@/util/*":["util/*"],
+      "@/types/*":["types/*"],
+      "@/store/*":["store/*"],
     },
 
     /* Linting */
