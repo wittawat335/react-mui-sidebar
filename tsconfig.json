@@ -23,7 +23,7 @@
       "@/types/*":["types/*"],
       "@/store/*":["store/*"],
       "@/services/*":["services/*"],
-     
+      "@/lib/*":["lib/*"],
     },
 
     /* Linting */
