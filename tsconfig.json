@@ -13,25 +13,18 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["node"],
-    "baseUrl": "src",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@/components/*":["components/*"],
-      "@/pages/*":["pages/*"],
-      "@/util/*":["util/*"],
-      "@/types/*":["types/*"],
-      "@/store/*":["store/*"],
-      "@/services/*":["services/*"],
-      "@/lib/*":["lib/*"],
-    },
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "include": ["src"],
+    "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -4,16 +4,16 @@ import { login } from "../api/authApi";
 
 export const useLogin = () => {
   return useMutation({
-    mutationFn: (data: Authen) => login(data),
+    mutationFn: (user: { username: string; password: string }) => login(user),
     onMutate: () => {
       console.log("Mutate");
     },
     onError: () => {
       console.log("error");
     },
-
-    onSuccess: () => {
+    onSuccess: (response) => {
       console.log("success");
+      console.log(response?.data);
     },
   });
 };

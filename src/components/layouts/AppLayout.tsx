@@ -6,6 +6,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store/store";
 import { setUser } from "@/store/slices/authSlice";
+import "../../index.css";
 
 export default function AppLayout() {
   const auth = JSON.parse(localStorage.getItem("auth") || "{}");
