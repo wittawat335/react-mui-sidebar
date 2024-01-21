@@ -5,6 +5,8 @@ import { Dashboard } from "@/pages/admin";
 import { Users } from "@/pages/users";
 import { createBrowserRouter } from "react-router-dom";
 import Products from "@/pages/products";
+import Todo from "@/components/Todo";
+import SignIn from "@/pages/auth/SignIn";
 
 const routes = createBrowserRouter([
   {
@@ -17,12 +19,17 @@ const routes = createBrowserRouter([
       { path: "users/:id", element: <Users /> },
       { path: "products", element: <Products /> },
       { path: "products/:id", element: <Products /> },
+      { path: "todos", element: <Todo /> },
     ],
   },
   {
     path: "/auth",
     element: <AuthLayout />,
-    children: [{ index: true, element: <Login /> }],
+    children: [
+      { index: true, element: <SignIn /> },
+      { path: "signin", element: <SignIn /> },
+      { path: "login", element: <Login /> },
+    ],
   },
 ]);
 export default routes;

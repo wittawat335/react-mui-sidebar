@@ -22,6 +22,8 @@
       "@/util/*":["util/*"],
       "@/types/*":["types/*"],
       "@/store/*":["store/*"],
+      "@/services/*":["services/*"],
+     
     },
 
     /* Linting */

@@ -19,6 +19,8 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import { FaReact } from "react-icons/fa";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
+import { useAppSelector } from "@/store/store";
+import { selectAuth } from "@/store/slices/authSlice";
 
 type SideBarProps = {
   //collapsed: boolean;
