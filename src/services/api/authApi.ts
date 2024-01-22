@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from "axios";
-import { Authen } from "@/types/Authen";
 import { appConfig } from "../../config";
 
 const axiosInstance: AxiosInstance = axios.create({

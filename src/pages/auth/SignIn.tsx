@@ -3,7 +3,6 @@ import { SigninValidation } from "@/lib/validation";
 import { useLogin } from "@/services/mutations/authMutation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Form,
@@ -14,13 +13,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { toast } from "react-toastify";
-import { FaSave, FaSign, FaSignInAlt } from "react-icons/fa";
+import { FaSignInAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
-  const [loading, setLoading] = useState(false);
   const { mutateAsync: login, isPending } = useLogin();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
     defaultValues: {
@@ -33,10 +32,13 @@ export default function SignIn() {
     const session = await login(user);
     if (!session) {
       toast("Login failed. Please try again.");
-
       return;
+    } else {
+      toast(session.data.message);
+      navigate(session.data.returnUrl);
     }
   };
+
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
@@ -84,7 +86,7 @@ export default function SignIn() {
             startIcon={<FaSignInAlt />}
             variant="contained"
           >
-            {isPending ? "Loading...." : "Sign In"}
+            {isPending ? "Loading....." : "Log in"}
           </LoadingButton>
         </form>
       </div>

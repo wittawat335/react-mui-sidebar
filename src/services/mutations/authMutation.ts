@@ -1,4 +1,3 @@
-import { Authen } from "@/types/Authen";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../api/authApi";
 
@@ -12,8 +11,7 @@ export const useLogin = () => {
       console.log("error");
     },
     onSuccess: (response) => {
-      console.log("success");
-      console.log(response?.data);
+      console.log("Success");
     },
   });
 };
