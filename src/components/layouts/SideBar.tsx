@@ -18,9 +18,7 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import TableViewIcon from "@mui/icons-material/TableView";
 import { FaReact } from "react-icons/fa";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
-import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
-import { useAppSelector } from "@/lib/redux/store";
-import { selectAuth } from "@/lib/redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 type SideBarProps = {
   //collapsed: boolean;
@@ -30,7 +28,7 @@ type Theme = "light" | "dark";
 const themes = {
   light: {
     sidebar: {
-      backgroundColor: "#ffffff",
+      backgroundColor: "#fbfcfd",
       color: "#607489",
     },
     menu: {
@@ -269,6 +267,17 @@ const SideBar = (props: SideBarProps) => {
           {theme === "dark" ? <HiOutlineSun /> : <HiOutlineMoon />}
         </div>
       </Sidebar>
+      <main>
+        <div style={{ padding: "16px 2px ", color: "#44596e" }}>
+          <div style={{ marginBottom: "16px" }}>
+            {broken && (
+              <IconButton onClick={() => setToggled(!toggled)}>
+                <MenuOutlinedIcon />
+              </IconButton>
+            )}
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
