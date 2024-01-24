@@ -1,12 +1,6 @@
-import { AppLayout, AuthLayout } from "@/components/layouts";
-import Home from "@/pages/Home";
-import Login from "@/pages/auth/Login";
-import { Dashboard } from "@/pages/admin";
-import { Users } from "@/pages/users";
 import { createBrowserRouter } from "react-router-dom";
-import Products from "@/pages/products";
-import Todo from "@/components/Todo";
-import { SignIn, SignUp } from "@/pages/auth";
+import { AppLayout, Dashboard, Home, Products, Users } from "@/pages/app";
+import { AuthLayout, SignIn, SignUp } from "@/pages/auth";
 
 const routes = createBrowserRouter([
   {
@@ -18,7 +12,6 @@ const routes = createBrowserRouter([
       { path: "/users/:id", element: <Users /> },
       { path: "/products", element: <Products /> },
       { path: "/products/:id", element: <Products /> },
-      { path: "/todos", element: <Todo /> },
     ],
   },
   {
@@ -26,7 +19,6 @@ const routes = createBrowserRouter([
     children: [
       { path: "/sign-in", element: <SignIn /> },
       { path: "/sign-up", element: <SignUp /> },
-      { path: "/login", element: <Login /> },
     ],
   },
 ]);

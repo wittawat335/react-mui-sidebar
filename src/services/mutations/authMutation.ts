@@ -3,7 +3,7 @@ import { login } from "../api/authApi";
 
 export const useLogin = () => {
   return useMutation({
-    mutationFn: (user: { username: string; password: string }) => login(user),
+    mutationFn: (user: { email: string; password: string }) => login(user),
     onMutate: () => {
       console.log("Mutate");
     },

@@ -1,4 +1,4 @@
-export type Authen = {
+export type IUser = {
   userId: string;
   username: string;
   password: string;

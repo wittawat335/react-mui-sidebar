@@ -1,11 +1,12 @@
 import { Box, CssBaseline } from "@mui/material";
-import Header from "./Header";
-import SideBar from "./SideBar";
+import Header from "../../components/shared/Header";
+import SideBar from "../../components/shared/SideBar";
 import { ToastContainer } from "react-toastify";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store/store";
 import { setUser } from "@/store/slices/authSlice";
+import "react-toastify/dist/ReactToastify.css";
 import "../../index.css";
 
 export default function AppLayout() {

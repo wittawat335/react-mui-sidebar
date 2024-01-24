@@ -23,19 +23,19 @@ export default function SignIn() {
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
   const handleSignin = async (user: z.infer<typeof SigninValidation>) => {
-    const session = await login(user);
-    if (!session) {
-      toast("Login failed. Please try again.");
+    const response = await login(user);
+    if (response?.data.success == false) {
+      toast(response.data.message);
       return;
     } else {
-      toast(session.data.message);
-      navigate(session.data.returnUrl);
+      toast(response.data.message);
+      navigate("/");
     }
   };
 
@@ -55,10 +55,10 @@ export default function SignIn() {
         >
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Username</FormLabel>
+                <FormLabel className="shad-form_label">E-Mail</FormLabel>
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>

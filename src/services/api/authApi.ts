@@ -5,9 +5,9 @@ const axiosInstance: AxiosInstance = axios.create({
   baseURL: appConfig.baseApiUrl,
 });
 
-export async function login(user: { username: string; password: string }) {
+export async function login(user: { email: string; password: string }) {
   try {
-    return await axiosInstance.post("Authen/Login", user);
+    return await axiosInstance.post("Authenticate/Login", user);
   } catch (error) {
     console.log(error);
   }
