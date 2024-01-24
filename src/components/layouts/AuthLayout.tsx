@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Loader from "@/components/Loader";
+import Loader from "@/components/ui/Loader";
 import "react-toastify/dist/ReactToastify.css";
 import "../../globals.css";
 
@@ -10,7 +10,7 @@ export default function AuthLayout() {
   const isAuthenticated = false;
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 3000);
+    setTimeout(() => setLoading(false));
   }, []);
 
   return (

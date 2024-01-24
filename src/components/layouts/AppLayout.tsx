@@ -1,13 +1,13 @@
 import { Box, CssBaseline } from "@mui/material";
-import Header from "../../components/shared/Header";
-import SideBar from "../../components/shared/SideBar";
+import Header from "./Header";
+import SideBar from "./SideBar";
 import { ToastContainer } from "react-toastify";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useAppDispatch } from "@/store/store";
-import { setUser } from "@/store/slices/authSlice";
+import { useAppDispatch } from "@/lib/redux/store";
+import { setUser } from "@/lib/redux/slices/authSlice";
 import "react-toastify/dist/ReactToastify.css";
-import "../../index.css";
+import "../layouts/style/index.css";
 
 export default function AppLayout() {
   const auth = JSON.parse(localStorage.getItem("auth") || "{}");

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AppLayout, Dashboard, Home, Products, Users } from "@/pages/app";
-import { AuthLayout, SignIn, SignUp } from "@/pages/auth";
+import { Dashboard, Home, Products, Users } from "@/pages/app";
+import { SignIn, SignUp } from "@/pages/auth";
+import { AppLayout, AuthLayout } from "@/components/layouts";
 
 const routes = createBrowserRouter([
   {

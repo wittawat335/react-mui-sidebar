@@ -1,5 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { getTodo, getTodosIds } from "../api/todo";
+import { getTodo, getTodosIds } from "../axios/todo";
 
 export function useTodosIds() {
   return useQuery({

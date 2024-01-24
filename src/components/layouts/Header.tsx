@@ -16,8 +16,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
-import { useAppDispatch } from "@/store/store";
-import { signout } from "@/store/slices/authSlice";
+import { useAppDispatch } from "@/lib/redux/store";
+import { signout } from "@/lib/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
@@ -87,9 +87,7 @@ export default function Header() {
   };
 
   const handleLogOut = () => {
-    dispacth(signout());
-    navigate("/auth");
-    toast("Wow so easy!");
+    navigate("/sign-in");
   };
 
   const menuId = "primary-search-account-menu";
@@ -184,19 +182,11 @@ export default function Header() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+            sx={{ display: { sm: "block" } }}
           >
             MUI
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton

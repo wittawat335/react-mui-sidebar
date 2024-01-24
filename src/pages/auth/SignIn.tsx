@@ -1,6 +1,6 @@
 import * as z from "zod";
 import { SigninValidation } from "@/lib/validation";
-import { useLogin } from "@/services/mutations/authMutation";
+import { useLogin } from "@/lib/mutations/authMutation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -28,8 +28,8 @@ export default function SignIn() {
     },
   });
 
-  const handleSignin = async (user: z.infer<typeof SigninValidation>) => {
-    const response = await login(user);
+  const handleSignin = async (request: z.infer<typeof SigninValidation>) => {
+    const response = await login(request);
     if (response?.data.success == false) {
       toast(response.data.message);
       return;

@@ -1,6 +1,6 @@
 import { Todo } from "@/types/Todo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createTodo } from "../api/todo";
+import { createTodo } from "../axios/todo";
 
 export function useCreateTodo() {
   const queryClient = useQueryClient();

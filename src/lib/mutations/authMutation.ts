@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import { login } from "../api/authApi";
+import { login } from "../axios/authApi";
 
 export const useLogin = () => {
   return useMutation({
-    mutationFn: (user: { email: string; password: string }) => login(user),
+    mutationFn: (request: { email: string; password: string }) =>
+      login(request),
     onMutate: () => {
       console.log("Mutate");
     },
