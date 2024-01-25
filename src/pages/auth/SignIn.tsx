@@ -20,7 +20,6 @@ import Loader from "@/components/ui/Loader";
 
 export default function SignIn() {
   const { mutateAsync: login, isPending } = useLogin();
-  if (isPending) return <Loader />;
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -36,7 +35,6 @@ export default function SignIn() {
       toast(response.data.message);
       return;
     } else {
-      toast(response.data.message);
       navigate("/");
     }
   };

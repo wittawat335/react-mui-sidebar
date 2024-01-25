@@ -1,26 +1,12 @@
 import { Box, CssBaseline } from "@mui/material";
 import SideBar from "./SideBar";
-import { ToastContainer } from "react-toastify";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
-import { setUser } from "@/lib/redux/slices/authSlice";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAppSelector } from "@/lib/redux/store";
+import HeaderBar from "./HeaderBar";
 import "react-toastify/dist/ReactToastify.css";
 import "../layouts/style/index.css";
-import HeaderBar from "./HeaderBar";
 
 export default function AppLayout() {
-  const { auth } = useAppSelector((state) => state.auth);
-  //const auth = JSON.parse(localStorage.getItem("auth") || "{}");
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (auth == null) {
-      navigate("/sign-in");
-    } else navigate("/");
-  }, [auth]);
-
   return (
     <>
       <CssBaseline />
@@ -30,7 +16,6 @@ export default function AppLayout() {
           <HeaderBar />
           <div className="content_body">
             <Box m="20px">
-              <ToastContainer position="top-right" theme="dark" />
               <Outlet />
             </Box>
           </div>

@@ -11,7 +11,6 @@ import { signout } from "@/lib/redux/slices/authSlice";
 
 const HeaderBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
   const dispacth = useAppDispatch();
 
   const handleMenu = (event) => {
@@ -24,7 +23,6 @@ const HeaderBar: React.FC = () => {
 
   const handleLogout = () => {
     dispacth(signout());
-    navigate("/sign-in");
   };
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
