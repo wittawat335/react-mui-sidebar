@@ -1,6 +1,5 @@
 import * as z from "zod";
 import { SigninValidation } from "@/lib/validation";
-import { useLogin } from "@/lib/mutations/authMutation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -16,9 +15,12 @@ import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useLogin } from "@/lib/react-query/queries/useLogin";
+import Loader from "@/components/ui/Loader";
 
 export default function SignIn() {
   const { mutateAsync: login, isPending } = useLogin();
+  if (isPending) return <Loader />;
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -48,7 +50,6 @@ export default function SignIn() {
         <p className="text-light-3 small-medium md:base-regular mt-2">
           Welcome back! Please enter your details.
         </p>
-
         <form
           onSubmit={form.handleSubmit(handleSignin)}
           className="flex flex-col gap-5 w-full mt-4"

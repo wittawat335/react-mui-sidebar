@@ -3,23 +3,23 @@ import SideBar from "./SideBar";
 import { ToastContainer } from "react-toastify";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "@/lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
 import { setUser } from "@/lib/redux/slices/authSlice";
 import "react-toastify/dist/ReactToastify.css";
 import "../layouts/style/index.css";
 import HeaderBar from "./HeaderBar";
 
 export default function AppLayout() {
-  const auth = JSON.parse(localStorage.getItem("auth") || "{}");
+  const { auth } = useAppSelector((state) => state.auth);
+  //const auth = JSON.parse(localStorage.getItem("auth") || "{}");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth.token) {
-      //dispatch(setUser(auth));
-      //("/auth");
+    if (auth == null) {
+      navigate("/sign-in");
     } else navigate("/");
-  }, [auth.token]);
+  }, [auth]);
 
   return (
     <>

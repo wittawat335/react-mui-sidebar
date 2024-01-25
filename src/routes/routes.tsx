@@ -1,7 +1,27 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Route, Routes, createBrowserRouter } from "react-router-dom";
 import { Dashboard, Home, Products, Users } from "@/pages/app";
 import { SignIn, SignUp } from "@/pages/auth";
-import { AppLayout, AuthLayout } from "@/components/layouts";
+import { AppLayout, AuthLayout, SideBar } from "@/components/layouts";
+import HeaderBar from "@/components/layouts/HeaderBar";
+import { Box } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+
+export const adminRoute = ({ children }: any) => {
+  return (
+    <div className="app">
+      <SideBar />
+      <main className="content">
+        <HeaderBar />
+        <div className="content_body">
+          <Box m="20px">
+            <Routes>{children}</Routes>
+            <ToastContainer position="top-right" theme="dark" />
+          </Box>
+        </div>
+      </main>
+    </div>
+  );
+};
 
 const routes = createBrowserRouter([
   {

@@ -1,7 +1,7 @@
+import { login } from "@/lib/axios/authApi";
+import { setUser } from "@/lib/redux/slices/authSlice";
+import { useAppDispatch } from "@/lib/redux/store";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "../axios/authApi";
-import { useAppDispatch } from "../redux/store";
-import { setUser } from "../redux/slices/authSlice";
 
 export const useLogin = () => {
   const dispacth = useAppDispatch();
@@ -9,14 +9,14 @@ export const useLogin = () => {
     mutationFn: (request: { email: string; password: string }) =>
       login(request),
     onMutate: () => {
-      console.log("Mutate");
+      //console.log("Mutate");
     },
     onError: () => {
       console.log("error");
     },
     onSuccess: (response) => {
-      dispacth(setUser(response?.data.value));
-      console.log("Success");
+      dispacth(setUser(response?.data));
+      //console.log("Success");
     },
   });
 };

@@ -1,7 +1,6 @@
 import { IUser } from "@/types/User";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "@reduxjs/toolkit/query";
-import { toast } from "react-toastify";
 
 type AuthState = {
   auth: IUser | null;
@@ -25,8 +24,6 @@ const authSlice = createSlice({
     },
   },
 });
-
-export const selectAuth = (state: RootState) => state.auth;
 
 export const { signout, setUser } = authSlice.actions;
 
