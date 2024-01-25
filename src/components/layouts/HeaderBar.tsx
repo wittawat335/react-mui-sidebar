@@ -12,6 +12,7 @@ import { signout } from "@/lib/redux/slices/authSlice";
 const HeaderBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispacth = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -22,6 +23,7 @@ const HeaderBar: React.FC = () => {
   };
 
   const handleLogout = () => {
+    navigate("/login");
     dispacth(signout());
   };
   return (

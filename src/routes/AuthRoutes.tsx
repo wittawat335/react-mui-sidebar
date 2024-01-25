@@ -1,8 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "@/lib/redux/store";
-import "../../globals.css";
+import "../globals.css";
 
-export default function AuthLayout() {
+const AuthRoutes = () => {
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
   return (
     <>
       <section className="flex flex-1 justify-center items-center flex-col py-10 bg-dark-1 text-white">
@@ -15,4 +16,6 @@ export default function AuthLayout() {
       />
     </>
   );
-}
+};
+
+export default AuthRoutes;

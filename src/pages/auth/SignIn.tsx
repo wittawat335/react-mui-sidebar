@@ -15,8 +15,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "@/lib/react-query/queries/useLogin";
-import Loader from "@/components/ui/Loader";
+import { useLogin } from "@/lib/react-query/queries";
 
 export default function SignIn() {
   const { mutateAsync: login, isPending } = useLogin();
@@ -32,9 +31,10 @@ export default function SignIn() {
   const handleSignin = async (request: z.infer<typeof SigninValidation>) => {
     const response = await login(request);
     if (response?.data.success == false) {
-      toast(response.data.message);
+      toast.error(response.data.message);
       return;
     } else {
+      toast.success(response.data.message);
       navigate("/");
     }
   };
