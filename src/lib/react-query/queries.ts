@@ -11,15 +11,15 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (request: { email: string; password: string }) =>
       login(request),
+    onSuccess: (response) => {
+      dispacth(setUser(response?.data));
+      dispacth(isLogin(response?.data.success));
+    },
     onMutate: () => {
       console.log("Mutate");
     },
     onError: () => {
       console.log("error");
-    },
-    onSuccess: (response) => {
-      dispacth(setUser(response?.data));
-      dispacth(isLogin(response?.data.success));
     },
   });
 };

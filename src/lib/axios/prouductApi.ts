@@ -1,25 +1,22 @@
 import { IProduct } from "@/types/Product";
-import { AxiosResponse } from "axios";
 import axiosInstance from "./axiosInstance";
 
 export async function getList() {
   return await axiosInstance.get("/Products");
 }
 
-export const getProduct = async (id: string): Promise<AxiosResponse> => {
+export async function get(id: string) {
   return await axiosInstance.get(`/product/${id}`);
-};
+}
 
-export const addProduct = async (product: IProduct): Promise<AxiosResponse> => {
-  return await axiosInstance.post("/product", product);
-};
+export async function add(request: IProduct) {
+  return await axiosInstance.post("/product", request);
+}
 
-export const updateProduct = async (
-  product: IProduct
-): Promise<AxiosResponse> => {
-  return await axiosInstance.patch(`/product/${product.id}`, product);
-};
+export async function update(request: IProduct) {
+  return await axiosInstance.patch(`/product/${request.id}`, request);
+}
 
-export const deleteProduct = async (id: number): Promise<AxiosResponse> => {
+export async function deleteProduct(id: string) {
   return await axiosInstance.delete(`/product/${id}`);
-};
+}
