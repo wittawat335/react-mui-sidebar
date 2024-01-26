@@ -1,10 +1,12 @@
 import { login, register } from "@/lib/axios/authApi";
 import { isLogin, setUser } from "@/lib/redux/slices/authSlice";
 import { useAppDispatch } from "@/lib/redux/store";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createTodo } from "../axios/todo";
 import { Todo } from "@/types/Todo";
 import { IRegister } from "@/types/Register";
+import { getList } from "../axios/userApi";
+import { QUERY_KEYS } from "./queryKeys";
 
 export const useLogin = () => {
   const dispacth = useAppDispatch();
@@ -12,8 +14,11 @@ export const useLogin = () => {
     mutationFn: (request: { email: string; password: string }) =>
       login(request),
     onSuccess: (response) => {
-      dispacth(setUser(response?.data));
-      dispacth(isLogin(response?.data.success));
+      console.log(response.data);
+      if (response.data.success) {
+        dispacth(setUser(response?.data));
+        dispacth(isLogin(true));
+      }
     },
     onMutate: () => {
       console.log("Mutate");
@@ -39,6 +44,13 @@ export const useRegister = () => {
     },
   });
 };
+
+export function useUsers() {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USERS],
+    queryFn: getList,
+  });
+}
 
 export function useCreateTodo() {
   const queryClient = useQueryClient();

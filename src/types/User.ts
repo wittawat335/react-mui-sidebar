@@ -1,8 +1,11 @@
-export type IUser = {
-  userId: string;
+import { IRole } from "./Role";
+
+export interface IUser {
+  id: string;
   username: string;
   fullname: string;
   email: string;
-  roles: string;
+  roles: IRole[];
   token: string;
-};
+  active: boolean;
+}

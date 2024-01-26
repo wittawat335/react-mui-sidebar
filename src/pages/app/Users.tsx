@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { useUsers } from "@/lib/react-query/queries";
 
 const Users = (props) => {
   const [id, idchange] = useState(0);
@@ -37,6 +38,9 @@ const Users = (props) => {
   const [page, pagechange] = useState(0);
   const [isedit, iseditchange] = useState(false);
   const [title, titlechange] = useState("Create company");
+
+  const usersQuery = useUsers();
+  console.log(usersQuery);
 
   const columns = [
     { id: "username", name: "Username" },

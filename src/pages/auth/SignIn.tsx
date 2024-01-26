@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "@/lib/react-query/queries";
 
 export default function SignIn() {
@@ -42,12 +42,7 @@ export default function SignIn() {
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
-        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
-          Log in to your account
-        </h2>
-        <p className="text-light-3 small-medium md:base-regular mt-2">
-          Welcome back! Please enter your details.
-        </p>
+        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Log in</h2>
         <form
           onSubmit={form.handleSubmit(handleSignin)}
           className="flex flex-col gap-5 w-full mt-4"
@@ -87,6 +82,15 @@ export default function SignIn() {
           >
             {isPending ? "Loading....." : "Log in"}
           </LoadingButton>
+          <p className="text-small-regular text-light-2 text-center mt-2">
+            Don&apos;t have an account?
+            <Link
+              to="/register"
+              className="text-primary-500 text-small-semibold ml-1"
+            >
+              Register
+            </Link>
+          </p>
         </form>
       </div>
     </Form>
