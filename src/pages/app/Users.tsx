@@ -24,8 +24,11 @@ import {
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useUsers } from "@/lib/react-query/queries";
+import UsersItem from "@/features/users/UsersItem";
+import { useAppDispatch } from "@/lib/redux/store";
+import { setUser } from "@/lib/redux/slices/userSlice";
 
-const Users = (props) => {
+const Users = () => {
   const [id, idchange] = useState(0);
   const [name, namechange] = useState("");
   const [email, emailchange] = useState("");
@@ -37,23 +40,24 @@ const Users = (props) => {
   const [rowperpage, rowperpagechange] = useState(5);
   const [page, pagechange] = useState(0);
   const [isedit, iseditchange] = useState(false);
-  const [title, titlechange] = useState("Create company");
+  const [title, titlechange] = useState("Create User");
 
   const usersQuery = useUsers();
-  console.log(usersQuery);
+  const dispacth = useAppDispatch();
+  dispacth(setUser(usersQuery.data?.data.value));
 
   const columns = [
     { id: "username", name: "Username" },
     { id: "fullName", name: "Fullname" },
     { id: "email", name: "Email" },
     { id: "role", name: "Role" },
-    { id: "address", name: "Address" },
+    { id: "active", name: "Active" },
     { id: "action", name: "Action" },
   ];
 
   const addUser = () => {
     iseditchange(false);
-    titlechange("Create company");
+    titlechange("Create User");
     openpopup();
   };
 
@@ -94,7 +98,11 @@ const Users = (props) => {
                   ))}
                 </TableRow>
               </TableHead>
-              <TableBody></TableBody>
+              <TableBody>
+                {usersQuery.data?.data.value.map((item) => (
+                  <UsersItem key={item.id} {...item} />
+                ))}
+              </TableBody>
             </Table>
           </TableContainer>
         </Paper>
@@ -132,6 +140,7 @@ const Users = (props) => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
+
           <form onSubmit={handlesubmit}>
             <Stack spacing={2} margin={2}>
               <TextField
@@ -206,6 +215,7 @@ const Users = (props) => {
               </Button>
             </Stack>
           </form>
+          
         </DialogContent>
       </Dialog>
     </>
