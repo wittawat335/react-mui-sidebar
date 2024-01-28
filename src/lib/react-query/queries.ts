@@ -14,14 +14,13 @@ export const useLogin = () => {
     mutationFn: (request: { email: string; password: string }) =>
       login(request),
     onSuccess: (response) => {
-      console.log(response.data);
       if (response.data.success) {
         dispacth(setUser(response?.data));
         dispacth(isLogin(true));
       }
     },
     onMutate: () => {
-      console.log("Mutate");
+      //console.log("Mutate");
     },
     onError: () => {
       console.log("error");
@@ -34,13 +33,13 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: (request: IRegister) => register(request),
     onMutate: () => {
-      console.log("Mutate");
+      //console.log("Mutate");
     },
     onError: () => {
       console.log("error");
     },
     onSuccess: (response) => {
-      console.log(response.data);
+      //console.log(response.data);
     },
   });
 };
