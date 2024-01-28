@@ -1,4 +1,8 @@
-import { SigninValidation, SignupValidation } from "@/lib/validation";
+import {
+  SigninValidation,
+  SignupValidation,
+  TSignUpSchema,
+} from "@/lib/validation";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { Button, Stack, TextField } from "@mui/material";
@@ -6,27 +10,20 @@ import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const MuiForm = () => {
-  const form = useForm<z.infer<typeof SignupValidation>>({
-    resolver: zodResolver(SigninValidation),
-    defaultValues: {
-      email: "user@example.com",
-      password: "",
-      confirmPassword: "",
-      username: "",
-      fullname: "",
-    },
-  });
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    getValues,
-    control,
-  } = form;
-  const onSubmit = (data: z.infer<typeof SignupValidation>) => {
+  } = useForm<TSignUpSchema>({
+    resolver: zodResolver(SignupValidation),
+  });
+
+  const onSubmit = async (data: TSignUpSchema) => {
     console.log(data);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    reset();
   };
   return (
     <>
@@ -49,10 +46,12 @@ export const MuiForm = () => {
             error={!!errors.password}
             helperText={errors.password?.message}
           />
-            <TextField
+          <TextField
             label="confirmPassword"
             type="password"
-            {...register("confirmPassword", { required: "confirmPassword is required" })}
+            {...register("confirmPassword", {
+              required: "confirmPassword is required",
+            })}
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword?.message}
           />
@@ -61,7 +60,7 @@ export const MuiForm = () => {
           </Button>
         </Stack>
       </form>
-      <DevTool control={control} />
+      {/* <DevTool control={control} /> */}
     </>
   );
 };

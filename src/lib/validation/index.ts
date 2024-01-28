@@ -3,6 +3,7 @@ import * as z from "zod";
 // ============================================================
 // USER
 // ============================================================
+
 export const SignupValidation = z
   .object({
     fullname: z
@@ -20,7 +21,7 @@ export const SignupValidation = z
       .min(5, { message: "Password must be at least 5 characters." }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Password must match",
+    message: "Passwords must match",
     path: ["confirmPassword"],
   });
 
@@ -56,3 +57,5 @@ export const PostValidation = z.object({
     .max(1000, { message: "Maximum 1000 characters." }),
   tags: z.string(),
 });
+
+export type TSignUpSchema = z.infer<typeof SignupValidation>;
