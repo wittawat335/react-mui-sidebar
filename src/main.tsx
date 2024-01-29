@@ -9,13 +9,13 @@ import App from "./App.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <QueryProvider>
+    <QueryProvider>
+      <BrowserRouter>
         <Provider store={store}>
           {/* <RouterProvider router={routes} /> */}
           <App />
         </Provider>
-      </QueryProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </QueryProvider>
   </React.StrictMode>
 );

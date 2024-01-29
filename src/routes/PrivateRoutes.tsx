@@ -2,7 +2,7 @@ import { HeaderBar, SideBar } from "@/layouts";
 import { useAppSelector } from "@/lib/store/store";
 import { Box, CssBaseline } from "@mui/material";
 import { Outlet, Navigate } from "react-router-dom";
-import "../index.css";
+import "../styles/index.css";
 
 const PrivateRoutes = () => {
   const isLogin = useAppSelector((state) => state.auth.isLogin);

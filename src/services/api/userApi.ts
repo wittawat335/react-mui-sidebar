@@ -2,7 +2,8 @@ import axiosInstance from "./axiosInstance";
 import { IUser } from "@/types/User";
 
 export async function getList() {
-  return await axiosInstance.get<IUser[]>("/user");
+  const response = await axiosInstance.get<IUser[]>("/user");
+  return response.data.value;
 }
 
 export async function get(id: string) {

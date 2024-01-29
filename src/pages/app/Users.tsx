@@ -24,27 +24,15 @@ import {
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useUsers } from "@/lib/react-query/queries";
-import UsersItem from "@/features/users/UsersItem";
-import { useAppDispatch } from "@/lib/store/store";
-import { setUser } from "@/lib/store/slices/userSlice";
+import { IUser } from "@/types/User";
+import { JSX } from "react/jsx-runtime";
+import { UsersItem } from "@/features/users/UsersItem";
 
 const Users = () => {
-  const [id, idchange] = useState(0);
-  const [name, namechange] = useState("");
-  const [email, emailchange] = useState("");
-  const [phone, phonechange] = useState("");
-  const [address, addresschange] = useState("");
-  const [type, typechange] = useState("MNC");
-  const [open, openchange] = useState(false);
-  const [agreeterm, agreetermchange] = useState(true);
-  const [rowperpage, rowperpagechange] = useState(5);
-  const [page, pagechange] = useState(0);
-  const [isedit, iseditchange] = useState(false);
-  const [title, titlechange] = useState("Create User");
+  const { isPending, isError, data: users, error } = useUsers();
 
-  const usersQuery = useUsers();
-  const dispacth = useAppDispatch();
-  dispacth(setUser(usersQuery.data?.data.value));
+  if (isPending) return <span>Loading ....</span>;
+  if (isError) return `Error: ${error.message}`;
 
   const columns = [
     { id: "username", name: "Username" },
@@ -54,23 +42,6 @@ const Users = () => {
     { id: "active", name: "Active" },
     { id: "action", name: "Action" },
   ];
-
-  const addUser = () => {
-    iseditchange(false);
-    titlechange("Create User");
-    openpopup();
-  };
-
-  const closepopup = () => {
-    openchange(false);
-  };
-  const openpopup = () => {
-    openchange(true);
-  };
-  const handlesubmit = (e) => {
-    e.preventDefault();
-    closepopup();
-  };
 
   return (
     <>
@@ -83,10 +54,7 @@ const Users = () => {
               </Typography>
             </Box>
             <Box>
-              <Button onClick={addUser} variant="contained">
-                {" "}
-                Add New (+)
-              </Button>
+              <Button variant="contained"> Add New (+)</Button>
             </Box>
           </Box>
           <TableContainer component={Paper}>
@@ -99,123 +67,14 @@ const Users = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {usersQuery.data?.data.value.map((item) => (
-                  <UsersItem key={item.id} {...item} />
-                ))}
+                {!isPending
+                  ? users?.map((item: any) => <UsersItem key={item.id} users={item} />)
+                  : null}
               </TableBody>
             </Table>
           </TableContainer>
         </Paper>
       </Container>
-
-      {/* <Paper sx={{ margin: "1%" }}>
-        <div style={{ margin: "1%" }}>
-          <Button onClick={functionadd} variant="contained">
-            Add New (+)
-          </Button>
-        </div>
-        <div style={{ margin: "1%" }}>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow style={{ backgroundColor: "midnightblue" }}>
-                  {columns.map((column) => (
-                    <TableCell key={column.id} style={{ color: "white" }}>
-                      {column.name}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody></TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-      </Paper> */}
-
-      <Dialog open={open} onClose={closepopup} fullWidth maxWidth="sm">
-        <DialogTitle>
-          <span>{title}</span>
-          <IconButton style={{ float: "right" }} onClick={closepopup}>
-            <CloseIcon color="primary"></CloseIcon>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <form onSubmit={handlesubmit}>
-            <Stack spacing={2} margin={2}>
-              <TextField
-                required
-                error={name.length === 0}
-                value={name}
-                onChange={(e) => {
-                  namechange(e.target.value);
-                }}
-                variant="outlined"
-                label="Name"
-              ></TextField>
-              <TextField
-                required
-                error={name.length === 0}
-                value={email}
-                onChange={(e) => {
-                  emailchange(e.target.value);
-                }}
-                variant="outlined"
-                label="Email"
-              ></TextField>
-              <TextField
-                required
-                error={name.length === 0}
-                value={phone}
-                onChange={(e) => {
-                  phonechange(e.target.value);
-                }}
-                variant="outlined"
-                label="Phone"
-              ></TextField>
-              <TextField
-                multiline
-                maxRows={2}
-                minRows={2}
-                value={address}
-                onChange={(e) => {
-                  addresschange(e.target.value);
-                }}
-                variant="outlined"
-                label="Address"
-              ></TextField>
-              <RadioGroup
-                value={type}
-                onChange={(e) => {
-                  typechange(e.target.value);
-                }}
-                row
-              >
-                <FormControlLabel
-                  value="MNC"
-                  control={<Radio color="success"></Radio>}
-                  label="MNC"
-                ></FormControlLabel>
-                <FormControlLabel
-                  value="DOMESTIC"
-                  control={<Radio></Radio>}
-                  label="DOMESTIC"
-                ></FormControlLabel>
-              </RadioGroup>
-              <FormControlLabel
-                checked={agreeterm}
-                onChange={(e) => {
-                  agreetermchange(e.target.checked);
-                }}
-                control={<Checkbox></Checkbox>}
-                label="Agree Terms & Conditions"
-              ></FormControlLabel>
-              <Button disabled={!agreeterm} variant="contained" type="submit">
-                Submit
-              </Button>
-            </Stack>
-          </form>
-        </DialogContent>
-      </Dialog>
     </>
   );
 };

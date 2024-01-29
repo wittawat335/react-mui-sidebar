@@ -1,8 +1,8 @@
-import { IUser } from "@/types/User";
+import { IAuth } from "@/types/Auth";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type AuthState = {
-  user: IUser | null;
+  user: IAuth | null;
   isLogin: boolean;
   isAuthenticated: boolean;
 };
@@ -17,7 +17,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<IUser>) => {
+    setUser: (state, action: PayloadAction<IAuth>) => {
       state.user = action.payload;
       localStorage.setItem("token", JSON.stringify(action.payload.token));
     },

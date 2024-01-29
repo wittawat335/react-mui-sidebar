@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createTodo } from "../../services/api/todo";
 import { Todo } from "@/types/Todo";
 import { IRegister } from "@/types/Register";
-import { getList } from "../../services/api/userApi";
+import { deleteUser, getList } from "../../services/api/userApi";
 import { QUERY_KEYS } from "./queryKeys";
 
 export const useLogin = () => {
@@ -29,7 +29,6 @@ export const useLogin = () => {
 };
 
 export const useRegister = () => {
-  const dispacth = useAppDispatch();
   return useMutation({
     mutationFn: (request: IRegister) => register(request),
     onMutate: () => {
@@ -40,6 +39,22 @@ export const useRegister = () => {
     },
     onSuccess: (response) => {
       //console.log(response.data);
+    },
+  });
+};
+
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (request: string) => deleteUser(request),
+    onMutate: () => {
+      //console.log("Mutate");
+    },
+    onError: () => {
+      console.log("error");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_USERS] });
     },
   });
 };

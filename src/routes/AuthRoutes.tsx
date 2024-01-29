@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "@/lib/store/store";
-import "../globals.css";
+import "../styles/globals.css";
 
 const AuthRoutes = () => {
   const isLogin = useAppSelector((state) => state.auth.isLogin);

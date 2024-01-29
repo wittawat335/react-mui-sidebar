@@ -1,36 +1,36 @@
-import { IUser } from "@/types/User";
+import { useDeleteUser } from "@/lib/react-query/queries";
 import { Button, TableCell, TableRow } from "@mui/material";
-import React, { FC } from "react";
+import { IUser } from "@/types/User";
+import { FC } from "react";
 
-type Props = {};
+interface UsersItemProps {
+  users: IUser;
+}
 
-const UsersItem: FC<IUser> = ({
-  id,
-  username,
-  fullname,
-  email,
-  roles,
-  active,
-}) => {
+export const UsersItem: FC<UsersItemProps> = ({ users }) => {
+  const deleteUserMutation = useDeleteUser();
+  const handleDelete = (id: string) => deleteUserMutation.mutate(id);
   return (
-    <TableRow key={id}>
-      <TableCell>{username}</TableCell>
-      <TableCell>{fullname}</TableCell>
-      <TableCell>{email}</TableCell>
-      <TableCell>{roles}</TableCell>
-      <TableCell>{active ? "Active" : "InActive"}</TableCell>
+    <TableRow key={users.id}>
+      <TableCell>{users.username}</TableCell>
+      <TableCell>{users.fullname}</TableCell>
+      <TableCell>{users.email}</TableCell>
+      <TableCell>{users.roles}</TableCell>
+      <TableCell>{users.active ? "Active" : "InActive"}</TableCell>
       <TableCell>
         <Button variant="contained" color="success">
           Edit
         </Button>
-        {id && (
-          <Button variant="contained" color="error">
+        {users.id ? (
+          <Button
+            onClick={() => handleDelete(users.id)}
+            variant="contained"
+            color="error"
+          >
             Delete
           </Button>
-        )}
+        ) : null}
       </TableCell>
     </TableRow>
   );
 };
-
-export default UsersItem;

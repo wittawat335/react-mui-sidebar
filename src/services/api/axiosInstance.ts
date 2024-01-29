@@ -1,12 +1,19 @@
 import { appConfig } from "@/data/config";
 import axios, { AxiosInstance } from "axios";
 
-const token = localStorage.getItem("token");
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: appConfig.baseApiUrl,
-  headers: { Authorization: token },
 });
 
-//axiosInstance.defaults.headers.common.Authorization = `Bearer token`;
+const token = localStorage.getItem("token");
+axiosInstance.interceptors.request.use(
+  (config) => {
+    //const token = '{TOKEN}'
+    const auth = token ? `Bearer ${token}` : '';
+    config.headers.common['Authorization'] = auth;
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
 
 export default axiosInstance;
