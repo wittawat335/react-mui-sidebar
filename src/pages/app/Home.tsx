@@ -1,5 +1,4 @@
-import { MuiForm } from "@/components/MuiForm";
-import React from "react";
+import MuiForm from "@/components/MuiForm";
 
 export default function Home() {
   return (

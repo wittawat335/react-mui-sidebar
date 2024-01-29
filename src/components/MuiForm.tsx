@@ -1,66 +1,62 @@
-import {
-  SigninValidation,
-  SignupValidation,
-  TSignUpSchema,
-} from "@/lib/validation";
-import * as z from "zod";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Stack, TextField } from "@mui/material";
-import { DevTool } from "@hookform/devtools";
+import { Box, Button, TextField } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TSignUpSchema, signUpSchema } from "@/lib/validation/schema";
 
-export const MuiForm = () => {
+export default function MuiForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<TSignUpSchema>({
-    resolver: zodResolver(SignupValidation),
+    resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit = async (data: TSignUpSchema) => {
-    console.log(data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+  const onSubmit = useCallback((values: TSignUpSchema) => {
+    window.alert(JSON.stringify(values, null, 4));
+  }, []);
 
-    reset();
-  };
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Stack spacing={2} margin={2} width={400}>
-          <TextField
-            label="email"
-            type="email"
-            {...register("email", {
-              required: "Email is required",
-              minLength: { value: 5, message: "min 5" },
-            })}
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
-          <TextField
-            label="password"
-            type="password"
-            {...register("password", { required: "Password is required" })}
-            error={!!errors.password}
-            helperText={errors.password?.message}
-          />
-          <TextField
-            label="confirmPassword"
-            type="password"
-            {...register("confirmPassword", {
-              required: "confirmPassword is required",
-            })}
-            error={!!errors.confirmPassword}
-            helperText={errors.confirmPassword?.message}
-          />
-          <Button variant="contained" type="submit" disabled={isSubmitting}>
-            Submit
-          </Button>
-        </Stack>
-      </form>
-      {/* <DevTool control={control} /> */}
-    </>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+          marginBottom: "15px",
+        }}
+      >
+        <TextField
+          label="email"
+          type="email"
+          {...register("email", {
+            required: "Email is required",
+            minLength: { value: 5, message: "min 5" },
+          })}
+          error={!!errors.email}
+          helperText={errors.email?.message}
+        />
+        <TextField
+          label="password"
+          type="password"
+          {...register("password", { required: "Password is required" })}
+          error={!!errors.password}
+          helperText={errors.password?.message}
+        />
+        <TextField
+          label="confirmPassword"
+          type="password"
+          {...register("confirmPassword", {
+            required: "confirmPassword is required",
+          })}
+          error={!!errors.confirmPassword}
+          helperText={errors.confirmPassword?.message}
+        />
+      </Box>
+      <Button variant="contained" type="submit" disabled={isSubmitting}>
+        Submit
+      </Button>
+    </form>
   );
-};
+}

@@ -2,12 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { useSelector, useDispatch, TypedUseSelectorHook } from "react-redux";
 import authReducer from "./slices/authSlice";
 import userReducer from "./slices/userSlice";
-import { appConfig } from "@/config";
+import { appConfig } from "@/data/config";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    user: userReducer
+    user: userReducer,
   },
   devTools: appConfig.app_env == "Devlopment" ? true : false,
 });

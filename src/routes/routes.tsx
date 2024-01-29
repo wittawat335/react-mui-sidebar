@@ -1,8 +1,8 @@
 import { Route, Routes, createBrowserRouter } from "react-router-dom";
 import { Dashboard, Home, Products, Users } from "@/pages/app";
 import { SignIn, SignUp } from "@/pages/auth";
-import { AppLayout, AuthLayout, SideBar } from "@/components/layouts";
-import HeaderBar from "@/components/layouts/HeaderBar";
+import { AppLayout, AuthLayout, SideBar } from "@/layouts";
+import HeaderBar from "@/layouts/HeaderBar";
 import { Box } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 

@@ -1,5 +1,5 @@
-import { HeaderBar, SideBar } from "@/components/layouts";
-import { useAppSelector } from "@/lib/redux/store";
+import { HeaderBar, SideBar } from "@/layouts";
+import { useAppSelector } from "@/lib/store/store";
 import { Box, CssBaseline } from "@mui/material";
 import { Outlet, Navigate } from "react-router-dom";
 import "../index.css";

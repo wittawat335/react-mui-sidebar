@@ -6,8 +6,8 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/lib/redux/store";
-import { signout } from "@/lib/redux/slices/authSlice";
+import { useAppDispatch } from "@/lib/store/store";
+import { signout } from "@/lib/store/slices/authSlice";
 
 const HeaderBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

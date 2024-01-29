@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { appConfig } from "../../config";
+import { appConfig } from "../../data/config";
 import { IRegister } from "@/types/Register";
 
 const axiosInstance: AxiosInstance = axios.create({

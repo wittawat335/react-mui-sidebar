@@ -21,12 +21,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useUsers } from "@/lib/react-query/queries";
 import UsersItem from "@/features/users/UsersItem";
-import { useAppDispatch } from "@/lib/redux/store";
-import { setUser } from "@/lib/redux/slices/userSlice";
+import { useAppDispatch } from "@/lib/store/store";
+import { setUser } from "@/lib/store/slices/userSlice";
 
 const Users = () => {
   const [id, idchange] = useState(0);
@@ -140,7 +140,6 @@ const Users = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-
           <form onSubmit={handlesubmit}>
             <Stack spacing={2} margin={2}>
               <TextField
@@ -215,7 +214,6 @@ const Users = () => {
               </Button>
             </Stack>
           </form>
-          
         </DialogContent>
       </Dialog>
     </>

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import store from "./lib/redux/store.ts";
+import store from "./lib/store/store.ts";
 import { BrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import { QueryProvider } from "./lib/react-query/QueryProvider.tsx";

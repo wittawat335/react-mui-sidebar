@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAppSelector } from "@/lib/redux/store";
+import { useAppSelector } from "@/lib/store/store";
 import "../globals.css";
 
 const AuthRoutes = () => {

@@ -1,11 +1,11 @@
-import { login, register } from "@/lib/axios/authApi";
-import { isLogin, setUser } from "@/lib/redux/slices/authSlice";
-import { useAppDispatch } from "@/lib/redux/store";
+import { login, register } from "@/services/api/authApi";
+import { isLogin, setUser } from "@/lib/store/slices/authSlice";
+import { useAppDispatch } from "@/lib/store/store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createTodo } from "../axios/todo";
+import { createTodo } from "../../services/api/todo";
 import { Todo } from "@/types/Todo";
 import { IRegister } from "@/types/Register";
-import { getList } from "../axios/userApi";
+import { getList } from "../../services/api/userApi";
 import { QUERY_KEYS } from "./queryKeys";
 
 export const useLogin = () => {
