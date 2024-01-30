@@ -1,5 +1,5 @@
 import { login, register } from "@/services/api/authApi";
-import { isLogin, setUser } from "@/lib/store/slices/authSlice";
+import { isLogin, setAuth } from "@/lib/store/slices/authSlice";
 import { useAppDispatch } from "@/lib/store/store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createTodo } from "../../services/api/todo";
@@ -15,7 +15,7 @@ export const useLogin = () => {
       login(request),
     onSuccess: (response) => {
       if (response.data.success) {
-        dispacth(setUser(response?.data));
+        dispacth(setAuth(response?.data));
         dispacth(isLogin(true));
       }
     },

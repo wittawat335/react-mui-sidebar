@@ -1,5 +1,16 @@
-import axiosInstance from "./axiosInstance";
+import axios, { AxiosInstance } from "axios";
 import { IUser } from "@/types/User";
+import { appConfig } from "@/data/config";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { http } from "./apiClient";
+import axiosInstance from "./axiosInstance";
+
+let config = {
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  },
+};
 
 export async function getList() {
   const response = await axiosInstance.get<IUser[]>("/user");

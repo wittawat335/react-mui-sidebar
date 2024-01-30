@@ -5,7 +5,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import "../styles/index.css";
 
 const PrivateRoutes = () => {
-  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const isLogin = useAppSelector((state) => state.auth_reducer.isLogin);
   return isLogin ? (
     <>
       <CssBaseline />

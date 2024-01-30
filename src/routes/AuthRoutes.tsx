@@ -3,7 +3,7 @@ import { useAppSelector } from "@/lib/store/store";
 import "../styles/globals.css";
 
 const AuthRoutes = () => {
-  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const isLogin = useAppSelector((state) => state.auth_reducer.isLogin);
   return (
     <>
       <section className="flex flex-1 justify-center items-center flex-col py-10 bg-dark-1 text-white">

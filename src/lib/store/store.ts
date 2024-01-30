@@ -6,8 +6,8 @@ import { appConfig } from "@/data/config";
 
 const store = configureStore({
   reducer: {
-    auth: authReducer,
-    user: userReducer,
+    auth_reducer: authReducer,
+    user_reducer: userReducer,
   },
   devTools: appConfig.app_env == "Devlopment" ? true : false,
 });
