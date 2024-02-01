@@ -19,6 +19,7 @@ export const SignupValidation = z
     confirmPassword: z
       .string()
       .min(5, { message: "Password must be at least 5 characters." }),
+    roles: z.string().array(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords must match",
