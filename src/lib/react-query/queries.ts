@@ -8,12 +8,22 @@ import { QUERY_KEYS } from "./queryKeys";
 import { useUserContext } from "@/contexts/AuthContext";
 
 export const useLogin = () => {
-  const { setAuth } = useUserContext();
+  const { auth, setAuth } = useUserContext();
   return useMutation({
     mutationFn: (request: { email: string; password: string }) =>
       login(request),
     onSuccess: (response) => {
-      if (response.data.success) setAuth(response?.data);
+      console.log(response);
+      console.log("userid", response?.data.userId);
+      setAuth({
+        userid: response?.data.userId,
+        username: response?.data.username,
+        fullname: response?.data.fullname,
+        email: response?.data.email,
+        roles: response?.data.roles,
+        token: response?.data.token,
+      });
+      console.log(auth);
     },
     onMutate: () => {
       //console.log("Mutate");

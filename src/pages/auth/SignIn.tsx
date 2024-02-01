@@ -16,9 +16,11 @@ import { toast } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "@/lib/react-query/queries";
+import { useUserContext } from "@/contexts/AuthContext";
 
 export default function SignIn() {
   const { mutateAsync: login, isPending } = useLogin();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -30,12 +32,21 @@ export default function SignIn() {
 
   const handleSignin = async (request: z.infer<typeof SigninValidation>) => {
     const response = await login(request);
-    if (response?.data.success == false) {
-      toast.error(response.data.message);
+    if (!response) {
+      toast.error("Login failed. Please try again.");
+
       return;
-    } else {
+    }
+
+    const isLoggedIn = await checkAuthUser();
+    if (isLoggedIn) {
+      form.reset();
       toast.success(response.data.message);
       navigate("/");
+    } else {
+      toast.error("Login failed. Please try again.");
+
+      return;
     }
   };
 

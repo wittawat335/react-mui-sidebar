@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { IAuth } from "@/types/Auth";
 
 export const INITIAL_AUTH = {
-  id: "",
+  userid: "",
   username: "",
   fullname: "",
   email: "",
@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(true);
     try {
       if (auth != null) {
+        localStorage.setItem("token", JSON.stringify(auth.token));
         setIsAuthenticated(true);
         return true;
       }
@@ -55,7 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    const cookieFallback = localStorage.getItem("cookieFallback");
+    const cookieFallback = localStorage.getItem("token");
     if (
       cookieFallback === "[]" ||
       cookieFallback === null ||
