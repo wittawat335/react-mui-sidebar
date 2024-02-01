@@ -15,12 +15,3 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export default axiosInstance;
-
-// export const axiosPrivate: AxiosInstance = axios.create({
-//   baseURL: appConfig.baseApiUrl,
-//   headers: {
-//     "Content-Type": "application/json",
-//     Authorization: `Bearer ${localStorage.getItem("token")}`,
-//   },
-//   //withCredentials: true,
-// });

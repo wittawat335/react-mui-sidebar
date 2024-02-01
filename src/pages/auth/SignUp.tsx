@@ -16,7 +16,6 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSignInAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { useAppSelector } from "@/lib/store/store";
 
 export default function SignUp() {
   const { mutateAsync: register, isPending } = useRegister();

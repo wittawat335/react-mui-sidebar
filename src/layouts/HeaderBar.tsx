@@ -6,15 +6,14 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/lib/store/store";
-import { logout } from "@/lib/store/slices/authSlice";
 
 const HeaderBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const dispacth = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleMenu = (event: { currentTarget: React.SetStateAction<HTMLElement | null>; }) => {
+  const handleMenu = (event: {
+    currentTarget: React.SetStateAction<HTMLElement | null>;
+  }) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -24,7 +23,6 @@ const HeaderBar: React.FC = () => {
 
   const handleLogout = () => {
     navigate("/login");
-    dispacth(logout());
   };
   return (
     <Box display="flex" justifyContent="space-between" p={2}>

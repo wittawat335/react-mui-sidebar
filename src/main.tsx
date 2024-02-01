@@ -1,20 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import store from "./lib/store/store.ts";
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import { QueryProvider } from "./lib/react-query/QueryProvider.tsx";
-import "react-toastify/dist/ReactToastify.css";
 import App from "./App.tsx";
+import { BrowserRouter } from "react-router-dom";
+import { QueryProvider } from "./lib/react-query/QueryProvider.tsx";
+import { AuthProvider } from "./contexts/AuthContext.tsx";
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <QueryProvider>
-      <Provider store={store}>
-        <BrowserRouter>
+    <BrowserRouter>
+      <QueryProvider>
+        <AuthProvider>
           <App />
-        </BrowserRouter>
-      </Provider>
-    </QueryProvider>
+        </AuthProvider>
+      </QueryProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

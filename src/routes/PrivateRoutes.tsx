@@ -1,12 +1,12 @@
 import { HeaderBar, SideBar } from "@/layouts";
-import { useAppSelector } from "@/lib/store/store";
 import { Box, CssBaseline } from "@mui/material";
 import { Outlet, Navigate } from "react-router-dom";
+import { useUserContext } from "@/contexts/AuthContext";
 import "../styles/index.css";
 
 const PrivateRoutes = () => {
-  const isLogin = useAppSelector((state) => state.auth_reducer.isLogin);
-  return isLogin ? (
+  const { isAuthenticated } = useUserContext();
+  return isAuthenticated ? (
     <>
       <CssBaseline />
       <div className="app">
