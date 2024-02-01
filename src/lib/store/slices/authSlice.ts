@@ -1,14 +1,15 @@
 import { IAuth } from "@/types/Auth";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 type AuthState = {
-  auth: IAuth | null;
+  user: IAuth | null;
   isLogin: boolean;
   isAuthenticated: boolean;
 };
 
 const initialState: AuthState = {
-  auth: null,
+  user: null,
   isLogin: false,
   isAuthenticated: false,
 };
@@ -17,18 +18,18 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuth: (state, action: PayloadAction<IAuth>) => {
-      state.auth = action.payload;
-      localStorage.setItem("token", JSON.stringify(action.payload.token));
+    setUser: (state, action: PayloadAction<IAuth>) => {
+      state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
-    isLogin: (state, action: PayloadAction<boolean>) => {
-      state.isLogin = action.payload;
+    isLogin: (state) => {
+      state.isLogin = state.user != null ? true : false;
     },
     isAuthenticated: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticated = action.payload;
     },
     logout: (state) => {
-      state.auth = null;
+      state.user = null;
       state.isLogin = false;
       state.isAuthenticated = false;
       localStorage.clear();
@@ -36,6 +37,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, setAuth, isAuthenticated, isLogin } = authSlice.actions;
+export const selectAuth = (state: RootState) => state.auth;
+export const { logout, setUser, isAuthenticated, isLogin } = authSlice.actions;
 
 export default authSlice.reducer;

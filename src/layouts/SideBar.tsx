@@ -19,6 +19,8 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import { FaReact } from "react-icons/fa";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "@/hooks/hooks";
+import { selectAuth } from "@/lib/store/slices/authSlice";
 
 type SideBarProps = {
   //collapsed: boolean;
@@ -71,7 +73,8 @@ const hexToRgba = (hex: string, alpha: number) => {
 };
 
 const SideBar = (props: SideBarProps) => {
-  let navigate = useNavigate();
+  const { user } = useAppSelector(selectAuth);
+  const navigate = useNavigate();
   const [toggled, setToggled] = useState(false);
   const [broken, setBroken] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -198,7 +201,7 @@ const SideBar = (props: SideBarProps) => {
                     />
                   </Box>
                   <Box textAlign="center">
-                    <Typography sx={{ m: "10px 0 0 0" }}>NATE DEV</Typography>
+                    <Typography sx={{ m: "10px 0 0 0" }}>{user?.fullname}</Typography>
                   </Box>
                 </Box>
               )}

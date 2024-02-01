@@ -1,4 +1,3 @@
-import { login, register } from "@/services/api/authApi";
 import { isLogin, setAuth } from "@/lib/store/slices/authSlice";
 import { useAppDispatch } from "@/lib/store/store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -7,26 +6,6 @@ import { Todo } from "@/types/Todo";
 import { IRegister } from "@/types/Register";
 import { deleteUser, getList } from "../../services/api/userApi";
 import { QUERY_KEYS } from "./queryKeys";
-
-export const useLogin = () => {
-  const dispacth = useAppDispatch();
-  return useMutation({
-    mutationFn: (request: { email: string; password: string }) =>
-      login(request),
-    onSuccess: (response) => {
-      if (response.data.success) {
-        dispacth(setAuth(response?.data));
-        dispacth(isLogin(true));
-      }
-    },
-    onMutate: () => {
-      //console.log("Mutate");
-    },
-    onError: () => {
-      console.log("error");
-    },
-  });
-};
 
 export const useRegister = () => {
   return useMutation({

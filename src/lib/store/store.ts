@@ -1,21 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { useSelector, useDispatch, TypedUseSelectorHook } from "react-redux";
-import authReducer from "./slices/authSlice";
-import userReducer from "./slices/userSlice";
 import { appConfig } from "@/data/config";
+import { authApi } from "@/services/api/authApi";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import authReducer from "../store/slices/authSlice";
 
 const store = configureStore({
   reducer: {
-    auth_reducer: authReducer,
-    user_reducer: userReducer,
+    auth: authReducer,
+    [authApi.reducerPath]: authApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(authApi.middleware),
   devTools: appConfig.app_env == "Devlopment" ? true : false,
 });
 
-type RootState = ReturnType<typeof store.getState>;
-type AppDispath = typeof store.dispatch;
-
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-export const useAppDispatch = () => useDispatch<AppDispath>();
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispath = typeof store.dispatch;
+setupListeners(store.dispatch);
 
 export default store;

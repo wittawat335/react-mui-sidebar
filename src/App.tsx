@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Dashboard, Home, Products, Users } from "./pages/app";
-import { SignIn, SignUp } from "./pages/auth";
+import { Login, Register } from "./pages/auth";
 import { ToastContainer } from "react-toastify";
 import { AuthRoutes, PrivateRoutes } from "./routes";
 import Unauthorized from "./pages/Unauthorized";
@@ -12,8 +12,8 @@ function App() {
       <Routes>
         {/* public routes */}
         <Route element={<AuthRoutes />}>
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/register" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
         {/* private routes */}
         <Route element={<PrivateRoutes />}>
@@ -27,7 +27,7 @@ function App() {
         <Route path="*" element={<Error404 />} />
       </Routes>
 
-      <ToastContainer position="top-right" />
+      <ToastContainer position="top-right" theme="dark" />
     </main>
   );
 }

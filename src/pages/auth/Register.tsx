@@ -8,7 +8,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useLogin, useRegister } from "@/lib/react-query/queries";
 import { SignupValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -16,50 +15,51 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSignInAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { useAppSelector } from "@/lib/store/store";
+import { useRegisterMutation } from "@/services/api/authApi";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/hooks/hooks";
+import { isLogin, setUser } from "@/lib/store/slices/authSlice";
+import { message } from "@/data/constants";
 
-export default function SignUp() {
-  const { mutateAsync: register, isPending } = useRegister();
-  const { mutateAsync: login } = useLogin();
+export default function Register() {
+  const [register, { data: registerData, isLoading, isSuccess, isError }] =
+    useRegisterMutation();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
     defaultValues: {
       email: "user@example.com",
       password: "",
       confirmPassword: "",
+      roles: [],
       username: "",
       fullname: "",
     },
   });
 
   // Handler
-  const handleSignup = async (user: z.infer<typeof SignupValidation>) => {
+  const handleRegister = async (request: z.infer<typeof SignupValidation>) => {
     try {
-      const newUser = await register(user);
-      if (!newUser) {
-        toast.error("Sign up failed. Please try again.");
+      await register(request);
+      if (isError) {
+        toast.error(message.regieter_error);
         return;
-      }
-
-      const session = await login({
-        email: user.email,
-        password: user.password,
-      });
-
-      if (!session) {
-        toast.error("Something went wrong. Please login your new account");
-        navigate("/sign-in");
-        return;
-      } else {
-        form.reset();
-        toast.success(session.data.message);
-        navigate("/");
       }
     } catch (error) {
       console.log({ error });
     }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setUser(registerData), isLogin());
+      toast.success(message.regieter_success);
+      navigate("/");
+    }
+  }, [isSuccess]);
+
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
@@ -68,7 +68,7 @@ export default function SignUp() {
         </h2>
 
         <form
-          onSubmit={form.handleSubmit(handleSignup)}
+          onSubmit={form.handleSubmit(handleRegister)}
           className="flex flex-col gap-5 w-full mt-4"
         >
           <FormField
@@ -145,12 +145,12 @@ export default function SignUp() {
 
           <LoadingButton
             type="submit"
-            loading={isPending}
+            loading={isLoading}
             loadingPosition="start"
             startIcon={<FaSignInAlt />}
             variant="contained"
           >
-            {isPending ? "Loading....." : "Register"}
+            {isLoading ? "Loading....." : "Register"}
           </LoadingButton>
 
           <p className="text-small-regular text-light-2 text-center mt-2">

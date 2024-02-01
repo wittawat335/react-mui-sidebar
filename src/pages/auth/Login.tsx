@@ -15,11 +15,18 @@ import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useLogin } from "@/lib/react-query/queries";
+import { useLoginMutation } from "@/services/api/authApi";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/hooks/hooks";
+import { isLogin, setUser } from "@/lib/store/slices/authSlice";
+import { message } from "@/data/constants";
 
-export default function SignIn() {
-  const { mutateAsync: login, isPending } = useLogin();
+export default function Login() {
+  const [login, { data: loginData, isLoading, isSuccess, isError }] =
+    useLoginMutation();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
     defaultValues: {
@@ -28,23 +35,35 @@ export default function SignIn() {
     },
   });
 
-  const handleSignin = async (request: z.infer<typeof SigninValidation>) => {
-    const response = await login(request);
-    if (response?.data.success == false) {
-      toast.error(response.data.message);
+  const handleLogin = async (request: z.infer<typeof SigninValidation>) => {
+    await login(request);
+    if (isError) {
+      toast.error(message.login_error);
       return;
-    } else {
-      toast.success(response.data.message);
-      navigate("/");
     }
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(message.login_success);
+      dispatch(setUser(loginData));
+      dispatch(isLogin());
+      navigate("/");
+    }
+  }, [isSuccess]);
+
+  // if (isLoading)
+  //   return (
+  //     <div>
+  //       <Loader />
+  //     </div>
+  //   );
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Log in</h2>
         <form
-          onSubmit={form.handleSubmit(handleSignin)}
+          onSubmit={form.handleSubmit(handleLogin)}
           className="flex flex-col gap-5 w-full mt-4"
         >
           <FormField
@@ -75,12 +94,13 @@ export default function SignIn() {
           />
           <LoadingButton
             type="submit"
-            loading={isPending}
+            loading={isLoading}
             loadingPosition="start"
             startIcon={<FaSignInAlt />}
             variant="contained"
           >
-            {isPending ? "Loading....." : "Log in"}
+            {" "}
+            {isLoading ? "Loading....." : "Log in"}
           </LoadingButton>
           <p className="text-small-regular text-light-2 text-center mt-2">
             Don&apos;t have an account?

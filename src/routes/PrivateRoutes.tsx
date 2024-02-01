@@ -1,11 +1,20 @@
 import { HeaderBar, SideBar } from "@/layouts";
-import { useAppSelector } from "@/lib/store/store";
 import { Box, CssBaseline } from "@mui/material";
 import { Outlet, Navigate } from "react-router-dom";
 import "../styles/index.css";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { useEffect } from "react";
+import { setUser } from "@/lib/store/slices/authSlice";
 
 const PrivateRoutes = () => {
-  const isLogin = useAppSelector((state) => state.auth_reducer.isLogin);
+  const dispatch = useAppDispatch();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  useEffect(() => {
+    dispatch(setUser(user))
+  }, [])
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  //const isLogin = true;
   return isLogin ? (
     <>
       <CssBaseline />
