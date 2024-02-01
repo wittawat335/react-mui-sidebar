@@ -21,17 +21,19 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import { useUsers } from "@/lib/react-query/queries";
-import { IUser } from "@/types/User";
-import { JSX } from "react/jsx-runtime";
 import { UsersItem } from "@/features/users/UsersItem";
+import Loader from "@/components/ui/Loader";
 
 const Users = () => {
-  const { isPending, isError, data: users, error } = useUsers();
+  const { isPending, isSuccess, isError, data: users, error } = useUsers();
 
-  if (isPending) return <span>Loading ....</span>;
+  if (isPending)
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   if (isError) return `Error: ${error.message}`;
 
   const columns = [
@@ -67,8 +69,10 @@ const Users = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {!isPending
-                  ? users?.map((item: any) => <UsersItem key={item.id} users={item} />)
+                {isSuccess
+                  ? users?.map((item: any) => (
+                      <UsersItem key={item.id} users={item} />
+                    ))
                   : null}
               </TableBody>
             </Table>
