@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import { useRegisterMutation } from "@/services/api/authApi";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
-import { isLogin, setUser } from "@/lib/store/slices/authSlice";
+import { isAuthenticated, setUser } from "@/lib/store/slices/authSlice";
 import { message } from "@/data/constants";
 
 export default function Register() {
@@ -54,12 +54,16 @@ export default function Register() {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setUser(registerData), isLogin());
+      dispatch(setUser(registerData));
+      dispatch(isAuthenticated(true));
       toast.success(message.regieter_success);
       navigate("/");
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (isError) toast.error((isError as any).data.message);
+  }, [isError]);
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">

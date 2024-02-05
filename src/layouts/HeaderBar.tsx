@@ -26,9 +26,9 @@ const HeaderBar: React.FC = () => {
   };
 
   const handleLogout = () => {
+    navigate("/login");
     dispacth(logout());
     toast.success("Logout Successfully");
-    navigate("/login");
   };
   return (
     <Box display="flex" justifyContent="space-between" p={2}>

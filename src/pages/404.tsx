@@ -1,3 +1,4 @@
+import RedirectToLogin from '@/components/RedirectToLogin'
 import { Link } from 'react-router-dom'
 
 export default function Error404() {
@@ -25,6 +26,7 @@ export default function Error404() {
             </svg>
             Back to main page
           </Link>
+          <RedirectToLogin />
         </div>
       </div>
       <footer className='mt-auto py-5 text-center'>

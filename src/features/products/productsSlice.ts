@@ -1,44 +1,18 @@
-import { appConfig } from "@/data/config";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-}
-
-interface GetAllProductResponse {
-  products: Product[];
-}
-
-interface GetProductByIdResponse {
-  product: Product;
-}
-
-interface AddNewProductRequest {
-  name: string;
-  price: number;
-}
-
-interface UpdateProductRequest {
-  id: string;
-  name?: string;
-  price?: number;
-}
 
 export const productsApi = createApi({
   reducerPath: "products",
-  baseQuery: fetchBaseQuery({ baseUrl: appConfig.baseApiUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://dummyjson.com" }),
   endpoints: (builder) => ({
-    getAllProduct: builder.query<GetAllProductResponse, void>({
+    getAllProduct: builder.query({
       query: () => "/products",
     }),
 
-    getProductById: builder.query<GetProductByIdResponse, string>({
+    getProductById: builder.query({
       query: (id) => `/products/${id}`,
     }),
 
-    addNewProduct: builder.mutation<Product, Partial<AddNewProductRequest>>({
+    addNewProduct: builder.mutation({
       query: (newProduct) => ({
         url: `/products/add`,
         method: "POST",
@@ -47,8 +21,8 @@ export const productsApi = createApi({
       }),
     }),
 
-    updateProduct: builder.mutation<Product, UpdateProductRequest>({
-      query: ({ id, updatedProduct }: any) => ({
+    updateProduct: builder.mutation({
+      query: ({ id, updatedProduct }) => ({
         url: `/products/${id}`,
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -56,7 +30,7 @@ export const productsApi = createApi({
       }),
     }),
 
-    deleteProduct: builder.mutation<void, string>({
+    deleteProduct: builder.mutation({
       query: (id) => ({
         url: `/products/${id}`,
         method: "DELETE",

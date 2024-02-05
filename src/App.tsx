@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { AuthRoutes, PrivateRoutes } from "./routes";
 import Unauthorized from "./pages/Unauthorized";
 import Error404 from "./pages/404";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (

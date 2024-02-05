@@ -18,7 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "@/services/api/authApi";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
-import { isLogin, setUser } from "@/lib/store/slices/authSlice";
+import { isAuthenticated, setUser } from "@/lib/store/slices/authSlice";
 import { message } from "@/data/constants";
 
 export default function Login() {
@@ -37,27 +37,21 @@ export default function Login() {
 
   const handleLogin = async (request: z.infer<typeof SigninValidation>) => {
     await login(request);
-    if (isError) {
-      toast.error(message.login_error);
-      return;
-    }
   };
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success(message.login_success);
       dispatch(setUser(loginData));
-      dispatch(isLogin());
+      dispatch(isAuthenticated(true));
+      toast.success(message.login_success);
       navigate("/");
     }
   }, [isSuccess]);
 
-  // if (isLoading)
-  //   return (
-  //     <div>
-  //       <Loader />
-  //     </div>
-  //   );
+  useEffect(() => {
+    if (isError) toast.error((isError as any).data.message);
+  }, [isError]);
+
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">

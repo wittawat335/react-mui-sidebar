@@ -12,7 +12,8 @@ export const authApi = createApi({
       query: (body: { email: string; password: string }) => {
         return {
           url: "/Authenticate/login",
-          method: "post",
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body,
         };
       },
@@ -21,7 +22,7 @@ export const authApi = createApi({
       query: (body: IRegister) => {
         return {
           url: "/Authenticate/register",
-          method: "post",
+          method: "POST",
           body,
         };
       },

@@ -1,5 +1,7 @@
 import { IUser } from "@/types/User";
 import axiosInstance from "./axiosInstance";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { appConfig } from "@/data/config";
 
 export async function getList() {
   const response = await axiosInstance.get<IUser[]>("/user");
@@ -21,3 +23,41 @@ export async function update(request: IUser) {
 export async function deleteUser(id: string) {
   return await axiosInstance.delete(`/user/${id}`);
 }
+
+export const userApi = createApi({
+  reducerPath: "userApi",
+  tagTypes: ["users"],
+  baseQuery: fetchBaseQuery({
+    baseUrl: appConfig.baseApiUrl,
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.token;
+      console.log("states: ", token);
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
+  endpoints: (builder) => ({
+    login: builder.mutation({
+      query: (body: { email: string; password: string }) => {
+        return {
+          url: "/Authenticate/login",
+          method: "post",
+          body,
+        };
+      },
+    }),
+    register: builder.mutation({
+      query: (body: IRegister) => {
+        return {
+          url: "/Authenticate/register",
+          method: "post",
+          body,
+        };
+      },
+    }),
+  }),
+});
+
+export const { useLoginMutation, useRegisterMutation } = userApi;

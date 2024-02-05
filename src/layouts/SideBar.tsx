@@ -201,7 +201,9 @@ const SideBar = (props: SideBarProps) => {
                     />
                   </Box>
                   <Box textAlign="center">
-                    <Typography sx={{ m: "10px 0 0 0" }}>{user?.fullname}</Typography>
+                    <Typography sx={{ m: "10px 0 0 0" }}>
+                      {user?.fullname}
+                    </Typography>
                   </Box>
                 </Box>
               )}
@@ -227,7 +229,10 @@ const SideBar = (props: SideBarProps) => {
 
               <SubMenu label="Manage" icon={<PeopleOutlinedIcon />}>
                 <MenuItem onClick={() => navigate("/users")}>User</MenuItem>
-                <MenuItem> Admin</MenuItem>
+                <MenuItem onClick={() => navigate("/products")}>
+                  {" "}
+                  Product
+                </MenuItem>
               </SubMenu>
             </Menu>
 

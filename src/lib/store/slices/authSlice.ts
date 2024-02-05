@@ -4,13 +4,13 @@ import { RootState } from "../store";
 
 type AuthState = {
   user: IAuth | null;
-  isLogin: boolean;
+  token: string,
   isAuthenticated: boolean;
 };
 
 const initialState: AuthState = {
   user: null,
-  isLogin: false,
+  token: "",
   isAuthenticated: false,
 };
 
@@ -20,17 +20,14 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<IAuth>) => {
       state.user = action.payload;
+      state.token = action.payload.token;
       localStorage.setItem("user", JSON.stringify(action.payload));
-    },
-    isLogin: (state) => {
-      state.isLogin = state.user != null ? true : false;
     },
     isAuthenticated: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticated = action.payload;
     },
     logout: (state) => {
       state.user = null;
-      state.isLogin = false;
       state.isAuthenticated = false;
       localStorage.clear();
     },
@@ -38,6 +35,6 @@ const authSlice = createSlice({
 });
 
 export const selectAuth = (state: RootState) => state.auth;
-export const { logout, setUser, isAuthenticated, isLogin } = authSlice.actions;
+export const { logout, setUser, isAuthenticated } = authSlice.actions;
 
 export default authSlice.reducer;
