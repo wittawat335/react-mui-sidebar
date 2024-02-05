@@ -2,7 +2,6 @@ import * as z from "zod";
 import { SigninValidation } from "@/lib/validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Form,
   FormControl,
@@ -20,6 +19,7 @@ import { useEffect } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
 import { isAuthenticated, setUser } from "@/lib/store/slices/authSlice";
 import { messages } from "@/config/messages";
+import { MuiLoadingButton } from "@/components/shared";
 
 export default function Login() {
   const [login, { data: loginData, isLoading, isSuccess, isError }] =
@@ -86,16 +86,15 @@ export default function Login() {
               </FormItem>
             )}
           />
-          <LoadingButton
+          <MuiLoadingButton
             type="submit"
             loading={isLoading}
             loadingPosition="start"
             startIcon={<FaSignInAlt />}
-            variant="contained"
           >
             {" "}
             {isLoading ? "Loading....." : "Log in"}
-          </LoadingButton>
+          </MuiLoadingButton>
           <p className="text-small-regular text-light-2 text-center mt-2">
             Don&apos;t have an account?
             <Link

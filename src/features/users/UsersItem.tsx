@@ -1,7 +1,9 @@
 import { useDeleteUser } from "@/lib/react-query/queries";
-import { Button, TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
 import { IUser } from "@/types/User";
 import { FC } from "react";
+import { MuiButton } from "@/components/shared";
+//import Button from "../../components/shared/Button";
 
 interface UsersItemProps {
   users: IUser;
@@ -18,17 +20,11 @@ export const UsersItem: FC<UsersItemProps> = ({ users }) => {
       <TableCell>{users.roles}</TableCell>
       <TableCell>{users.active ? "Active" : "InActive"}</TableCell>
       <TableCell>
-        <Button variant="contained" color="success">
-          Edit
-        </Button>
+        <MuiButton color="success">Edit</MuiButton>
         {users.id ? (
-          <Button
-            onClick={() => handleDelete(users.id)}
-            variant="contained"
-            color="error"
-          >
+          <MuiButton onClick={() => handleDelete(users.id)} color="error">
             Delete
-          </Button>
+          </MuiButton>
         ) : null}
       </TableCell>
     </TableRow>

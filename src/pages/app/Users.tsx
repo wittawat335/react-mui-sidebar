@@ -24,6 +24,7 @@ import {
 import { useUsers } from "@/lib/react-query/queries";
 import { UsersItem } from "@/features/users/UsersItem";
 import Loader from "@/components/ui/Loader";
+import { MuiButton } from "@/components/shared";
 
 const Users = () => {
   const { isPending, isSuccess, isError, data: users, error } = useUsers();
@@ -56,7 +57,7 @@ const Users = () => {
               </Typography>
             </Box>
             <Box>
-              <Button variant="contained"> Add New (+)</Button>
+              <MuiButton> Add New (+)</MuiButton>
             </Box>
           </Box>
           <TableContainer component={Paper}>

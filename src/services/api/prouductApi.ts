@@ -1,4 +1,5 @@
 import { appConfig } from "@/config/appConfig";
+import { RootState } from "@/lib/store/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface Product {
@@ -28,7 +29,17 @@ interface UpdateProductRequest {
 
 export const productsApi = createApi({
   reducerPath: "products",
-  baseQuery: fetchBaseQuery({ baseUrl: appConfig.baseApiUrl }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: appConfig.baseUrl,
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).auth.token;
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+
+      return headers;
+    },
+  }),
   endpoints: (builder) => ({
     getAllProduct: builder.query<GetAllProductResponse, void>({
       query: () => "/products",

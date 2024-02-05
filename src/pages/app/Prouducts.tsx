@@ -1,5 +1,3 @@
-import React from "react";
-import List from "../../features/products/List";
 import AllProducts from "@/features/products/Index";
 
 type Props = {};

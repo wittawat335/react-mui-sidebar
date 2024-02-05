@@ -4,7 +4,6 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { appConfig } from "@/config/appConfig";
 
 const queryClient = new QueryClient();
-
 const devEnv = appConfig.environments == "Devlopment" ? true : false;
 
 export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
