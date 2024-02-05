@@ -3,12 +3,10 @@ import { TableCell, TableRow } from "@mui/material";
 import { IUser } from "@/types/User";
 import { FC } from "react";
 import { MuiButton } from "@/components/shared";
-//import Button from "../../components/shared/Button";
 
 interface UsersItemProps {
   users: IUser;
 }
-
 export const UsersItem: FC<UsersItemProps> = ({ users }) => {
   const deleteUserMutation = useDeleteUser();
   const handleDelete = (id: string) => deleteUserMutation.mutate(id);
@@ -18,7 +16,7 @@ export const UsersItem: FC<UsersItemProps> = ({ users }) => {
       <TableCell>{users.fullname}</TableCell>
       <TableCell>{users.email}</TableCell>
       <TableCell>{users.roles}</TableCell>
-      <TableCell>{users.active ? "Active" : "InActive"}</TableCell>
+      <TableCell>{users.active}</TableCell>
       <TableCell>
         <MuiButton color="success">Edit</MuiButton>
         {users.id ? (

@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Dashboard, Home, Products, Users } from "./pages/app";
-import { Login, Register } from "./pages/auth";
+import { Dashboard, Home, Login, Products, Register, Users } from "./pages";
 import { ToastContainer } from "react-toastify";
 import { PrivateLayout } from "./layouts/PrivateLayout";
 import Unauthorized from "./pages/Unauthorized";

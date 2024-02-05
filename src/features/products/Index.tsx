@@ -1,16 +1,29 @@
+import { MuiButton, TypographyCustom } from "@/components/shared";
 import { useGetAllProductQuery } from "@/services/api/prouductApi";
+import {
+  Box,
+  Container,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 const AllProducts = () => {
-  const { data, isError, isLoading } = useGetAllProductQuery();
+  const { data, isError, isLoading, isSuccess } = useGetAllProductQuery();
   console.log(data);
 
   const columns = [
     { id: "title", name: "title" },
-    { id: "fullName", name: "Fullname" },
-    { id: "email", name: "Email" },
-    { id: "role", name: "Role" },
-    { id: "active", name: "Active" },
-    { id: "action", name: "Action" },
+    { id: "brand", name: "brand" },
+    { id: "category", name: "category" },
+    { id: "description", name: "description" },
+    { id: "thumbnail", name: "thumbnail" },
+    { id: "price", name: "price" },
+    { id: "stock", name: "stock" },
   ];
 
   if (isError) {
@@ -22,14 +35,34 @@ const AllProducts = () => {
   }
 
   return (
-    <div>
-      {data?.value.map((p) => (
-        <>
-          <h1 key={p.id}>{p.title}</h1>
-          <p>{p.description}</p>
-        </>
-      ))}
-    </div>
+    <>
+      <Container maxWidth="xl" sx={{ p: 2 }}>
+        <Paper sx={{ p: 2 }}>
+          <Box display="flex">
+            <Box sx={{ flexGrow: 1 }}>
+              <TypographyCustom variant="h6" gutterBottom component="div">
+                Products
+              </TypographyCustom>
+            </Box>
+            <Box>
+              <MuiButton> Add New (+)</MuiButton>
+            </Box>
+          </Box>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell key={column.id}>{column.name}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody></TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Container>
+    </>
   );
 };
 

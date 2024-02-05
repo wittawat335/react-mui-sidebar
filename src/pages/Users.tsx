@@ -1,33 +1,21 @@
 import {
   Box,
-  Button,
-  Checkbox,
   Container,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  IconButton,
   Paper,
-  Radio,
-  RadioGroup,
-  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-  Typography,
 } from "@mui/material";
 import { useUsers } from "@/lib/react-query/queries";
 import { UsersItem } from "@/features/users/UsersItem";
 import Loader from "@/components/ui/Loader";
-import { MuiButton } from "@/components/shared";
+import { MuiButton, TypographyCustom } from "@/components/shared";
 
 const Users = () => {
-  const { isPending, isSuccess, isError, data: users, error } = useUsers();
+  const { isPending, isSuccess, isError, data, error } = useUsers();
 
   if (isPending)
     return (
@@ -52,9 +40,9 @@ const Users = () => {
         <Paper sx={{ p: 2 }}>
           <Box display="flex">
             <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
+              <TypographyCustom variant="h6" gutterBottom component="div">
                 Users
-              </Typography>
+              </TypographyCustom>
             </Box>
             <Box>
               <MuiButton> Add New (+)</MuiButton>
@@ -71,7 +59,7 @@ const Users = () => {
               </TableHead>
               <TableBody>
                 {isSuccess
-                  ? users?.map((item: any) => (
+                  ? data?.map((item: any) => (
                       <UsersItem key={item.id} users={item} />
                     ))
                   : null}
