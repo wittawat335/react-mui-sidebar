@@ -1,8 +1,8 @@
 import { Outlet, Navigate } from "react-router-dom";
-import "../styles/globals.css";
 import { useAppSelector } from "@/hooks/hooks";
+import "../../styles/globals.css";
 
-const AuthRoutes = () => {
+const AuthLayout = () => {
   const isLogin = useAppSelector((state) => state.auth.isAuthenticated);
   return (
     <>
@@ -24,4 +24,4 @@ const AuthRoutes = () => {
   );
 };
 
-export default AuthRoutes;
+export default AuthLayout;

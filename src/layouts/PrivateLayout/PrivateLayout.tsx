@@ -1,12 +1,12 @@
-import { HeaderBar, SideBar } from "@/layouts";
+import { HeaderBar, SideBar } from "@/layouts/PrivateLayout";
 import { Box, CssBaseline } from "@mui/material";
 import { Outlet, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { useEffect } from "react";
 import { setUser } from "@/lib/store/slices/authSlice";
-import "../styles/index.css";
+import "../../styles/index.css";
 
-const PrivateRoutes = () => {
+const PrivateLayout = () => {
   const dispatch = useAppDispatch();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   useEffect(() => {
@@ -33,4 +33,4 @@ const PrivateRoutes = () => {
   );
 };
 
-export default PrivateRoutes;
+export default PrivateLayout;

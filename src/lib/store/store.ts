@@ -1,10 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { appConfig } from "@/data/config";
+import { appConfig } from "@/config/appConfig";
 import { authApi } from "@/services/api/authApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import authReducer from "../store/slices/authSlice";
-import { apiSlice } from "@/features/api/apiSlice";
 import { productsApi } from "@/services/api/prouductApi";
+import authReducer from "../store/slices/authSlice";
 
 const store = configureStore({
   reducer: {
@@ -15,7 +14,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([authApi.middleware, productsApi.middleware]),
 
-  devTools: appConfig.app_env == "Devlopment" ? true : false,
+  devTools: appConfig.environments == "Devlopment" ? true : false,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

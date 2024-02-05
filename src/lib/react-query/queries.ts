@@ -1,26 +1,8 @@
-import { isLogin, setAuth } from "@/lib/store/slices/authSlice";
-import { useAppDispatch } from "@/lib/store/store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createTodo } from "../../services/api/todo";
+import { createTodo } from "../../services/api_ex/todo";
 import { Todo } from "@/types/Todo";
-import { IRegister } from "@/types/Register";
 import { deleteUser, getList } from "../../services/api/userApi";
 import { QUERY_KEYS } from "./queryKeys";
-
-export const useRegister = () => {
-  return useMutation({
-    mutationFn: (request: IRegister) => register(request),
-    onMutate: () => {
-      //console.log("Mutate");
-    },
-    onError: () => {
-      console.log("error");
-    },
-    onSuccess: (response) => {
-      //console.log(response.data);
-    },
-  });
-};
 
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();

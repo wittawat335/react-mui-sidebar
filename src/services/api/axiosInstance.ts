@@ -1,8 +1,8 @@
-import { appConfig } from "@/data/config";
+import { appConfig } from "@/config/appConfig";
 import axios, { AxiosInstance } from "axios";
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: appConfig.baseApiUrl,
+  baseURL: appConfig.baseUrl,
 });
 
 axiosInstance.interceptors.request.use((config) => {

@@ -19,7 +19,7 @@ import { useRegisterMutation } from "@/services/api/authApi";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
 import { isAuthenticated, setUser } from "@/lib/store/slices/authSlice";
-import { message } from "@/data/constants";
+import { messages } from "@/config/messages";
 
 export default function Register() {
   const [register, { data: registerData, isLoading, isSuccess, isError }] =
@@ -44,7 +44,7 @@ export default function Register() {
     try {
       await register(request);
       if (isError) {
-        toast.error(message.regieter_error);
+        toast.error(messages.regieter_error);
         return;
       }
     } catch (error) {
@@ -56,7 +56,7 @@ export default function Register() {
     if (isSuccess) {
       dispatch(setUser(registerData));
       dispatch(isAuthenticated(true));
-      toast.success(message.regieter_success);
+      toast.success(messages.regieter_success);
       navigate("/");
     }
   }, [isSuccess]);

@@ -1,29 +1,31 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { appConfig } from "@/data/config";
+import { appConfig } from "@/config/appConfig";
 import { IRegister } from "@/types/Register";
 
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: appConfig.baseApiUrl,
+    baseUrl: appConfig.baseUrl,
   }),
   endpoints: (builder) => ({
     login: builder.mutation({
-      query: (body: { email: string; password: string }) => {
+      query: (request: { email: string; password: string }) => {
         return {
           url: "/Authenticate/login",
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body,
+          body: request,
         };
       },
     }),
+    
     register: builder.mutation({
-      query: (body: IRegister) => {
+      query: (request: IRegister) => {
         return {
           url: "/Authenticate/register",
           method: "POST",
-          body,
+          headers: { "Content-Type": "application/json" },
+          body: request,
         };
       },
     }),

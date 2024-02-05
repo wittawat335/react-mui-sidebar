@@ -1,7 +1,7 @@
 import { IUser } from "@/types/User";
 import axiosInstance from "./axiosInstance";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { appConfig } from "@/data/config";
+import { appConfig } from "@/config/appConfig";
 
 export async function getList() {
   const response = await axiosInstance.get<IUser[]>("/user");
@@ -33,7 +33,7 @@ export const userApi = createApi({
       const token = getState().auth.token;
       console.log("states: ", token);
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },

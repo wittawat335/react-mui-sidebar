@@ -1,4 +1,4 @@
-import { appConfig } from "@/data/config";
+import { appConfig } from "@/config/appConfig";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface Product {

@@ -2,7 +2,7 @@ import type { BaseQueryApi, BaseQueryFn } from "@reduxjs/toolkit/query";
 import type { AxiosRequestConfig, AxiosRequestHeaders } from "axios";
 import { Axios } from "axios";
 import { API } from "./api-types";
-import axiosInstance from "./axiosInstance";
+import axiosInstance from "../api/axiosInstance";
 
 export interface AxiosBaseQueryArgs<Meta, Response = API.BaseResponse> {
   meta?: Meta;
@@ -33,7 +33,7 @@ const axiosBaseQuery = <
 >({
   prepareHeaders,
   meta,
-  transformResponse
+  transformResponse,
 }: AxiosBaseQueryArgs<Meta> = {}): BaseQueryFn<
   Args,
   Result,
@@ -50,26 +50,26 @@ const axiosBaseQuery = <
           ? prepareHeaders(requestConfig.headers || {}, api)
           : requestConfig.headers,
         signal: api.signal,
-        ...extraOptions
+        ...extraOptions,
       });
 
       return {
-        data: transformResponse ? transformResponse(result.data) : result.data
+        data: transformResponse ? transformResponse(result.data) : result.data,
       };
     } catch (err) {
       if (!Axios.isAxiosError(err)) {
         return {
           error: err,
-          meta
+          meta,
         };
       }
 
       return {
         error: {
           status: err.response?.status,
-          data: err.response?.data || err.message
+          data: err.response?.data || err.message,
         },
-        meta
+        meta,
       };
     }
   };

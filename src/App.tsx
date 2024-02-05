@@ -2,22 +2,22 @@ import { Route, Routes } from "react-router-dom";
 import { Dashboard, Home, Products, Users } from "./pages/app";
 import { Login, Register } from "./pages/auth";
 import { ToastContainer } from "react-toastify";
-import { AuthRoutes, PrivateRoutes } from "./routes";
+import { PrivateLayout } from "./layouts/PrivateLayout";
 import Unauthorized from "./pages/Unauthorized";
 import Error404 from "./pages/404";
-import PrivateRoute from "./components/PrivateRoute";
+import AuthLayout from "./layouts/AuthLayout/AuthLayout";
 
 function App() {
   return (
     <main className="flex h-screen">
       <Routes>
         {/* public routes */}
-        <Route element={<AuthRoutes />}>
+        <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
         {/* private routes */}
-        <Route element={<PrivateRoutes />}>
+        <Route element={<PrivateLayout />}>
           <Route index element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />

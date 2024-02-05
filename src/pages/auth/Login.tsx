@@ -19,7 +19,7 @@ import { useLoginMutation } from "@/services/api/authApi";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
 import { isAuthenticated, setUser } from "@/lib/store/slices/authSlice";
-import { message } from "@/data/constants";
+import { messages } from "@/config/messages";
 
 export default function Login() {
   const [login, { data: loginData, isLoading, isSuccess, isError }] =
@@ -43,7 +43,7 @@ export default function Login() {
     if (isSuccess) {
       dispatch(setUser(loginData));
       dispatch(isAuthenticated(true));
-      toast.success(message.login_success);
+      toast.success(messages.login_success);
       navigate("/");
     }
   }, [isSuccess]);

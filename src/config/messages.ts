@@ -1,4 +1,4 @@
-export enum message {
+export enum messages {
   login_success = "Login Successfully",
   regieter_success = "Register Successfully",
   //
