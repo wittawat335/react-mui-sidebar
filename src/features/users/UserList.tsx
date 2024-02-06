@@ -1,88 +1,43 @@
 import { MuiButton, TypographyCustom } from "@/components/shared";
-import { IProduct } from "@/types/Product";
 import { Box, Paper, Rating } from "@mui/material";
 import { ChangeEvent, useState, MouseEvent } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
-import {
-  useDeleteProductMutation,
-  useUpdateProductMutation,
-} from "./prouductApi";
 import { FaCheck, FaXmark } from "react-icons/fa6";
+import { useDeleteUserMutation } from "./userApi";
+import { IUser } from "@/types/User";
 
 type Props = {
-  data: Array<IProduct>;
+  data: Array<IUser>;
   newUser: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
-const ProductList = ({ data, newUser }: Props) => {
-  const [updateProduct] = useUpdateProductMutation();
-  const [deleteProduct] = useDeleteProductMutation();
+const UserList = ({ data, newUser }: Props) => {
+  const [deleteUser] = useDeleteUserMutation();
 
-  // const handleUpdateProduct = async (request: IProduct) => {
-  //   try {
-  //     const updatedProductData = {
-  //       title: "Title updated 🤝",
-  //     };
-
-  //     await updateProduct({
-  //       request: data,
-  //     });
-  //   } catch (err) {
-  //     console.error("Error updating product:", err);
-  //   }
-  // };
-
-  const handleDeleteProduct = async (id: string) => {
+  const handleDelete = async (id: string) => {
     try {
-      await deleteProduct(id);
+      await deleteUser(id);
     } catch (err) {
       console.error("Error deleting product:", err);
     }
   };
 
-  const [checked, setChecked] = useState(false);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
   const columns = [
     {
-      name: "thumbnail",
-      label: "Image",
-      options: {
-        customBodyRender: (value: string) => (
-          <img src={value} alt="pic" className="w-12 h-12 rounded-full" />
-        ),
-      },
+      name: "username",
+      label: "UserName",
     },
     {
-      name: "title",
-      label: "Name",
+      name: "fullname",
+      label: "FullName",
     },
     {
-      name: "brand",
-      label: "Brand",
+      name: "email",
+      label: "E-Mail",
     },
     {
-      name: "category",
-      label: "Category",
-    },
-    {
-      name: "price",
-      label: "Price",
-    },
-    {
-      name: "stock",
-      label: "Stock",
-    },
-    {
-      name: "rating",
-      label: "Rating",
-      options: {
-        customBodyRender: (value: number) => (
-          <Rating name="read-only" value={value} readOnly />
-        ),
-      },
+      name: "roles",
+      label: "Role",
     },
     {
       name: "active",
@@ -107,7 +62,7 @@ const ProductList = ({ data, newUser }: Props) => {
           return (
             <>
               <MuiButton color="inherit">Edit</MuiButton>
-              <MuiButton onClick={() => handleDeleteProduct(id)} color="error">
+              <MuiButton onClick={() => handleDelete(id)} color="error">
                 Delete
               </MuiButton>
             </>
@@ -118,7 +73,6 @@ const ProductList = ({ data, newUser }: Props) => {
   ];
 
   const options: MUIDataTableOptions | undefined = {
-    //filterType: "checkbox",
     selectableRows: "none",
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10, 25, 100],
@@ -130,7 +84,7 @@ const ProductList = ({ data, newUser }: Props) => {
         <Box display="flex">
           <Box sx={{ flexGrow: 1 }}>
             <TypographyCustom variant="h6" gutterBottom component="div">
-              Product
+              User
             </TypographyCustom>
           </Box>
           <Box>
@@ -138,7 +92,7 @@ const ProductList = ({ data, newUser }: Props) => {
           </Box>
         </Box>
         <MUIDataTable
-          title={"Product List"}
+          title={"User List"}
           data={data}
           columns={columns}
           options={options}
@@ -148,4 +102,4 @@ const ProductList = ({ data, newUser }: Props) => {
   );
 };
 
-export default ProductList;
+export default UserList;

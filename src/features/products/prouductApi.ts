@@ -35,31 +35,35 @@ export const productsApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ["products"],
   endpoints: (builder) => ({
     getAllProduct: builder.query<GetAllProductResponse, void>({
       query: () => "/products",
+      providesTags: [{ type: "products", id: "LIST" }],
     }),
 
     getProductById: builder.query<GetProductByIdResponse, string>({
       query: (id) => `/products/${id}`,
     }),
 
-    addNewProduct: builder.mutation<IProduct, Partial<AddNewProductRequest>>({
+    addProduct: builder.mutation<void, Partial<AddNewProductRequest>>({
       query: (request) => ({
         url: `/products`,
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: request,
       }),
+      invalidatesTags: [{ type: "products", id: "LIST" }],
     }),
 
-    updateProduct: builder.mutation<IProduct, UpdateProductRequest>({
-      query: ({ id, request }: any) => ({
-        url: `/products/${id}`,
+    updateProduct: builder.mutation<void, IProduct>({
+      query: (request) => ({
+        url: `/products`,
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: request,
       }),
+      invalidatesTags: [{ type: "products", id: "LIST" }],
     }),
 
     deleteProduct: builder.mutation<void, string>({
@@ -67,6 +71,7 @@ export const productsApi = createApi({
         url: `/products/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: [{ type: "products", id: "LIST" }],
     }),
   }),
 });
@@ -74,7 +79,7 @@ export const productsApi = createApi({
 export const {
   useGetAllProductQuery,
   useGetProductByIdQuery,
-  useAddNewProductMutation,
+  useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
 } = productsApi;

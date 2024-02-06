@@ -11,4 +11,10 @@ export const signUpSchema = z
     path: ["confirmPassword"],
   });
 
+export const ProductValidation = z.object({
+  title: z.string().min(5),
+  price: z.string().min(1),
+});
+
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
+export type productSchema = z.infer<typeof ProductValidation>;

@@ -1,4 +1,7 @@
-import { useGetAllProductQuery } from "@/features/products/prouductApi";
+import {
+  useAddProductMutation,
+  useGetAllProductQuery,
+} from "@/features/products/prouductApi";
 import {
   Container,
   Dialog,
@@ -10,6 +13,7 @@ import { useState } from "react";
 import Loader from "@/components/ui/Loader";
 import CloseIcon from "@mui/icons-material/Close";
 import ProductList from "./List";
+import MuiForm from "./MuiForm";
 
 const AllProducts = () => {
   const [open, setOpenDialog] = useState(false);
@@ -51,7 +55,7 @@ const AllProducts = () => {
             </IconButton>
           </DialogTitle>
           <DialogContent>
-            <div>test</div>
+            <MuiForm />
           </DialogContent>
         </Dialog>
       </Container>

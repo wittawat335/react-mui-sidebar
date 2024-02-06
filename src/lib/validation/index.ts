@@ -44,9 +44,9 @@ export const ProfileValidation = z.object({
 });
 
 // ============================================================
-// POST
+// PRODUCT
 // ============================================================
-export const PostValidation = z.object({
+export const ProductValidation = z.object({
   caption: z
     .string()
     .min(5, { message: "Minimum 5 characters." })

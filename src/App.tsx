@@ -26,7 +26,7 @@ function App() {
         <Route element={<PrivateLayout />}>
           <Route index element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/users" element={<Users />} /> */}
+          <Route path="/users" element={<Users />} />
           <Route path="/products" element={<Products />} />
         </Route>
         {/* 404 & 401*/}
