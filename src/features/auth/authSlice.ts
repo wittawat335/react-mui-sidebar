@@ -1,10 +1,10 @@
 import { IAuth } from "@/types/Auth";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { RootState } from "../../lib/store/store";
 
 type AuthState = {
   user: IAuth | null;
-  token: string,
+  token: string;
   isAuthenticated: boolean;
 };
 

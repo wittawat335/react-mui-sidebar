@@ -14,12 +14,12 @@ import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useLoginMutation } from "@/services/api/authApi";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
-import { isAuthenticated, setUser } from "@/lib/store/slices/authSlice";
 import { messages } from "@/config/messages";
 import { MuiLoadingButton } from "@/components/shared";
+import { useLoginMutation } from "@/features/auth/authApi";
+import { isAuthenticated, setUser } from "@/features/auth/authSlice";
 
 export default function Login() {
   const [login, { data: loginData, isLoading, isSuccess, isError }] =

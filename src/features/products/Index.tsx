@@ -1,4 +1,4 @@
-import { useGetAllProductQuery } from "@/services/api/prouductApi";
+import { useGetAllProductQuery } from "@/features/products/prouductApi";
 import {
   Container,
   Dialog,
@@ -7,9 +7,9 @@ import {
   IconButton,
 } from "@mui/material";
 import { useState } from "react";
-import List from "./List";
 import Loader from "@/components/ui/Loader";
 import CloseIcon from "@mui/icons-material/Close";
+import ProductList from "./List";
 
 const AllProducts = () => {
   const [open, setOpenDialog] = useState(false);
@@ -38,8 +38,11 @@ const AllProducts = () => {
 
   return (
     <>
-      <Container maxWidth="xl" sx={{ p: 2 }}>
-        <List data={data?.payload} isSuccess={isSuccess} newUser={newUser} />
+      <Container maxWidth={false} sx={{ p: 2 }}>
+        {isSuccess ? (
+          <ProductList data={data?.payload} newUser={newUser} />
+        ) : null}
+
         <Dialog open={open} onClose={closepopup} fullWidth maxWidth="sm">
           <DialogTitle>
             <span>{title}</span>

@@ -6,7 +6,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "@/lib/store/slices/authSlice";
+import { logout } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/hooks/hooks";
 import { toast } from "react-toastify";
 

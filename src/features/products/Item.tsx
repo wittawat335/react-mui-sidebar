@@ -6,7 +6,7 @@ type ItemProps = {
   product: IProduct;
 };
 
-const Item = ({ product }: ItemProps) => {
+const ProductItem = ({ product }: ItemProps) => {
   const handleDelete = (id: string) => {};
   return (
     <TableRow key={product.id} hover tabIndex={-1}>
@@ -31,4 +31,4 @@ const Item = ({ product }: ItemProps) => {
   );
 };
 
-export default Item;
+export default ProductItem;

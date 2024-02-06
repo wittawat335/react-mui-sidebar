@@ -12,11 +12,10 @@ body,
   height: 100%;
   width: 100%;
   font-family: "Source Sans Pro", sans-serif;
-  background-color:#f7fff7;
   overflow: hidden;
 }
 .content_body {
-  background-color: #cfe8fc;
+  background-color: #f3eeee;
   width: 100%;
   height: 90%;
   overflow: scroll;

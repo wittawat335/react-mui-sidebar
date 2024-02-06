@@ -11,4 +11,5 @@ export interface IProduct {
   category: string;
   thumbnail: string;
   images?: string[];
+  active: boolean;
 }

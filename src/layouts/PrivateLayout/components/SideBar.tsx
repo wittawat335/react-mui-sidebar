@@ -20,7 +20,7 @@ import { FaReact } from "react-icons/fa";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks/hooks";
-import { selectAuth } from "@/lib/store/slices/authSlice";
+import { selectAuth } from "@/features/auth/authSlice";
 
 type SideBarProps = {
   //collapsed: boolean;
