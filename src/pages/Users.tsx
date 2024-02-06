@@ -1,6 +1,9 @@
 import {
   Box,
   Container,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Paper,
   Table,
   TableBody,
@@ -12,10 +15,25 @@ import {
 import { useUsers } from "@/lib/react-query/queries";
 import { UsersItem } from "@/features/users/UsersItem";
 import Loader from "@/components/ui/Loader";
-import { MuiButton, TypographyCustom } from "@/components/shared";
+import { DialogCustom, MuiButton, TypographyCustom } from "@/components/shared";
+import { useState } from "react";
 
 const Users = () => {
+  const [open, openchange] = useState(false);
+  const [title, titlechange] = useState("New User");
   const { isPending, isSuccess, isError, data, error } = useUsers();
+  console.log(data);
+
+  const newUser = () => {
+    titlechange("New User");
+    openpopup();
+  };
+  const closepopup = () => {
+    openchange(false);
+  };
+  const openpopup = () => {
+    openchange(true);
+  };
 
   if (isPending)
     return (
@@ -45,7 +63,7 @@ const Users = () => {
               </TypographyCustom>
             </Box>
             <Box>
-              <MuiButton> Add New (+)</MuiButton>
+              <MuiButton onClick={newUser}> Add New (+)</MuiButton>
             </Box>
           </Box>
           <TableContainer component={Paper}>
@@ -67,6 +85,15 @@ const Users = () => {
             </Table>
           </TableContainer>
         </Paper>
+
+        <Dialog open={open} onClose={closepopup} fullWidth maxWidth="sm">
+          <DialogTitle>
+            <span>{title}</span>
+          </DialogTitle>
+          <DialogContent>
+            <div>test</div>
+          </DialogContent>
+        </Dialog>
       </Container>
     </>
   );

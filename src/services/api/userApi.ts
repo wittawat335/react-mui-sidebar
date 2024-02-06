@@ -5,7 +5,7 @@ import { appConfig } from "@/config/appConfig";
 
 export async function getList() {
   const response = await axiosInstance.get<IUser[]>("/user");
-  return response.data.value;
+  return response.data;
 }
 
 export async function get(id: string) {

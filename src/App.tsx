@@ -1,10 +1,17 @@
+import AuthLayout from "./layouts/AuthLayout/AuthLayout";
 import { Route, Routes } from "react-router-dom";
-import { Dashboard, Home, Login, Products, Register, Users } from "./pages";
 import { ToastContainer } from "react-toastify";
 import { PrivateLayout } from "./layouts/PrivateLayout";
-import Unauthorized from "./pages/Unauthorized";
-import Error404 from "./pages/404";
-import AuthLayout from "./layouts/AuthLayout/AuthLayout";
+import {
+  Dashboard,
+  Error404,
+  Home,
+  Login,
+  Products,
+  Register,
+  Unauthorized,
+  Users,
+} from "./pages";
 
 function App() {
   return (
@@ -26,7 +33,6 @@ function App() {
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
-
       <ToastContainer position="top-right" theme="dark" />
     </main>
   );
