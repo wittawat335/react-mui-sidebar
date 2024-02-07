@@ -5,18 +5,31 @@ import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 import { useDeleteUserMutation } from "./userApi";
 import { IUser } from "@/types/User";
+import Swal from "sweetalert2";
 
 type Props = {
   data: Array<IUser>;
-  newUser: (e: MouseEvent<HTMLButtonElement>) => void;
+  openDialog: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
-const UserList = ({ data, newUser }: Props) => {
+const UserList = ({ data, openDialog }: Props) => {
   const [deleteUser] = useDeleteUserMutation();
 
   const handleDelete = async (id: string) => {
     try {
-      await deleteUser(id);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteUser(id);
+        }
+      });
     } catch (err) {
       console.error("Error deleting product:", err);
     }
@@ -88,7 +101,7 @@ const UserList = ({ data, newUser }: Props) => {
             </TypographyCustom>
           </Box>
           <Box>
-            <MuiButton onClick={newUser}> Add New (+)</MuiButton>
+            <MuiButton onClick={openDialog}> Add New (+)</MuiButton>
           </Box>
         </Box>
         <MUIDataTable

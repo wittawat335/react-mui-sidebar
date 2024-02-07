@@ -1,7 +1,13 @@
-import React from 'react'
+import UserIndex from "@/features/users";
 
-export default function Users() {
+type Props = {};
+
+const Users = (props: Props) => {
   return (
-    <div>Users</div>
-  )
-}
+    <div>
+      <UserIndex />
+    </div>
+  );
+};
+
+export default Users;

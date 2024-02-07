@@ -16,5 +16,21 @@ export const ProductValidation = z.object({
   price: z.string().min(1),
 });
 
+export const UserValidation = z.object({
+  username: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(5, { message: "Password must be at least 5 characters." }),
+  fullname: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters." }),
+  roles: z.string().array(),
+  active: z.boolean(),
+});
+
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 export type productSchema = z.infer<typeof ProductValidation>;
+export type UserSchema = z.infer<typeof UserValidation>;

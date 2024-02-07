@@ -5,7 +5,6 @@ import { RootState } from "@/lib/store/store";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  tagTypes: ["users"],
   baseQuery: fetchBaseQuery({
     baseUrl: appConfig.baseUrl,
     prepareHeaders: (headers, { getState }) => {
@@ -17,43 +16,42 @@ export const userApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ["users"],
   endpoints: (builder) => ({
     getUsers: builder.query<IUser[], void>({
-      query: () => "/users",
-      providesTags: [{ type: "users", id: "userLIST" }],
+      query: () => "/user",
+      providesTags: ["users"],
     }),
 
     getUser: builder.query<IUser, string>({
-      query: (id) => `/users/${id}`,
-      providesTags: [{ type: "users", id: "userLIST" }],
+      query: (id) => `/user/${id}`,
     }),
 
     addUser: builder.mutation<void, Partial<IUser>>({
       query: (request) => ({
-        url: `/users`,
+        url: `/user`,
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        //headers: { "Content-Type": "application/json" },
         body: request,
       }),
-      invalidatesTags: [{ type: "users", id: "userLIST" }],
+      invalidatesTags: ["users"],
     }),
 
     updateUser: builder.mutation<void, IUser>({
       query: (request) => ({
-        url: `/users`,
+        url: `/user`,
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
         body: request,
       }),
-      invalidatesTags: [{ type: "users", id: "userLIST" }],
+      invalidatesTags: ["users"],
     }),
 
     deleteUser: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/users/${id}`,
+        url: `/user/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [{ type: "users", id: "userLIST" }],
+      invalidatesTags: ["users"],
     }),
   }),
 });

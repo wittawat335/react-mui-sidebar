@@ -1,47 +1,59 @@
-import { Container, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
-import { useState } from 'react'
-import UserList from './UserList'
-import Loader from '@/components/ui/Loader';
-import { useGetUsersQuery } from './userApi';
-import MuiForm from './MuiForm';
+import {
+  Container,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
+import { useGetUsersQuery } from "./userApi";
+import { useState } from "react";
+import UserList from "./UserList";
+import Loader from "@/components/ui/Loader";
+import MuiForm from "./MuiForm";
 import CloseIcon from "@mui/icons-material/Close";
 
-const index = () => {
-    const [open, setOpenDialog] = useState(false);
-    const [title, titlechange] = useState("New User");
-    const newUser = () => {
-      titlechange("New User");
-      openpopup();
-    };
-    const closepopup = () => {
-      setOpenDialog(false);
-    };
-    const openpopup = () => {
-      setOpenDialog(true);
-    };
-  
-    const { data, isError, isLoading, isSuccess } = useGetUsersQuery();
-    console.log(data);
-  
-    if (isError) {
-      return <h1>OOOhNoooo we got an error</h1>;
-    }
-  
-    if (isLoading) {
-      return <Loader />;
-    }
-  
+const UserIndex = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [title, setTitle] = useState("");
+
+  const handleNewUser = () => {
+    setTitle("New User");
+    handleOpenDialog();
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const { data, isError, error, isFetching, isLoading, isSuccess } =
+    useGetUsersQuery();
+  console.log(data);
+
+  if (isError) {
+    console.log({ error });
+    return <div>{error.status}</div>;
+  }
+
+  if (isLoading || isFetching) {
+    return <Loader />;
+  }
+
   return (
     <>
       <Container maxWidth={false} sx={{ p: 2 }}>
-        {isSuccess ? (
-          <UserList data={data} newUser={newUser} />
-        ) : null}
-
-        <Dialog open={open} onClose={closepopup} fullWidth maxWidth="sm">
+        {isSuccess ? <UserList data={data} openDialog={handleNewUser} /> : null}
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          fullWidth
+          maxWidth="sm"
+        >
           <DialogTitle>
             <span>{title}</span>
-            <IconButton style={{ float: "right" }} onClick={closepopup}>
+            <IconButton style={{ float: "right" }} onClick={handleCloseDialog}>
               <CloseIcon color="primary"></CloseIcon>
             </IconButton>
           </DialogTitle>
@@ -51,7 +63,7 @@ const index = () => {
         </Dialog>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default index
+export default UserIndex;

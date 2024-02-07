@@ -1,13 +1,16 @@
 import { MuiButton, TypographyCustom } from "@/components/shared";
 import { IProduct } from "@/types/Product";
 import { Box, Paper, Rating } from "@mui/material";
-import { ChangeEvent, useState, MouseEvent } from "react";
+import { ChangeEvent, useState, MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import {
   useDeleteProductMutation,
   useUpdateProductMutation,
 } from "./prouductApi";
 import { FaCheck, FaXmark } from "react-icons/fa6";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import { messages } from "@/config/messages";
 
 type Props = {
   data: Array<IProduct>;
@@ -16,7 +19,12 @@ type Props = {
 
 const ProductList = ({ data, newUser }: Props) => {
   const [updateProduct] = useUpdateProductMutation();
-  const [deleteProduct] = useDeleteProductMutation();
+  const [deleteProduct, { isSuccess: deleteSuccess }] =
+    useDeleteProductMutation();
+
+  useEffect(() => {
+    if (deleteSuccess) toast.success(messages.delete_success);
+  }, [deleteSuccess]);
 
   // const handleUpdateProduct = async (request: IProduct) => {
   //   try {
@@ -34,17 +42,24 @@ const ProductList = ({ data, newUser }: Props) => {
 
   const handleDeleteProduct = async (id: string) => {
     try {
-      await deleteProduct(id);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteProduct(id);
+        }
+      });
     } catch (err) {
       console.error("Error deleting product:", err);
     }
   };
 
-  const [checked, setChecked] = useState(false);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
   const columns = [
     {
       name: "thumbnail",
