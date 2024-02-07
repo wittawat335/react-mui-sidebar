@@ -1,6 +1,6 @@
 import { MuiButton, TypographyCustom } from "@/components/shared";
 import { IProduct } from "@/types/Product";
-import { Box, Paper, Rating } from "@mui/material";
+import { Avatar, Box, Paper, Rating } from "@mui/material";
 import { ChangeEvent, useState, MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import {
@@ -66,7 +66,7 @@ const ProductList = ({ data, newUser }: Props) => {
       label: "Image",
       options: {
         customBodyRender: (value: string) => (
-          <img src={value} alt="pic" className="w-12 h-12 rounded-full" />
+          <Avatar src={value} variant="square" />
         ),
       },
     },

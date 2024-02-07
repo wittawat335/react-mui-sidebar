@@ -5,6 +5,7 @@ import { authApi } from "@/features/auth/authApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { productsApi } from "@/features/products/prouductApi";
 import { userApi } from "@/features/users/userApi";
+import { roleApi } from "@/features/roles/roleApi";
 
 const store = configureStore({
   reducer: {
@@ -12,12 +13,14 @@ const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [roleApi.reducerPath]: roleApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       authApi.middleware,
       productsApi.middleware,
       userApi.middleware,
+      roleApi.middleware,
     ]),
 
   devTools: appConfig.environments == "Devlopment" ? true : false,

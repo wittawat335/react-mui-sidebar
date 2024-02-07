@@ -217,21 +217,21 @@ const SideBar = (props: SideBarProps) => {
               </MenuItem>
 
               <SubMenu icon={<MapOutlinedIcon />} label="Data">
-                <MenuItem key="2" icon={<TableViewIcon />}>
+                <MenuItem
+                  onClick={() => navigate("/products")}
+                  icon={<TableViewIcon />}
+                >
                   {" "}
-                  Table
-                </MenuItem>
-                <MenuItem key="3" icon={<BarChartOutlinedIcon />}>
-                  {" "}
-                  Line charts
+                  Product
                 </MenuItem>
               </SubMenu>
 
               <SubMenu label="Manage" icon={<PeopleOutlinedIcon />}>
-                <MenuItem onClick={() => navigate("/users")}>User</MenuItem>
-                <MenuItem onClick={() => navigate("/products")}>
-                  {" "}
-                  Product
+                <MenuItem
+                  onClick={() => navigate("/users")}
+                  icon={<PeopleOutlinedIcon />}
+                >
+                  User
                 </MenuItem>
               </SubMenu>
             </Menu>

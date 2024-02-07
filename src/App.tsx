@@ -9,6 +9,7 @@ import {
   Login,
   Products,
   Register,
+  Test,
   Unauthorized,
   Users,
 } from "./pages";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/test" element={<Test />} />
         </Route>
         {/* 404 & 401*/}
         <Route path="/unauthorized" element={<Unauthorized />} />

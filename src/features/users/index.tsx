@@ -30,7 +30,6 @@ const UserIndex = () => {
 
   const { data, isError, error, isFetching, isLoading, isSuccess } =
     useGetUsersQuery();
-  console.log(data);
 
   if (isError) {
     console.log({ error });

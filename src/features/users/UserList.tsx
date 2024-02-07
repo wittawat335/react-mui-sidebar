@@ -1,11 +1,13 @@
 import { MuiButton, TypographyCustom } from "@/components/shared";
 import { Box, Paper, Rating } from "@mui/material";
-import { ChangeEvent, useState, MouseEvent } from "react";
+import { ChangeEvent, useState, MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 import { useDeleteUserMutation } from "./userApi";
 import { IUser } from "@/types/User";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import { messages } from "@/config/messages";
 
 type Props = {
   data: Array<IUser>;
@@ -13,7 +15,7 @@ type Props = {
 };
 
 const UserList = ({ data, openDialog }: Props) => {
-  const [deleteUser] = useDeleteUserMutation();
+  const [deleteUser, {isSuccess: deleteSuccess}] = useDeleteUserMutation();
 
   const handleDelete = async (id: string) => {
     try {
@@ -90,7 +92,9 @@ const UserList = ({ data, openDialog }: Props) => {
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10, 25, 100],
   };
-
+  useEffect(() => {
+    if (deleteSuccess) toast.success(messages.delete_success);
+  }, [deleteSuccess]);
   return (
     <>
       <Paper sx={{ p: 2 }}>
