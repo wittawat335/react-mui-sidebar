@@ -29,7 +29,7 @@ export const UserValidation = z.object({
     .min(5, { message: "Password must be at least 5 characters." }),
 
   roles: z.string().array(),
-  active: z.boolean(),
+  active: z.string(),
 });
 
 export type TSignUpSchema = z.infer<typeof signUpSchema>;

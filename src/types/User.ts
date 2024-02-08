@@ -5,5 +5,5 @@ export interface IUser {
   email: string;
   password: string;
   roles: string[];
-  active: boolean;
+  active: string;
 }

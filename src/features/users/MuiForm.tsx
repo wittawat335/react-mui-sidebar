@@ -5,9 +5,13 @@ import {
   Button,
   Chip,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   InputLabel,
   MenuItem,
   OutlinedInput,
+  Radio,
+  RadioGroup,
   Select,
   SelectChangeEvent,
   Stack,
@@ -63,11 +67,11 @@ export default function MuiForm({ onClose }: FormProps) {
       fullname: "",
       password: "",
       roles: [],
-      active: true,
+      active: "",
     },
   });
 
-  const handleAddUser = async (request: UserSchema) => {
+  const submit = async (request: UserSchema) => {
     try {
       await addUser(request);
     } catch (error) {
@@ -90,7 +94,7 @@ export default function MuiForm({ onClose }: FormProps) {
   }, [addUserSuccess]);
 
   return (
-    <form onSubmit={handleSubmit(handleAddUser)}>
+    <form onSubmit={handleSubmit(submit)}>
       <Stack spacing={2} margin={2}>
         <TextField
           label="E-mail"
@@ -123,6 +127,7 @@ export default function MuiForm({ onClose }: FormProps) {
           error={!!errors.fullname}
           helperText={errors.fullname?.message}
         />
+        {/* Roles DDl */}
         <FormControl>
           <InputLabel id="demo-multiple-chip-label">Role</InputLabel>
           <Select
@@ -154,6 +159,30 @@ export default function MuiForm({ onClose }: FormProps) {
                 ))
               : null}
           </Select>
+        </FormControl>
+
+        {/* Active */}
+        <FormControl>
+          <FormLabel id="demo-row-radio-buttons-group-label">Active</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            defaultValue="1"
+          >
+            <FormControlLabel
+              value="1"
+              control={<Radio />}
+              label="Active"
+              {...register("active")}
+            />
+            <FormControlLabel
+              value="0"
+              control={<Radio />}
+              label="InActive"
+              {...register("active")}
+            />
+          </RadioGroup>
         </FormControl>
 
         <Button variant="contained" type="submit" disabled={isSubmitting}>

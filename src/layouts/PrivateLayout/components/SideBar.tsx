@@ -12,7 +12,6 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import TableViewIcon from "@mui/icons-material/TableView";
@@ -21,6 +20,8 @@ import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks/hooks";
 import { selectAuth } from "@/features/auth/authSlice";
+import ManageAccountsOutlined from "@mui/icons-material/ManageAccountsOutlined";
+import AdminPanelSettingsOutlined from "@mui/icons-material/AdminPanelSettingsOutlined";
 
 type SideBarProps = {
   //collapsed: boolean;
@@ -226,12 +227,18 @@ const SideBar = (props: SideBarProps) => {
                 </MenuItem>
               </SubMenu>
 
-              <SubMenu label="Manage" icon={<PeopleOutlinedIcon />}>
+              <SubMenu label="Manage" icon={<ManageAccountsOutlined />}>
                 <MenuItem
                   onClick={() => navigate("/users")}
                   icon={<PeopleOutlinedIcon />}
                 >
                   User
+                </MenuItem>
+                <MenuItem
+                  onClick={() => navigate("/users")}
+                  icon={<AdminPanelSettingsOutlined />}
+                >
+                  Role
                 </MenuItem>
               </SubMenu>
             </Menu>

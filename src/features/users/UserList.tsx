@@ -1,5 +1,5 @@
 import { MuiButton, TypographyCustom } from "@/components/shared";
-import { Box, Paper, Rating } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { ChangeEvent, useState, MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { FaCheck, FaXmark } from "react-icons/fa6";
@@ -15,7 +15,7 @@ type Props = {
 };
 
 const UserList = ({ data, openDialog }: Props) => {
-  const [deleteUser, {isSuccess: deleteSuccess}] = useDeleteUserMutation();
+  const [deleteUser, { isSuccess: deleteSuccess }] = useDeleteUserMutation();
 
   const handleDelete = async (id: string) => {
     try {
@@ -58,13 +58,13 @@ const UserList = ({ data, openDialog }: Props) => {
       name: "active",
       label: "Active",
       options: {
-        customBodyRender: (value: boolean) => (
+        customBodyRender: (value: string) => (
           <p
             className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
-              value === true ? "bg-green-600" : "bg-rose-600"
+              value === "1" ? "bg-green-600" : "bg-rose-600"
             }`}
           >
-            {value === true ? <FaCheck /> : <FaXmark />}
+            {value === "1" ? <FaCheck /> : <FaXmark />}
           </p>
         ),
       },
@@ -98,14 +98,10 @@ const UserList = ({ data, openDialog }: Props) => {
   return (
     <>
       <Paper sx={{ p: 2 }}>
-        <Box display="flex">
-          <Box sx={{ flexGrow: 1 }}>
-            <TypographyCustom variant="h6" gutterBottom component="div">
-              User
-            </TypographyCustom>
-          </Box>
+        <Box display="flex" m={1}>
+          <Box sx={{ flexGrow: 1 }}></Box>
           <Box>
-            <MuiButton onClick={openDialog}> Add New (+)</MuiButton>
+            <MuiButton onClick={openDialog}> Add User (+)</MuiButton>
           </Box>
         </Box>
         <MUIDataTable
