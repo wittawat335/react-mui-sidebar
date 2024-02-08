@@ -11,22 +11,15 @@ import UserList from "./UserList";
 import Loader from "@/components/ui/Loader";
 import MuiForm from "./MuiForm";
 import CloseIcon from "@mui/icons-material/Close";
+import { useAppSelector } from "@/hooks/hooks";
+import { IUser } from "@/types/User";
 
 const UserIndex = () => {
-  const [openDialog, setOpenDialog] = useState(false);
   const [title, setTitle] = useState("");
-
-  const handleNewUser = () => {
-    setTitle("New User");
-    handleOpenDialog();
-  };
-
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+  const [openDialog, setOpenDialog] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const users = useAppSelector((state) => state.user);
+  const [dataToEdit, setDataToEdit] = useState<IUser | undefined>(undefined);
 
   const { data, isError, error, isFetching, isLoading, isSuccess } =
     useGetUsersQuery();
@@ -40,10 +33,36 @@ const UserIndex = () => {
     return <Loader />;
   }
 
+  const handleNewUser = () => {
+    setTitle("New User");
+    setIsEdit(false);
+    setDataToEdit(undefined);
+    handleOpenDialog();
+  };
+
+  const handleUpdateUser = (id: string) => {
+    setTitle("Update User");
+    setIsEdit(true);
+    setDataToEdit(data?.find((item) => item.id === id));
+    handleOpenDialog();
+  };
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <>
       <Container maxWidth={false} sx={{ p: 2 }}>
-        {isSuccess ? <UserList data={data} openDialog={handleNewUser} /> : null}
+        {isSuccess ? (
+          <UserList
+            data={data}
+            handleNewUser={handleNewUser}
+            handleUpdateUser={handleUpdateUser}
+          />
+        ) : null}
         <Dialog
           open={openDialog}
           onClose={handleCloseDialog}
@@ -57,7 +76,7 @@ const UserIndex = () => {
             </IconButton>
           </DialogTitle>
           <DialogContent>
-            <MuiForm onClose={handleCloseDialog}/>
+            <MuiForm data={dataToEdit} isEdit={isEdit} onClose={handleCloseDialog} />
           </DialogContent>
         </Dialog>
       </Container>

@@ -1,20 +1,27 @@
 import { MuiButton, TypographyCustom } from "@/components/shared";
-import { Box, Paper } from "@mui/material";
-import { ChangeEvent, useState, MouseEvent, useEffect } from "react";
+import { Box, Button, ButtonGroup, Paper } from "@mui/material";
+import { MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import { useDeleteUserMutation } from "./userApi";
+import {
+  useDeleteUserMutation,
+  useGetUserQuery,
+  useUpdateUserMutation,
+} from "./userApi";
 import { IUser } from "@/types/User";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai"; //npm i react-icons
 
 type Props = {
   data: Array<IUser>;
-  openDialog: (e: MouseEvent<HTMLButtonElement>) => void;
+  handleNewUser: (e: MouseEvent<HTMLButtonElement>) => void;
+  handleUpdateUser: (id: string) => void;
 };
 
-const UserList = ({ data, openDialog }: Props) => {
+const UserList = ({ data, handleNewUser, handleUpdateUser }: Props) => {
+  const [updateUser, { isSuccess: updateSuccess }] = useUpdateUserMutation();
   const [deleteUser, { isSuccess: deleteSuccess }] = useDeleteUserMutation();
 
   const handleDelete = async (id: string) => {
@@ -76,10 +83,17 @@ const UserList = ({ data, openDialog }: Props) => {
         customBodyRender: (id: string) => {
           return (
             <>
-              <MuiButton color="inherit">Edit</MuiButton>
-              <MuiButton onClick={() => handleDelete(id)} color="error">
-                Delete
-              </MuiButton>
+              <ButtonGroup variant="contained" aria-label="Basic button group">
+                <MuiButton color="inherit" onClick={() => handleUpdateUser(id)}>
+                  view
+                </MuiButton>
+                <MuiButton color="info" onClick={() => handleUpdateUser(id)}>
+                  Edit
+                </MuiButton>
+                <MuiButton color="primary" onClick={() => handleDelete(id)}>
+                  Delete
+                </MuiButton>
+              </ButtonGroup>
             </>
           );
         },
@@ -101,7 +115,14 @@ const UserList = ({ data, openDialog }: Props) => {
         <Box display="flex" m={1}>
           <Box sx={{ flexGrow: 1 }}></Box>
           <Box>
-            <MuiButton onClick={openDialog}> Add User (+)</MuiButton>
+            <MuiButton
+              onClick={handleNewUser}
+              variant="contained"
+              color="success"
+            >
+              {" "}
+              Add User (+)
+            </MuiButton>
           </Box>
         </Box>
         <MUIDataTable

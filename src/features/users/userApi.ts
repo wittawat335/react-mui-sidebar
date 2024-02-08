@@ -25,13 +25,13 @@ export const userApi = createApi({
 
     getUser: builder.query<IUser, string>({
       query: (id) => `/user/${id}`,
+      providesTags: ["users"],
     }),
 
     addUser: builder.mutation<void, Omit<IUser, "id">>({
       query: (request) => ({
         url: `/user`,
         method: "POST",
-        //headers: { "Content-Type": "application/json" },
         body: request,
       }),
       invalidatesTags: ["users"],

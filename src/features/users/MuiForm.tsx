@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -6,7 +6,6 @@ import {
   Chip,
   FormControl,
   FormControlLabel,
-  FormLabel,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -22,9 +21,10 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserSchema, UserValidation } from "@/lib/validation/schema";
 import { useGetRoleNamesQuery } from "../roles/roleApi";
-import { useAddUserMutation } from "./userApi";
+import { useAddUserMutation, useUpdateUserMutation } from "./userApi";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
+import { IUser } from "@/types/User";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -37,24 +37,31 @@ const MenuProps = {
   },
 };
 
-function getStyles(name: string, roleName: readonly string[], theme: Theme) {
+function getStyles(
+  name: string,
+  roleName: readonly string[] | undefined,
+  theme: Theme
+) {
   return {
     fontWeight:
-      roleName.indexOf(name) === -1
+      roleName?.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
 interface FormProps {
+  data: IUser | undefined;
+  isEdit: boolean;
   onClose: () => void;
 }
 
-export default function MuiForm({ onClose }: FormProps) {
+export default function MuiForm({ onClose, data, isEdit }: FormProps) {
   const theme = useTheme();
-  const [roleName, setRoleName] = useState<string[]>([]);
+  const [roleName, setRoleName] = useState<string[] | undefined>([]);
   const { data: names, isSuccess: roleSuccess } = useGetRoleNamesQuery();
   const [addUser, { isSuccess: addUserSuccess }] = useAddUserMutation();
+  const [updateUser, { isSuccess: updateSuccess }] = useUpdateUserMutation();
   const {
     register,
     handleSubmit,
@@ -62,18 +69,15 @@ export default function MuiForm({ onClose }: FormProps) {
   } = useForm<UserSchema>({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      email: "",
-      username: "",
-      fullname: "",
-      password: "",
-      roles: [],
-      active: "",
+      email: data?.email ? data?.email : "",
+      username: data?.username ? data?.username : "",
+      fullname: data?.fullname ? data?.fullname : "",
     },
   });
 
   const submit = async (request: UserSchema) => {
     try {
-      await addUser(request);
+      isEdit ? await updateUser(request) : await addUser(request);
     } catch (error) {
       console.log({ error });
     }
@@ -92,6 +96,12 @@ export default function MuiForm({ onClose }: FormProps) {
       onClose();
     }
   }, [addUserSuccess]);
+
+  useEffect(() => {
+    if (isEdit) {
+      setRoleName(data?.roles.split(","));
+    }
+  }, []);
 
   return (
     <form onSubmit={handleSubmit(submit)}>
@@ -113,13 +123,16 @@ export default function MuiForm({ onClose }: FormProps) {
           error={!!errors.username}
           helperText={errors.username?.message}
         />
-        <TextField
-          label="Password"
-          type="password"
-          {...register("password", { required: "password is required" })}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-        />
+        {!isEdit ? (
+          <TextField
+            label="Password"
+            type="password"
+            {...register("password", { required: "password is required" })}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+          />
+        ) : null}
+
         <TextField
           label="Fullname"
           type="text"
@@ -132,12 +145,11 @@ export default function MuiForm({ onClose }: FormProps) {
           <InputLabel id="demo-multiple-chip-label">Role</InputLabel>
           <Select
             labelId="demo-multiple-chip-label"
-            id="demo-multiple-chip"
             {...register("roles", { required: "roles is required" })}
             multiple
             value={roleName}
             onChange={handleChange}
-            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+            input={<OutlinedInput label="Chip" />}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selected.map((value) => (
@@ -163,12 +175,12 @@ export default function MuiForm({ onClose }: FormProps) {
 
         {/* Active */}
         <FormControl>
-          <FormLabel id="demo-row-radio-buttons-group-label">Active</FormLabel>
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
             defaultValue="1"
+            value={data?.active}
           >
             <FormControlLabel
               value="1"

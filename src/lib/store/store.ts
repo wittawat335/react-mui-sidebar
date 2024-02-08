@@ -1,4 +1,5 @@
 import authReducer from "../../features/auth/authSlice";
+import userReducer from "../../features/users/userSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { appConfig } from "@/config/appConfig";
 import { authApi } from "@/features/auth/authApi";
@@ -10,6 +11,7 @@ import { roleApi } from "@/features/roles/roleApi";
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    user: userReducer,
     [authApi.reducerPath]: authApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
