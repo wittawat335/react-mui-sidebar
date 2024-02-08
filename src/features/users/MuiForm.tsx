@@ -42,7 +42,11 @@ function getStyles(name: string, roleName: readonly string[], theme: Theme) {
   };
 }
 
-export default function MuiForm() {
+interface FormProps {
+  onClose: () => void;
+}
+
+export default function MuiForm({ onClose }: FormProps) {
   const theme = useTheme();
   const [roleName, setRoleName] = useState<string[]>([]);
   const { data: names, isSuccess: roleSuccess } = useGetRoleNamesQuery();
@@ -63,10 +67,6 @@ export default function MuiForm() {
     },
   });
 
-  const onSubmit = useCallback((values: UserSchema) => {
-    window.alert(JSON.stringify(values, null, 4));
-  }, []);
-
   const handleAddUser = async (request: UserSchema) => {
     try {
       await addUser(request);
@@ -83,84 +83,79 @@ export default function MuiForm() {
   };
 
   useEffect(() => {
-    if (addUserSuccess) toast.success(messages.delete_success);
+    if (addUserSuccess) {
+      toast.success(messages.add_success);
+      onClose();
+    }
   }, [addUserSuccess]);
 
   return (
     <form onSubmit={handleSubmit(handleAddUser)}>
       <Stack spacing={2} margin={2}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "15px",
-            marginBottom: "15px",
-          }}
-        >
-          <TextField
-            label="Email"
-            type="email"
-            {...register("email", {
-              required: "email is required",
-              minLength: { value: 5, message: "min 5" },
-            })}
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
-          <TextField
-            label="Username"
-            type="text"
-            {...register("username", { required: "username is required" })}
-            error={!!errors.username}
-            helperText={errors.username?.message}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            {...register("password", { required: "password is required" })}
-            error={!!errors.password}
-            helperText={errors.password?.message}
-          />
-          <TextField
-            label="Fullname"
-            type="text"
-            {...register("fullname", { required: "fullname is required" })}
-            error={!!errors.fullname}
-            helperText={errors.fullname?.message}
-          />
-          <FormControl>
-            <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
-            <Select
-              labelId="demo-multiple-chip-label"
-              id="demo-multiple-chip"
-              {...register("roles", { required: "roles is required" })}
-              multiple
-              value={roleName}
-              onChange={handleChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-              renderValue={(selected) => (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-              MenuProps={MenuProps}
-            >
-              {roleSuccess
-                ? names?.map((name) => (
-                    <MenuItem
-                      key={name}
-                      value={name}
-                      style={getStyles(name, roleName, theme)}
-                    >
-                      {name}
-                    </MenuItem>
-                  ))
-                : null}
-            </Select>
-          </FormControl>
-        </Box>
+        <TextField
+          label="E-mail"
+          type="email"
+          {...register("email", {
+            required: "email is required",
+            minLength: { value: 5, message: "min 5" },
+          })}
+          error={!!errors.email}
+          helperText={errors.email?.message}
+        />
+        <TextField
+          label="Username"
+          type="text"
+          {...register("username", { required: "username is required" })}
+          error={!!errors.username}
+          helperText={errors.username?.message}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          {...register("password", { required: "password is required" })}
+          error={!!errors.password}
+          helperText={errors.password?.message}
+        />
+        <TextField
+          label="Fullname"
+          type="text"
+          {...register("fullname", { required: "fullname is required" })}
+          error={!!errors.fullname}
+          helperText={errors.fullname?.message}
+        />
+        <FormControl>
+          <InputLabel id="demo-multiple-chip-label">Role</InputLabel>
+          <Select
+            labelId="demo-multiple-chip-label"
+            id="demo-multiple-chip"
+            {...register("roles", { required: "roles is required" })}
+            multiple
+            value={roleName}
+            onChange={handleChange}
+            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+            renderValue={(selected) => (
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {selected.map((value) => (
+                  <Chip key={value} label={value} />
+                ))}
+              </Box>
+            )}
+            MenuProps={MenuProps}
+          >
+            {roleSuccess
+              ? names?.map((name) => (
+                  <MenuItem
+                    key={name}
+                    value={name}
+                    style={getStyles(name, roleName, theme)}
+                  >
+                    {name}
+                  </MenuItem>
+                ))
+              : null}
+          </Select>
+        </FormControl>
+
         <Button variant="contained" type="submit" disabled={isSubmitting}>
           Submit
         </Button>

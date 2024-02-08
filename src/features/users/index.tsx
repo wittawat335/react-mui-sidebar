@@ -57,7 +57,7 @@ const UserIndex = () => {
             </IconButton>
           </DialogTitle>
           <DialogContent>
-            <MuiForm />
+            <MuiForm onClose={handleCloseDialog}/>
           </DialogContent>
         </Dialog>
       </Container>
