@@ -20,13 +20,14 @@ import {
 } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserSchema, UserValidation } from "@/lib/validation/schema";
-import { useGetRoleNamesQuery, useGetRolesQuery } from "../roles/roleApi";
+import { useGetRolesQuery } from "../roles/roleApi";
 import { useAddUserMutation, useUpdateUserMutation } from "./userApi";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
 import { IUser } from "@/types/User";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/Check";
+import { SelectInputProps } from "@mui/material/Select/SelectInput";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -98,6 +99,7 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
   }, []);
 
   const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
+    alert("1");
     const {
       target: { value },
     } = event;

@@ -1,7 +1,7 @@
 import { MuiButton, TypographyCustom } from "@/components/shared";
 import { IProduct } from "@/types/Product";
-import { Avatar, Box, Paper, Rating } from "@mui/material";
-import { ChangeEvent, useState, MouseEvent, useEffect } from "react";
+import { Avatar, Box, ButtonGroup, Paper, Rating } from "@mui/material";
+import { MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import {
   useDeleteProductMutation,
@@ -18,7 +18,6 @@ type Props = {
 };
 
 const ProductList = ({ data, newUser }: Props) => {
-  const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct, { isSuccess: deleteSuccess }] =
     useDeleteProductMutation();
 
@@ -121,10 +120,13 @@ const ProductList = ({ data, newUser }: Props) => {
         customBodyRender: (id: string) => {
           return (
             <>
-              <MuiButton color="inherit">Edit</MuiButton>
-              <MuiButton onClick={() => handleDeleteProduct(id)} color="error">
-                Delete
-              </MuiButton>
+              <ButtonGroup variant="contained" aria-label="Basic button group">
+                <MuiButton color="info">view</MuiButton>
+                <MuiButton color="info">Edit</MuiButton>
+                <MuiButton color="info" onClick={() => handleDeleteProduct(id)}>
+                  Delete
+                </MuiButton>
+              </ButtonGroup>
             </>
           );
         },
@@ -133,7 +135,6 @@ const ProductList = ({ data, newUser }: Props) => {
   ];
 
   const options: MUIDataTableOptions | undefined = {
-    //filterType: "checkbox",
     selectableRows: "none",
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10, 25, 100],
@@ -142,14 +143,15 @@ const ProductList = ({ data, newUser }: Props) => {
   return (
     <>
       <Paper sx={{ p: 2 }}>
-        <Box display="flex">
+        <Box display="flex" m={1}>
           <Box sx={{ flexGrow: 1 }}>
-            <TypographyCustom variant="h6" gutterBottom component="div">
-              Product
-            </TypographyCustom>
+          
           </Box>
           <Box>
-            <MuiButton onClick={newUser}> Add New (+)</MuiButton>
+            <MuiButton variant="contained" color="success" onClick={newUser}>
+              {" "}
+              New Product (+)
+            </MuiButton>
           </Box>
         </Box>
         <MUIDataTable
