@@ -57,10 +57,20 @@ const UserList = ({ data, handleNewUser, handleUpdateUser }: Props) => {
       label: "Role",
       options: {
         customBodyRender: (value: string[]) =>
-          value.sort.map((item) => (
-            <p  className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
-              item === "User" ? "bg-green-600" : "bg-black"
-            }`}>
+          value.map((item) => (
+            <p
+              className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
+                item === "User"
+                  ? "bg-green-500"
+                  : item === "Employee"
+                  ? "bg-teal-600"
+                  : item === "Manager"
+                  ? "bg-cyan-600"
+                  : item === "Administrator"
+                  ? "bg-blue-700"
+                  : "bg-indigo-600"
+              }`}
+            >
               {item}
             </p>
           )),

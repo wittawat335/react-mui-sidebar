@@ -58,28 +58,13 @@ interface FormProps {
   onClose: () => void;
 }
 
-const names: string[] = [
-  "Humaira Sims",
-  "Santiago Solis",
-  "Dawid Floyd",
-  "Mateo Barlow",
-  "Samia Navarro",
-  "Kaden Fields",
-  "Genevieve Watkins",
-  "Mariah Hickman",
-  "Rocco Richardson",
-  "Harris Glenn",
-];
-
 export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
-  console.log(names);
-  console.log([dataToEdit?.roles]);
   const theme = useTheme();
   const { data: roles, isSuccess: roleSuccess } = useGetRolesQuery();
   const [addUser, { isSuccess: addUserSuccess }] = useAddUserMutation();
   const [updateUser, { isSuccess: updateSuccess }] = useUpdateUserMutation();
   const [selectedRoles, setSelectedRoles] = useState<string[] | undefined>(
-    isAction != "New" ? [] : []
+    isAction != "New" ? dataToEdit?.roles : []
   );
 
   const {

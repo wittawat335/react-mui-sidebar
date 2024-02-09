@@ -23,8 +23,6 @@ const UserIndex = () => {
     useGetUsersQuery();
   const navigate = useNavigate();
 
-  console.log(data);
-
   if (isError) {
     const { status, data }: any = error;
     console.log({ error });
