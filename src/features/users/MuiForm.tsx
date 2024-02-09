@@ -74,16 +74,20 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
   } = useForm<UserSchema>({
     resolver: zodResolver(UserValidation),
     defaultValues: {
+      id: dataToEdit?.id ? dataToEdit.id : "",
+      password: "12345",
       email: dataToEdit?.email ? dataToEdit.email : "",
       username: dataToEdit?.username ? dataToEdit.username : "",
       fullname: dataToEdit?.fullname ? dataToEdit.fullname : "",
+      phonenumber: dataToEdit?.phonenumber
+        ? dataToEdit?.phonenumber
+        : "093xxxxxxx",
     },
   });
 
   const submit = async (request: UserSchema) => {
     try {
-      await addUser(request);
-      //isAction == "Edit" ? await updateUser(request) : await addUser(request);
+      isAction == "New" ? await addUser(request) : await updateUser(request);
     } catch (error) {
       console.log({ error });
     }
@@ -107,12 +111,20 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
     }
   }, [addUserSuccess]);
 
+  useEffect(() => {
+    if (updateSuccess) {
+      toast.success(messages.update_success);
+      onClose();
+    }
+  }, [updateSuccess]);
+
   return (
     <form onSubmit={handleSubmit(submit)}>
       <Stack spacing={2} margin={2}>
         <TextField
           label="E-mail"
           type="email"
+          inputProps={{ readOnly: isAction == "View" ? true : false }}
           {...register("email", {
             required: "email is required",
             minLength: { value: 5, message: "min 5" },
@@ -123,6 +135,7 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
         <TextField
           label="Username"
           type="text"
+          inputProps={{ readOnly: isAction == "View" ? true : false }}
           {...register("username", { required: "username is required" })}
           error={!!errors.username}
           helperText={errors.username?.message}
@@ -130,14 +143,22 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
         <TextField
           label="Password"
           type="password"
+          inputProps={{ readOnly: isAction == "View" ? true : false }}
           {...register("password", { required: "password is required" })}
           error={!!errors.password}
           helperText={errors.password?.message}
+        />
+        <TextField
+          label="PhoneNumber"
+          type="text"
+          inputProps={{ readOnly: isAction == "View" ? true : false }}
+          {...register("phonenumber")}
         />
 
         <TextField
           label="Fullname"
           type="text"
+          inputProps={{ readOnly: isAction == "View" ? true : false }}
           {...register("fullname", { required: "fullname is required" })}
           error={!!errors.fullname}
           helperText={errors.fullname?.message}
@@ -151,6 +172,7 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
             value={selectedRoles}
             onChange={handleChange}
             input={<OutlinedInput label="Chip" />}
+            inputProps={{ readOnly: isAction == "View" ? true : false }}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selected.map((value) => (
@@ -198,12 +220,14 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
             defaultValue={dataToEdit?.active ? dataToEdit.active : "1"}
           >
             <FormControlLabel
+              disabled={isAction == "View" ? true : false}
               value="1"
               control={<Radio />}
               label="Active"
               {...register("active")}
             />
             <FormControlLabel
+              disabled={isAction == "View" ? true : false}
               value="0"
               control={<Radio />}
               label="InActive"
@@ -212,9 +236,11 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
           </RadioGroup>
         </FormControl>
 
-        <Button variant="contained" type="submit" disabled={isSubmitting}>
-          Save
-        </Button>
+        {isAction != "View" ? (
+          <Button variant="contained" type="submit" disabled={isSubmitting}>
+            Save
+          </Button>
+        ) : null}
       </Stack>
     </form>
   );

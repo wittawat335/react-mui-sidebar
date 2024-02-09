@@ -3,7 +3,7 @@ import { Box, ButtonGroup, Paper } from "@mui/material";
 import { MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import { useDeleteUserMutation, useUpdateUserMutation } from "./userApi";
+import { useDeleteUserMutation } from "./userApi";
 import { IUser } from "@/types/User";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -13,10 +13,15 @@ type Props = {
   data: Array<IUser>;
   handleNewUser: (e: MouseEvent<HTMLButtonElement>) => void;
   handleUpdateUser: (id: string) => void;
+  handleViewUser: (id: string) => void;
 };
 
-const UserList = ({ data, handleNewUser, handleUpdateUser }: Props) => {
-  const [updateUser, { isSuccess: updateSuccess }] = useUpdateUserMutation();
+const UserList = ({
+  data,
+  handleNewUser,
+  handleUpdateUser,
+  handleViewUser,
+}: Props) => {
   const [deleteUser, { isSuccess: deleteSuccess }] = useDeleteUserMutation();
 
   const handleDelete = async (id: string) => {
@@ -45,10 +50,6 @@ const UserList = ({ data, handleNewUser, handleUpdateUser }: Props) => {
       label: "UserName",
     },
     {
-      name: "fullname",
-      label: "FullName",
-    },
-    {
       name: "email",
       label: "E-Mail",
     },
@@ -67,20 +68,13 @@ const UserList = ({ data, handleNewUser, handleUpdateUser }: Props) => {
                   : item === "Manager"
                   ? "bg-cyan-600"
                   : item === "Administrator"
-                  ? "bg-blue-700"
+                  ? "bg-sky-700"
                   : "bg-indigo-600"
               }`}
             >
               {item}
             </p>
           )),
-        // <p
-        //   className={
-        //     "capitalize px-3 py-1 inline-block rounded-full text-slate-50 bg-slate-950 "
-        //   }
-        // >
-        //   {value.map((item) => `"${item}"`).join(", ")}
-        // </p>
       },
     },
     {
@@ -106,7 +100,7 @@ const UserList = ({ data, handleNewUser, handleUpdateUser }: Props) => {
           return (
             <>
               <ButtonGroup variant="contained" aria-label="Basic button group">
-                <MuiButton color="inherit" onClick={() => handleUpdateUser(id)}>
+                <MuiButton color="inherit" onClick={() => handleViewUser(id)}>
                   view
                 </MuiButton>
                 <MuiButton color="info" onClick={() => handleUpdateUser(id)}>

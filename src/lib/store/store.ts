@@ -11,7 +11,6 @@ import { roleApi } from "@/features/roles/roleApi";
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    user: userReducer,
     [authApi.reducerPath]: authApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [userApi.reducerPath]: userApi.reducer,

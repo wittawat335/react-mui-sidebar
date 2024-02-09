@@ -17,9 +17,13 @@ export const ProductValidation = z.object({
 });
 
 export const UserValidation = z.object({
+  id: z.string(),
   username: z
     .string()
     .min(2, { message: "Name must be at least 2 characters." }),
+  phonenumber: z
+    .string()
+    .min(10, { message: "Name must be at least 10 characters." }),
   fullname: z
     .string()
     .min(2, { message: "Name must be at least 2 characters." }),

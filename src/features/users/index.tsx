@@ -70,6 +70,7 @@ const UserIndex = () => {
             data={data}
             handleNewUser={handleNewUser}
             handleUpdateUser={handleUpdateUser}
+            handleViewUser={handleViewUser}
           />
         ) : null}
         <Dialog
