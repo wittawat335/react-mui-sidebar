@@ -27,7 +27,6 @@ export const UserValidation = z.object({
   password: z
     .string()
     .min(5, { message: "Password must be at least 5 characters." }),
-
   roles: z.string().array(),
   active: z.string(),
 });

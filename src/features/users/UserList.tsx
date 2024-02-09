@@ -1,18 +1,13 @@
-import { MuiButton, TypographyCustom } from "@/components/shared";
-import { Box, Button, ButtonGroup, Paper } from "@mui/material";
+import { MuiButton } from "@/components/shared";
+import { Box, ButtonGroup, Paper } from "@mui/material";
 import { MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import {
-  useDeleteUserMutation,
-  useGetUserQuery,
-  useUpdateUserMutation,
-} from "./userApi";
+import { useDeleteUserMutation, useUpdateUserMutation } from "./userApi";
 import { IUser } from "@/types/User";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai"; //npm i react-icons
 
 type Props = {
   data: Array<IUser>;
@@ -60,6 +55,23 @@ const UserList = ({ data, handleNewUser, handleUpdateUser }: Props) => {
     {
       name: "roles",
       label: "Role",
+      options: {
+        customBodyRender: (value: string[]) =>
+          value.sort.map((item) => (
+            <p  className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
+              item === "User" ? "bg-green-600" : "bg-black"
+            }`}>
+              {item}
+            </p>
+          )),
+        // <p
+        //   className={
+        //     "capitalize px-3 py-1 inline-block rounded-full text-slate-50 bg-slate-950 "
+        //   }
+        // >
+        //   {value.map((item) => `"${item}"`).join(", ")}
+        // </p>
+      },
     },
     {
       name: "active",

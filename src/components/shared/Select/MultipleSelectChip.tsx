@@ -1,97 +1,79 @@
-import * as React from "react";
-import { Theme, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Chip from "@mui/material/Chip";
-import { FC } from "react";
+import { FC, useState } from "react";
+import {
+  Stack,
+  OutlinedInput,
+  InputLabel,
+  MenuItem,
+  Chip,
+  Select,
+  FormControl,
+} from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import CancelIcon from "@mui/icons-material/Cancel";
 
-type Props ={
-
-}
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
+const names: string[] = [
+  "Humaira Sims",
+  "Santiago Solis",
+  "Dawid Floyd",
+  "Mateo Barlow",
+  "Samia Navarro",
+  "Kaden Fields",
+  "Genevieve Watkins",
+  "Mariah Hickman",
+  "Rocco Richardson",
+  "Harris Glenn",
 ];
 
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
-const MultipleSelectChip: FC<Props> = (props) => {
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
-
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
-
+export default function MultipleSelectChip() {
   return (
     <>
-      <FormControl>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
-        <Select
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-          multiple
-          value={personName}
-          onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <MultiSelect />
     </>
   );
 }
 
-export default MultipleSelectChip;
+const MultiSelect: FC = () => {
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  return (
+    <FormControl sx={{ m: 1, width: 500 }}>
+      <InputLabel>Multiple Select</InputLabel>
+      <Select
+        multiple
+        value={selectedNames}
+        onChange={(e) => setSelectedNames(e.target.value as string[])}
+        input={<OutlinedInput label="Multiple Select" />}
+        renderValue={(selected) => (
+          <Stack gap={1} direction="row" flexWrap="wrap">
+            {selected.map((value) => (
+              <Chip
+                key={value}
+                label={value}
+                onDelete={() =>
+                  setSelectedNames(
+                    selectedNames.filter((item) => item !== value)
+                  )
+                }
+                deleteIcon={
+                  <CancelIcon
+                    onMouseDown={(event) => event.stopPropagation()}
+                  />
+                }
+              />
+            ))}
+          </Stack>
+        )}
+      >
+        {names.map((name) => (
+          <MenuItem
+            key={name}
+            value={name}
+            sx={{ justifyContent: "space-between" }}
+          >
+            {name}
+            {selectedNames.includes(name) ? <CheckIcon color="info" /> : null}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
