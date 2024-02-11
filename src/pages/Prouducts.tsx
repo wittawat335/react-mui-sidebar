@@ -1,11 +1,9 @@
-import AllProducts from "@/features/products/Index";
+import ProductIndex from "@/features/products/ProductIndex";
 
-type Props = {};
-
-const Products = (props: Props) => {
+const Products = () => {
   return (
     <div>
-      <AllProducts />
+      <ProductIndex />
     </div>
   );
 };

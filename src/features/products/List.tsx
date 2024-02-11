@@ -1,4 +1,4 @@
-import { MuiButton, TypographyCustom } from "@/components/shared";
+import { MuiButton } from "@/components/shared";
 import { IProduct } from "@/types/Product";
 import { Avatar, Box, ButtonGroup, Paper, Rating } from "@mui/material";
 import { MouseEvent, useEffect } from "react";
@@ -14,10 +14,10 @@ import { messages } from "@/config/messages";
 
 type Props = {
   data: Array<IProduct>;
-  newUser: (e: MouseEvent<HTMLButtonElement>) => void;
+  handleNewProduct: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
-const ProductList = ({ data, newUser }: Props) => {
+const ProductList = ({ data, handleNewProduct }: Props) => {
   const [deleteProduct, { isSuccess: deleteSuccess }] =
     useDeleteProductMutation();
 
@@ -102,13 +102,13 @@ const ProductList = ({ data, newUser }: Props) => {
       name: "active",
       label: "Active",
       options: {
-        customBodyRender: (value: boolean) => (
+        customBodyRender: (value: string) => (
           <p
             className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
-              value === true ? "bg-green-600" : "bg-rose-600"
+              value === "1" ? "bg-green-600" : "bg-rose-600"
             }`}
           >
-            {value === true ? <FaCheck /> : <FaXmark />}
+            {value === "1" ? <FaCheck /> : <FaXmark />}
           </p>
         ),
       },
@@ -120,10 +120,10 @@ const ProductList = ({ data, newUser }: Props) => {
         customBodyRender: (id: string) => {
           return (
             <>
-              <ButtonGroup variant="contained" aria-label="Basic button group">
-                <MuiButton color="info">view</MuiButton>
-                <MuiButton color="info">Edit</MuiButton>
-                <MuiButton color="info" onClick={() => handleDeleteProduct(id)}>
+              <ButtonGroup variant="outlined" aria-label="Basic button group">
+                <MuiButton>view</MuiButton>
+                <MuiButton>Edit</MuiButton>
+                <MuiButton onClick={() => handleDeleteProduct(id)}>
                   Delete
                 </MuiButton>
               </ButtonGroup>
@@ -144,13 +144,15 @@ const ProductList = ({ data, newUser }: Props) => {
     <>
       <Paper sx={{ p: 2 }}>
         <Box display="flex" m={1}>
-          <Box sx={{ flexGrow: 1 }}>
-          
-          </Box>
+          <Box sx={{ flexGrow: 1 }}></Box>
           <Box>
-            <MuiButton variant="contained" color="success" onClick={newUser}>
+            <MuiButton
+              variant="contained"
+              color="info"
+              onClick={handleNewProduct}
+            >
               {" "}
-              New Product (+)
+              New Product
             </MuiButton>
           </Box>
         </Box>

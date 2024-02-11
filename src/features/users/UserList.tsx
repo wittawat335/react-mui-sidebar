@@ -99,16 +99,9 @@ const UserList = ({
         customBodyRender: (id: string) => {
           return (
             <>
-              <ButtonGroup variant="contained" aria-label="Basic button group">
-                <MuiButton color="inherit" onClick={() => handleViewUser(id)}>
-                  view
-                </MuiButton>
-                <MuiButton color="info" onClick={() => handleUpdateUser(id)}>
-                  Edit
-                </MuiButton>
-                <MuiButton color="primary" onClick={() => handleDelete(id)}>
-                  Delete
-                </MuiButton>
+              <ButtonGroup variant="outlined" aria-label="Basic button group">
+                <MuiButton onClick={() => handleUpdateUser(id)}>Edit</MuiButton>
+                <MuiButton onClick={() => handleDelete(id)}>Delete</MuiButton>
               </ButtonGroup>
             </>
           );
@@ -122,9 +115,11 @@ const UserList = ({
     rowsPerPage: 5,
     rowsPerPageOptions: [5, 10, 25, 100],
   };
+
   useEffect(() => {
     if (deleteSuccess) toast.success(messages.delete_success);
   }, [deleteSuccess]);
+
   return (
     <>
       <Paper sx={{ p: 2 }}>
@@ -134,10 +129,10 @@ const UserList = ({
             <MuiButton
               onClick={handleNewUser}
               variant="contained"
-              color="success"
+              color="info"
             >
               {" "}
-              Add User (+)
+              Add User 
             </MuiButton>
           </Box>
         </Box>

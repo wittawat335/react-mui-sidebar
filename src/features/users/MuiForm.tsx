@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -25,9 +25,7 @@ import { useAddUserMutation, useUpdateUserMutation } from "./userApi";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
 import { IUser } from "@/types/User";
-import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/Check";
-import { SelectInputProps } from "@mui/material/Select/SelectInput";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -59,7 +57,7 @@ interface FormProps {
   onClose: () => void;
 }
 
-export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
+export default function UserForm({ onClose, dataToEdit, isAction }: FormProps) {
   const theme = useTheme();
   const { data: roles, isSuccess: roleSuccess } = useGetRolesQuery();
   const [addUser, { isSuccess: addUserSuccess }] = useAddUserMutation();
@@ -76,7 +74,7 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
     resolver: zodResolver(UserValidation),
     defaultValues: {
       id: dataToEdit?.id ? dataToEdit.id : "",
-      password: "12345",
+      password: "xxxxx",
       email: dataToEdit?.email ? dataToEdit.email : "",
       username: dataToEdit?.username ? dataToEdit.username : "",
       fullname: dataToEdit?.fullname ? dataToEdit.fullname : "",
@@ -94,12 +92,7 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
     }
   };
 
-  const onSubmit = useCallback((values: UserSchema) => {
-    window.alert(JSON.stringify(values, null, 4));
-  }, []);
-
   const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
-    alert("1");
     const {
       target: { value },
     } = event;
@@ -142,21 +135,22 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
           error={!!errors.username}
           helperText={errors.username?.message}
         />
-        <TextField
-          label="Password"
-          type="password"
-          inputProps={{ readOnly: isAction == "View" ? true : false }}
-          {...register("password", { required: "password is required" })}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-        />
+        {isAction === "New" ? (
+          <TextField
+            label="Password"
+            type="password"
+            {...register("password", { required: "password is required" })}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+          />
+        ) : null}
+
         <TextField
           label="PhoneNumber"
           type="text"
           inputProps={{ readOnly: isAction == "View" ? true : false }}
           {...register("phonenumber")}
         />
-
         <TextField
           label="Fullname"
           type="text"
@@ -178,20 +172,7 @@ export default function MuiForm({ onClose, dataToEdit, isAction }: FormProps) {
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selected.map((value) => (
-                  <Chip
-                    key={value}
-                    label={value}
-                    onDelete={() =>
-                      setSelectedRoles(
-                        selectedRoles?.filter((item) => item !== value)
-                      )
-                    }
-                    deleteIcon={
-                      <CancelIcon
-                        onMouseDown={(event) => event.stopPropagation()}
-                      />
-                    }
-                  />
+                  <Chip key={value} label={value} />
                 ))}
               </Box>
             )}

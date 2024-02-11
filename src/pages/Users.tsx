@@ -1,8 +1,6 @@
-import UserIndex from "@/features/users";
+import UserIndex from "@/features/users/UserIndex";
 
-type Props = {};
-
-const Users = (props: Props) => {
+const Users = () => {
   return (
     <div>
       <UserIndex />

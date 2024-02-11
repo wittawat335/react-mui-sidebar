@@ -3,23 +3,8 @@ import { RootState } from "@/lib/store/store";
 import { IProduct } from "@/types/Product";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-interface GetAllProductResponse {
-  payload: IProduct[];
-}
-
 interface GetProductByIdResponse {
   payload: IProduct;
-}
-
-interface AddNewProductRequest {
-  name: string;
-  price: number;
-}
-
-interface UpdateProductRequest {
-  id: string;
-  name?: string;
-  price?: number;
 }
 
 export const productsApi = createApi({
@@ -37,7 +22,7 @@ export const productsApi = createApi({
   }),
   tagTypes: ["products"],
   endpoints: (builder) => ({
-    getAllProduct: builder.query<GetAllProductResponse, void>({
+    getAllProduct: builder.query<IProduct[], void>({
       query: () => "/products",
       providesTags: [{ type: "products", id: "LIST" }],
     }),
@@ -46,7 +31,7 @@ export const productsApi = createApi({
       query: (id) => `/products/${id}`,
     }),
 
-    addProduct: builder.mutation<void, Partial<AddNewProductRequest>>({
+    addProduct: builder.mutation<void, IProduct>({
       query: (request) => ({
         url: `/products`,
         method: "POST",

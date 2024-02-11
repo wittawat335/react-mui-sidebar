@@ -1,3 +1,10 @@
+import { useGetUsersQuery } from "./userApi";
+import { useState } from "react";
+import { IUser } from "@/types/User";
+import { useNavigate } from "react-router-dom";
+import UserList from "./UserList";
+import Loader from "@/components/ui/Loader";
+import CancelIcon from '@mui/icons-material/Cancel';
 import {
   Container,
   Dialog,
@@ -5,28 +12,20 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
-import { useGetUsersQuery } from "./userApi";
-import { useState } from "react";
-import { IUser } from "@/types/User";
-import { useNavigate } from "react-router-dom";
-import UserList from "./UserList";
-import Loader from "@/components/ui/Loader";
-import MuiForm from "./MuiForm";
-import CloseIcon from "@mui/icons-material/Close";
+import UserForm from "./MuiForm";
 
 const UserIndex = () => {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("New User");
   const [openDialog, setOpenDialog] = useState(false);
-  const [isAction, setIsAction] = useState("");
+  const [isAction, setIsAction] = useState("New");
   const [dataToEdit, setDataToEdit] = useState<IUser | undefined>(undefined);
   const { data, isError, error, isFetching, isLoading, isSuccess } =
     useGetUsersQuery();
   const navigate = useNavigate();
 
   if (isError) {
-    const { status, data }: any = error;
     console.log({ error });
-    if (status == 401) navigate("/login");
+    navigate("/login");
   }
 
   if (isLoading || isFetching) {
@@ -73,6 +72,7 @@ const UserIndex = () => {
             handleViewUser={handleViewUser}
           />
         ) : null}
+        
         <Dialog
           open={openDialog}
           onClose={handleCloseDialog}
@@ -82,11 +82,11 @@ const UserIndex = () => {
           <DialogTitle>
             <span>{title}</span>
             <IconButton style={{ float: "right" }} onClick={handleCloseDialog}>
-              <CloseIcon color="primary"></CloseIcon>
+              <CancelIcon color="inherit" fontSize="large" />
             </IconButton>
           </DialogTitle>
           <DialogContent>
-            <MuiForm
+            <UserForm
               isAction={isAction}
               dataToEdit={dataToEdit}
               onClose={handleCloseDialog}
