@@ -35,6 +35,25 @@ export const UserValidation = z.object({
   active: z.string(),
 });
 
+export const EmployeeValidation = z.object({
+  id: z.string(),
+  firstName: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters." }),
+  lastName: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters." }),
+  phoneNumber: z
+    .string()
+    .min(10, { message: "Name must be at least 10 characters." }),
+  email: z.string().email(),
+  dateOfBirth: z.date(),
+  address: z.string(),
+  department: z.string(),
+  active: z.string(),
+});
+
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 export type productSchema = z.infer<typeof ProductValidation>;
 export type UserSchema = z.infer<typeof UserValidation>;
+export type EmployeeSchema = z.infer<typeof EmployeeValidation>;

@@ -4,10 +4,10 @@ import { ToastContainer } from "react-toastify";
 import { PrivateLayout } from "./layouts/PrivateLayout";
 import {
   Dashboard,
+  Employee,
   Error404,
   Home,
   Login,
-  Products,
   Register,
   Test,
   Unauthorized,
@@ -28,7 +28,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/employee" element={<Employee />} />
           <Route path="/test" element={<Test />} />
         </Route>
         {/* 404 & 401*/}

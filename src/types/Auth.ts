@@ -5,4 +5,5 @@ export interface IAuth {
   email: string;
   roles: string[];
   token: string;
+  refreshToken: string;
 }

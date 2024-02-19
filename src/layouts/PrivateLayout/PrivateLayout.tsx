@@ -2,7 +2,7 @@ import { HeaderBar, SideBar } from "@/layouts/PrivateLayout";
 import { Box, CssBaseline } from "@mui/material";
 import { Outlet, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setUser } from "@/features/auth/authSlice";
 import "../../styles/index.css";
 

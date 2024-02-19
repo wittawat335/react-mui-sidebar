@@ -7,6 +7,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { productsApi } from "@/features/products/prouductApi";
 import { userApi } from "@/features/users/userApi";
 import { roleApi } from "@/features/roles/roleApi";
+import { employeeApi } from "@/features/employees/employeeApi";
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     [productsApi.reducerPath]: productsApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [roleApi.reducerPath]: roleApi.reducer,
+    [employeeApi.reducerPath]: employeeApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
@@ -22,6 +24,7 @@ const store = configureStore({
       productsApi.middleware,
       userApi.middleware,
       roleApi.middleware,
+      employeeApi.middleware,
     ]),
 
   devTools: appConfig.environments == "Devlopment" ? true : false,

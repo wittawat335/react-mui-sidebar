@@ -1,8 +1,6 @@
-import { useGetUsersQuery } from "./userApi";
 import { useState } from "react";
 import { IUser } from "@/types/User";
 import { useNavigate } from "react-router-dom";
-import UserList from "./UserList";
 import Loader from "@/components/ui/Loader";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {
@@ -12,15 +10,20 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
-import UserForm from "./MuiForm";
+import { useGetEmployeesQuery } from "./employeeApi";
+import Employees from "./Employees";
+import EmployeeForm from "./DialogForm";
+import { IEmployee } from "@/types/Employee";
 
 const UserIndex = () => {
-  const [title, setTitle] = useState("New User");
+  const [title, setTitle] = useState("New");
   const [openDialog, setOpenDialog] = useState(false);
   const [isAction, setIsAction] = useState("New");
-  const [dataToEdit, setDataToEdit] = useState<IUser | undefined>(undefined);
+  const [dataToEdit, setDataToEdit] = useState<IEmployee | undefined>(
+    undefined
+  );
   const { data, isError, error, isFetching, isLoading, isSuccess } =
-    useGetUsersQuery();
+    useGetEmployeesQuery();
   const navigate = useNavigate();
 
   if (isError) {
@@ -32,22 +35,22 @@ const UserIndex = () => {
     return <Loader />;
   }
 
-  const handleNewUser = () => {
-    setTitle("New User");
+  const handleNew = () => {
+    setTitle("New");
     setIsAction("New");
     setDataToEdit(undefined);
     handleOpenDialog();
   };
 
-  const handleUpdateUser = (id: string) => {
-    setTitle("Update User");
+  const handleUpdate = (id: string) => {
+    setTitle("Update");
     setIsAction("Edit");
     setDataToEdit(data?.find((item) => item.id === id));
     handleOpenDialog();
   };
 
-  const handleViewUser = (id: string) => {
-    setTitle("View User");
+  const handleView = (id: string) => {
+    setTitle("View");
     setIsAction("View");
     setDataToEdit(data?.find((item) => item.id === id));
     handleOpenDialog();
@@ -65,15 +68,15 @@ const UserIndex = () => {
     <>
       <Container maxWidth={false} sx={{ p: 2 }}>
         {isSuccess ? (
-          <UserList
+          <Employees
             data={data}
-            handleNewUser={handleNewUser}
-            handleUpdateUser={handleUpdateUser}
-            handleViewUser={handleViewUser}
+            handleNew={handleNew}
+            handleUpdate={handleUpdate}
+            handleView={handleView}
           />
         ) : null}
 
-        <Dialog
+        {/* <Dialog
           open={openDialog}
           onClose={handleCloseDialog}
           fullWidth
@@ -86,13 +89,13 @@ const UserIndex = () => {
             </IconButton>
           </DialogTitle>
           <DialogContent>
-            <UserForm
+            <EmployeeForm
               isAction={isAction}
               dataToEdit={dataToEdit}
               onClose={handleCloseDialog}
             />
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </Container>
     </>
   );
