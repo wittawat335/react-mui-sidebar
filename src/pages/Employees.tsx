@@ -1,12 +1,7 @@
-import EmployeeIndex from "@/features/employees/EmployeeIndex";
-import React from "react";
+import { Index } from "@/features/employees";
 
 const Employees = () => {
-  return (
-    <div>
-      <EmployeeIndex />
-    </div>
-  );
+  return <Index />;
 };
 
 export default Employees;

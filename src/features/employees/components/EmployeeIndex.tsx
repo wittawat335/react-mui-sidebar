@@ -10,7 +10,7 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
-import { useGetEmployeesQuery } from "./employeeApi";
+import { useGetEmployeesQuery } from "../services/employeeApi";
 import Employees from "./Employees";
 import EmployeeForm from "./DialogForm";
 import { IEmployee } from "@/types/Employee";
@@ -24,6 +24,7 @@ const UserIndex = () => {
   );
   const { data, isError, error, isFetching, isLoading, isSuccess } =
     useGetEmployeesQuery();
+  console.log(data);
   const navigate = useNavigate();
 
   if (isError) {

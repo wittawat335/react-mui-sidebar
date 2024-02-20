@@ -1,11 +1,11 @@
 import { IEmployee } from "@/types/Employee";
 import { MouseEvent, useEffect } from "react";
-import { useDeleteEmployeeMutation } from "./employeeApi";
+import { useDeleteEmployeeMutation } from "../services/employeeApi";
 import Swal from "sweetalert2";
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import { ButtonGroup } from "@mui/material";
+import { Box, ButtonGroup, Paper } from "@mui/material";
 import { MuiButton } from "@/components/shared";
-import { MUIDataTableOptions } from "mui-datatables";
+import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
 
@@ -42,35 +42,38 @@ const Employees = ({ data, handleNew, handleUpdate, handleView }: Props) => {
 
   const columns = [
     {
-      name: "username",
-      label: "UserName",
+      name: "fullName",
+      label: "FullName",
+    },
+    {
+      name: "phoneNumber",
+      label: "PhoneNumber",
     },
     {
       name: "email",
       label: "E-Mail",
     },
     {
-      name: "roles",
-      label: "Role",
+      name: "department",
+      label: "Department",
       options: {
-        customBodyRender: (value: string[]) =>
-          value.map((item) => (
-            <p
-              className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
-                item === "User"
-                  ? "bg-green-500"
-                  : item === "Employee"
-                  ? "bg-teal-600"
-                  : item === "Manager"
-                  ? "bg-cyan-600"
-                  : item === "Administrator"
-                  ? "bg-sky-700"
-                  : "bg-indigo-600"
-              }`}
-            >
-              {item}
-            </p>
-          )),
+        customBodyRender: (value: string) => (
+          <p
+            className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
+              value === "User"
+                ? "bg-green-500"
+                : value === "Employee"
+                ? "bg-teal-600"
+                : value === "Manager"
+                ? "bg-cyan-600"
+                : value === "Administrator"
+                ? "bg-sky-700"
+                : "bg-indigo-600"
+            }`}
+          >
+            {value}
+          </p>
+        ),
       },
     },
     {
@@ -116,7 +119,27 @@ const Employees = ({ data, handleNew, handleUpdate, handleView }: Props) => {
     if (deleteSuccess) toast.success(messages.delete_success);
   }, [deleteSuccess]);
 
-  return <div>Employees</div>;
+  return (
+    <>
+      <Paper sx={{ p: 2 }}>
+        <Box display="flex" m={1}>
+          <Box sx={{ flexGrow: 1 }}></Box>
+          <Box>
+            <MuiButton onClick={handleNew} variant="contained" color="info">
+              {" "}
+              Add User
+            </MuiButton>
+          </Box>
+        </Box>
+        <MUIDataTable
+          title={"List"}
+          data={data}
+          columns={columns}
+          options={options}
+        />
+      </Paper>
+    </>
+  );
 };
 
 export default Employees;

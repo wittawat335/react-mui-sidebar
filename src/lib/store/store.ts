@@ -1,5 +1,4 @@
 import authReducer from "../../features/auth/authSlice";
-import userReducer from "../../features/users/userSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { appConfig } from "@/config/appConfig";
 import { authApi } from "@/features/auth/authApi";
@@ -7,7 +6,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { productsApi } from "@/features/products/prouductApi";
 import { userApi } from "@/features/users/userApi";
 import { roleApi } from "@/features/roles/roleApi";
-import { employeeApi } from "@/features/employees/employeeApi";
+import { employeeApi } from "@/features/employees/services/employeeApi";
 
 const store = configureStore({
   reducer: {

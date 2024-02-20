@@ -25,7 +25,7 @@ import { IEmployee } from "@/types/Employee";
 import {
   useAddEmployeeMutation,
   useUpdateEmployeeMutation,
-} from "./employeeApi";
+} from "../services/employeeApi";
 import { EmployeeSchema, EmployeeValidation } from "@/lib/validation/schema";
 
 const ITEM_HEIGHT = 48;
