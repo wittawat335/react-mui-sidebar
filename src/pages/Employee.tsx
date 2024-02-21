@@ -1,7 +1,7 @@
 import { Index } from "@/features/employees";
 
-const Employees = () => {
+const Employee = () => {
   return <Index />;
 };
 
-export default Employees;
+export default Employee;

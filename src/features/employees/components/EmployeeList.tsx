@@ -3,11 +3,14 @@ import { MouseEvent, useEffect } from "react";
 import { useDeleteEmployeeMutation } from "../services/employeeApi";
 import Swal from "sweetalert2";
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import { Box, ButtonGroup, Paper } from "@mui/material";
+import { Box, ButtonGroup, IconButton, Paper } from "@mui/material";
 import { MuiButton } from "@/components/shared";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 type Props = {
   data: Array<IEmployee>;
@@ -16,7 +19,7 @@ type Props = {
   handleView: (id: string) => void;
 };
 
-const Employees = ({ data, handleNew, handleUpdate, handleView }: Props) => {
+const EmployeeList = ({ data, handleNew, handleUpdate, handleView }: Props) => {
   const [deleteEmployee, { isSuccess: deleteSuccess }] =
     useDeleteEmployeeMutation();
 
@@ -43,11 +46,11 @@ const Employees = ({ data, handleNew, handleUpdate, handleView }: Props) => {
   const columns = [
     {
       name: "fullName",
-      label: "FullName",
+      label: "Full Name",
     },
     {
       name: "phoneNumber",
-      label: "PhoneNumber",
+      label: "Phone Number",
     },
     {
       name: "email",
@@ -99,8 +102,29 @@ const Employees = ({ data, handleNew, handleUpdate, handleView }: Props) => {
           return (
             <>
               <ButtonGroup variant="outlined" aria-label="Basic button group">
-                <MuiButton onClick={() => handleUpdate(id)}>Edit</MuiButton>
-                <MuiButton onClick={() => handleDelete(id)}>Delete</MuiButton>
+                <IconButton
+                  aria-label="view"
+                  color="secondary"
+                  onClick={() => handleView(id)}
+                >
+                  <VisibilityOutlinedIcon />
+                </IconButton>
+
+                <IconButton
+                  aria-label="edit"
+                  color="warning"
+                  onClick={() => handleUpdate(id)}
+                >
+                  <EditOutlinedIcon />
+                </IconButton>
+
+                <IconButton
+                  aria-label="delete"
+                  color="error"
+                  onClick={() => handleDelete(id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
               </ButtonGroup>
             </>
           );
@@ -127,7 +151,7 @@ const Employees = ({ data, handleNew, handleUpdate, handleView }: Props) => {
           <Box>
             <MuiButton onClick={handleNew} variant="contained" color="info">
               {" "}
-              Add User
+              New Employee
             </MuiButton>
           </Box>
         </Box>
@@ -142,4 +166,4 @@ const Employees = ({ data, handleNew, handleUpdate, handleView }: Props) => {
   );
 };
 
-export default Employees;
+export default EmployeeList;

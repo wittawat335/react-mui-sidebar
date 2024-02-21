@@ -1,10 +1,10 @@
 import {
-  Breakpoint,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
   Typography,
+  makeStyles,
 } from "@mui/material";
 import { FC } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -13,12 +13,11 @@ type DialogProps = {
   title: string;
   children: React.ReactNode;
   openPopup: boolean;
-  maxWidth: Breakpoint | false;
   setOpenPopup: (open: boolean) => void;
 };
 
-const DialogCustom: FC<DialogProps> = (props) => {
-  const { title, children, openPopup, maxWidth, setOpenPopup } = props;
+const DialogSmall: FC<DialogProps> = (props) => {
+  const { title, children, openPopup, setOpenPopup } = props;
   return (
     <Dialog
       open={openPopup}
@@ -26,7 +25,7 @@ const DialogCustom: FC<DialogProps> = (props) => {
         setOpenPopup(false);
       }}
       fullWidth
-      maxWidth={maxWidth}
+      maxWidth="sm"
     >
       <DialogTitle>
         <div style={{ display: "flex" }}>
@@ -48,4 +47,4 @@ const DialogCustom: FC<DialogProps> = (props) => {
   );
 };
 
-export default DialogCustom;
+export default DialogSmall;

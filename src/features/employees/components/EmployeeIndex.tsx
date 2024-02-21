@@ -1,22 +1,16 @@
 import { useState } from "react";
-import { IUser } from "@/types/User";
 import { useNavigate } from "react-router-dom";
-import Loader from "@/components/ui/Loader";
-import CancelIcon from "@mui/icons-material/Cancel";
-import {
-  Container,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from "@mui/material";
+import { Breakpoint, Container } from "@mui/material";
 import { useGetEmployeesQuery } from "../services/employeeApi";
-import Employees from "./Employees";
-import EmployeeForm from "./DialogForm";
 import { IEmployee } from "@/types/Employee";
+import EmployeeList from "./EmployeeList";
+import EmployeeForm from "./EmployeeForm";
+import Loader from "@/components/ui/Loader";
+import DialogMedium from "@/components/shared/Dialog";
 
-const UserIndex = () => {
+const Employee = () => {
   const [title, setTitle] = useState("New");
+  const [maxWidth, setMaxWidth] = useState<Breakpoint | false>("sm");
   const [openDialog, setOpenDialog] = useState(false);
   const [isAction, setIsAction] = useState("New");
   const [dataToEdit, setDataToEdit] = useState<IEmployee | undefined>(
@@ -39,6 +33,7 @@ const UserIndex = () => {
   const handleNew = () => {
     setTitle("New");
     setIsAction("New");
+    setMaxWidth("md");
     setDataToEdit(undefined);
     handleOpenDialog();
   };
@@ -69,7 +64,7 @@ const UserIndex = () => {
     <>
       <Container maxWidth={false} sx={{ p: 2 }}>
         {isSuccess ? (
-          <Employees
+          <EmployeeList
             data={data}
             handleNew={handleNew}
             handleUpdate={handleUpdate}
@@ -77,29 +72,21 @@ const UserIndex = () => {
           />
         ) : null}
 
-        {/* <Dialog
-          open={openDialog}
-          onClose={handleCloseDialog}
-          fullWidth
-          maxWidth="sm"
+        <DialogMedium
+          title={title}
+          openPopup={openDialog}
+          maxWidth={maxWidth}
+          setOpenPopup={setOpenDialog}
         >
-          <DialogTitle>
-            <span>{title}</span>
-            <IconButton style={{ float: "right" }} onClick={handleCloseDialog}>
-              <CancelIcon color="inherit" fontSize="large" />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <EmployeeForm
-              isAction={isAction}
-              dataToEdit={dataToEdit}
-              onClose={handleCloseDialog}
-            />
-          </DialogContent>
-        </Dialog> */}
+          <EmployeeForm
+            isAction={isAction}
+            dataToEdit={dataToEdit}
+            onClose={handleCloseDialog}
+          />
+        </DialogMedium>
       </Container>
     </>
   );
 };
 
-export default UserIndex;
+export default Employee;
