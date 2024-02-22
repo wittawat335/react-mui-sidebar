@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   FormControl,
   FormControlLabel,
@@ -6,7 +5,6 @@ import {
   Radio,
   RadioGroup
 } from "@mui/material";
-import { useState } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 
 interface IOptionTypes {
@@ -21,7 +19,7 @@ interface IFormElementTypes {
   options: IOptionTypes[];
 }
 
-export default function MuiRadioGroup({
+export default function FormInputRadio({
   name,
   options
 }: IFormElementTypes) {

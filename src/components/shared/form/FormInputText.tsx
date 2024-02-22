@@ -10,7 +10,6 @@ interface FormInputProps {
 const FormInputText = ({ name, label, isAction }: FormInputProps) => {
   const {
     control,
-    register,
     formState: { errors },
   } = useFormContext();
   return (
@@ -32,7 +31,6 @@ const FormInputText = ({ name, label, isAction }: FormInputProps) => {
           fullWidth
           label={label}
           variant="outlined"
-          //{...register(name)}
         />
       )}
     />

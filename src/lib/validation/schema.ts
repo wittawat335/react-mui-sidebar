@@ -49,7 +49,7 @@ export const EmployeeValidation = z.object({
   email: z.string().email(),
   //dateOfBirth: z.date(),
   // address: z.string(),
-  // department: z.string(),
+  department: z.string(),
   active: z.string(),
 });
 

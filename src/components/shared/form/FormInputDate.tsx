@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import React from "react";
 import { TextField } from "@mui/material";
 import { useFormContext, Controller } from "react-hook-form";
@@ -14,7 +13,7 @@ interface IFormElementTypes {
   defaultValue?: string;
 }
 
-export default function DateFieldElement({
+export default function FormInputDate({
   name,
   label,
   defaultValue,

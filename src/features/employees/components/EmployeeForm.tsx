@@ -1,28 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
 import { IEmployee } from "@/types/Employee";
-import {
-  EmployeeSchema,
-  EmployeeValidation,
-  TSignUpSchema,
-  signUpSchema,
-} from "@/lib/validation/schema";
+import { EmployeeSchema, EmployeeValidation } from "@/lib/validation/schema";
 import {
   useAddEmployeeMutation,
   useUpdateEmployeeMutation,
 } from "../services/employeeApi";
-import { Box, Button, Grid, Stack, TextField } from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
 import {
-  DateFieldElement,
-  MuiRadioGroup,
-  MuiSelect,
-} from "@/components/shared";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Dayjs } from "dayjs";
-import { FormInputText } from "@/components/shared/form";
+  FormInputRadio,
+  FormInputText,
+  FormInputDate,
+  FormInputDropdown,
+} from "@/components/shared/form";
 
 interface FormProps {
   isAction: string;
@@ -31,9 +24,9 @@ interface FormProps {
 }
 
 const Items = [
-  { id: "male", name: "Male" },
-  { id: "female", name: "Female" },
-  { id: "other", name: "Other" },
+  { label: "IT", value: "IT" },
+  { label: "female", value: "Female" },
+  { label: "other", value: "Other" },
 ];
 
 const genderItems = [
@@ -42,7 +35,6 @@ const genderItems = [
 ];
 
 const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
-  const [dateValue, setDateValue] = useState<Dayjs | null>(null);
   const [addEmployee, { isSuccess: addSuccess }] = useAddEmployeeMutation();
   const [updateEmployee, { isSuccess: updateSuccess }] =
     useUpdateEmployeeMutation();
@@ -52,6 +44,8 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
       firstName: dataToEdit?.firstName ? dataToEdit?.firstName : "test@",
       lastName: dataToEdit?.lastName ? dataToEdit?.lastName : "test",
       email: dataToEdit?.email ? dataToEdit?.email : "test@example.com",
+      phoneNumber: dataToEdit?.phoneNumber ? dataToEdit?.phoneNumber : "",
+      department: dataToEdit?.department ? dataToEdit?.department : "",
       // dateOfBirth: dataToEdit?.dateOfBirth
       //   ? dataToEdit?.dateOfBirth
       //   : new Date(),
@@ -88,7 +82,7 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
       <form onSubmit={handleSubmit(isOnSubmit)}>
         <Grid container>
           {" "}
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Stack spacing={2} margin={2}>
               <FormInputText
                 name={"firstName"}
@@ -105,27 +99,33 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
                 label={"E-mail"}
                 isAction={isAction}
               />
+              <FormInputText
+                name={"phoneNumber"}
+                label={"Phone Number"}
+                isAction={isAction}
+              />
             </Stack>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Stack spacing={2} margin={2}>
-              {/* <DateFieldElement name="dateOfBirth" label="DateOfBirth" /> */}
-              {/* Active */}
-              <MuiRadioGroup name="active" options={genderItems} />
+              <FormInputDropdown
+                name="department"
+                label="Department"
+                isAction={isAction}
+                options={Items}
+              />
+              <FormInputDate name="dateOfBirth" label="DateOfBirth" />
+              <FormInputRadio name="active" options={genderItems} />
+              {isAction != "View" ? (
+                <Button
+                  variant="contained"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Save
+                </Button>
+              ) : null}
             </Stack>
-            <Grid container my={2}>
-              <Grid item>
-                {isAction != "View" ? (
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    disabled={isSubmitting}
-                  >
-                    Save
-                  </Button>
-                ) : null}
-              </Grid>
-            </Grid>
           </Grid>
         </Grid>
       </form>
