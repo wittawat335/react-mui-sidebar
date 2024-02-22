@@ -36,20 +36,20 @@ export const UserValidation = z.object({
 });
 
 export const EmployeeValidation = z.object({
-  id: z.string(),
+  //id: z.string().nullable(),
   firstName: z
     .string()
-    .min(2, { message: "Name must be at least 2 characters." }),
+    .min(2, { message: "First Name must be at least 2 characters." }),
   lastName: z
     .string()
-    .min(2, { message: "Name must be at least 2 characters." }),
+    .min(2, { message: "Last Name must be at least 2 characters." }),
   phoneNumber: z
     .string()
-    .min(10, { message: "Name must be at least 10 characters." }),
+    .min(10, { message: "Phone Number must be at least 10 characters." }),
   email: z.string().email(),
-  dateOfBirth: z.date(),
-  address: z.string(),
-  department: z.string(),
+  //dateOfBirth: z.date(),
+  // address: z.string(),
+  // department: z.string(),
   active: z.string(),
 });
 

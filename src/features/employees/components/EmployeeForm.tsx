@@ -1,22 +1,28 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useCallback, useEffect, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
 import { IEmployee } from "@/types/Employee";
-import { EmployeeSchema, EmployeeValidation } from "@/lib/validation/schema";
+import {
+  EmployeeSchema,
+  EmployeeValidation,
+  TSignUpSchema,
+  signUpSchema,
+} from "@/lib/validation/schema";
 import {
   useAddEmployeeMutation,
   useUpdateEmployeeMutation,
 } from "../services/employeeApi";
-import { Button, Grid, Stack, TextField } from "@mui/material";
-import InputBox from "@/components/shared/InputBox/InputBox";
-import { MuiRadioGroup, MuiSelect } from "@/components/shared";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Box, Button, Grid, Stack, TextField } from "@mui/material";
+import {
+  DateFieldElement,
+  MuiRadioGroup,
+  MuiSelect,
+} from "@/components/shared";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Dayjs } from "dayjs";
+import { FormInputText } from "@/components/shared/form";
 
 interface FormProps {
   isAction: string;
@@ -24,43 +30,44 @@ interface FormProps {
   onClose: () => void;
 }
 
+const Items = [
+  { id: "male", name: "Male" },
+  { id: "female", name: "Female" },
+  { id: "other", name: "Other" },
+];
+
+const genderItems = [
+  { id: "1", label: "Active", value: "1" },
+  { id: "2", label: "InActive", value: "0" },
+];
+
 const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
   const [dateValue, setDateValue] = useState<Dayjs | null>(null);
-  console.log(dateValue);
   const [addEmployee, { isSuccess: addSuccess }] = useAddEmployeeMutation();
   const [updateEmployee, { isSuccess: updateSuccess }] =
     useUpdateEmployeeMutation();
-
-  const Items = [
-    { id: "male", name: "Male" },
-    { id: "female", name: "Female" },
-    { id: "other", name: "Other" },
-  ];
-
-  const genderItems = [
-    { id: "1", title: "Active" },
-    { id: "2", title: "InActive" },
-  ];
-
+  const methods = useForm<EmployeeSchema>({
+    resolver: zodResolver(EmployeeValidation),
+    defaultValues: {
+      firstName: dataToEdit?.firstName ? dataToEdit?.firstName : "test@",
+      lastName: dataToEdit?.lastName ? dataToEdit?.lastName : "test",
+      email: dataToEdit?.email ? dataToEdit?.email : "test@example.com",
+      // dateOfBirth: dataToEdit?.dateOfBirth
+      //   ? dataToEdit?.dateOfBirth
+      //   : new Date(),
+      active: dataToEdit?.active ? dataToEdit?.active : "0",
+    },
+    mode: "onChange",
+  });
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<EmployeeSchema>({
-    resolver: zodResolver(EmployeeValidation),
-    defaultValues: {},
-  });
+  } = methods;
 
-  const submit = async (request: EmployeeSchema) => {
-    try {
-      //await addEmployee(request);
-      //   isAction == "New"
-      //     ? await addEmployee(request)
-      //     : await updateEmployee(request);
-    } catch (error) {
-      console.log({ error });
-    }
-  };
+  const isOnSubmit = useCallback((values: EmployeeSchema) => {
+    window.alert(JSON.stringify(values, null, 4));
+  }, []);
 
   useEffect(() => {
     if (addSuccess) {
@@ -77,102 +84,52 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
   }, [updateSuccess]);
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
-      <Grid container>
-        {" "}
-        <Grid item xs={6}>
-          <Stack spacing={2} margin={2}>
-            <TextField
-              label="First Name"
-              type="text"
-              inputProps={{ readOnly: isAction == "View" ? true : false }}
-              {...register("firstName", {
-                required: "firstName is required",
-                minLength: { value: 5, message: "min 5" },
-              })}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-            <TextField
-              label="Last Name"
-              type="text"
-              inputProps={{ readOnly: isAction == "View" ? true : false }}
-              {...register("lastName", {
-                required: "lastName is required",
-                minLength: { value: 5, message: "min 5" },
-              })}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-            <TextField
-              label="E-mail"
-              type="email"
-              inputProps={{ readOnly: isAction == "View" ? true : false }}
-              {...register("email", {
-                required: "email is required",
-                minLength: { value: 5, message: "min 5" },
-              })}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-
-            <TextField
-              label="Phone Number"
-              type="text"
-              inputProps={{ readOnly: isAction == "View" ? true : false }}
-              {...register("phoneNumber")}
-            />
-
-            <TextField
-              label="Create By"
-              type="text"
-              inputProps={{ readOnly: isAction == "View" ? true : false }}
-              {...register("phoneNumber")}
-            />
-          </Stack>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(isOnSubmit)}>
+        <Grid container>
+          {" "}
+          <Grid item xs={6}>
+            <Stack spacing={2} margin={2}>
+              <FormInputText
+                name={"firstName"}
+                label={"First Name"}
+                isAction={isAction}
+              />
+              <FormInputText
+                name={"lastName"}
+                label={"Last Name"}
+                isAction={isAction}
+              />
+              <FormInputText
+                name={"email"}
+                label={"E-mail"}
+                isAction={isAction}
+              />
+            </Stack>
+          </Grid>
+          <Grid item xs={6}>
+            <Stack spacing={2} margin={2}>
+              {/* <DateFieldElement name="dateOfBirth" label="DateOfBirth" /> */}
+              {/* Active */}
+              <MuiRadioGroup name="active" options={genderItems} />
+            </Stack>
+            <Grid container my={2}>
+              <Grid item>
+                {isAction != "View" ? (
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    Save
+                  </Button>
+                ) : null}
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Stack spacing={2} margin={2}>
-            <DatePicker
-              label="Hire Date"
-              value={dateValue}
-              onChange={(newDate) => {
-                setDateValue(newDate);
-              }}
-            />
-            <DatePicker label="Start Working" />
-
-            <DatePicker label="End Working" />
-
-            <MuiSelect
-              label="Department"
-              options={Items}
-              {...register("department")}
-            />
-            <MuiSelect
-              label="Department"
-              options={Items}
-              {...register("department")}
-            />
-           
-
-            {/* Active */}
-            <MuiRadioGroup
-              label=""
-              defaultValue="1"
-              name="Active"
-              items={genderItems}
-            />
-
-            {isAction != "View" ? (
-              <Button variant="contained" type="submit" disabled={isSubmitting}>
-                Save
-              </Button>
-            ) : null}
-          </Stack>
-        </Grid>
-      </Grid>
-    </form>
+      </form>
+    </FormProvider>
   );
 };
 export default EmployeeForm;

@@ -18,7 +18,6 @@ const Employee = () => {
   );
   const { data, isError, error, isFetching, isLoading, isSuccess } =
     useGetEmployeesQuery();
-  console.log(data);
   const navigate = useNavigate();
 
   if (isError) {

@@ -3,7 +3,8 @@ import MuiLoadingButton from "./LoadingButton";
 import TypographyCustom from "./Typography";
 import DialogCustom from "./Dialog";
 import MultipleSelectChip, { MuiSelect } from "./Select";
-import MuiRadioGroup from "./RadioGroup";
+import MuiRadioGroup from "./form/RadioGroup";
+import DateFieldElement from "./form/DatePicker";
 
 export {
   MuiButton,
@@ -13,4 +14,5 @@ export {
   MultipleSelectChip,
   MuiSelect,
   MuiRadioGroup,
+  DateFieldElement
 };

@@ -26,9 +26,7 @@ const PrivateLayout = () => {
           <HeaderBar />
           <div className="content_body">
             <Box m="20px">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Outlet />
-              </LocalizationProvider>
+              <Outlet />
             </Box>
           </div>
         </main>

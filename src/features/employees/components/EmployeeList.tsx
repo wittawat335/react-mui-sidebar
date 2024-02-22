@@ -86,10 +86,10 @@ const EmployeeList = ({ data, handleNew, handleUpdate, handleView }: Props) => {
         customBodyRender: (value: string) => (
           <p
             className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
-              value === "1" ? "bg-green-600" : "bg-rose-600"
+              value ? "bg-green-600" : "bg-rose-600"
             }`}
           >
-            {value === "1" ? <FaCheck /> : <FaXmark />}
+            {value ? <FaCheck /> : <FaXmark />}
           </p>
         ),
       },
