@@ -30,7 +30,7 @@ const Employee = () => {
   }
 
   const handleNew = () => {
-    setTitle("New");
+    setTitle("New Employee");
     setIsAction("New");
     setMaxWidth("md");
     setDataToEdit(undefined);
@@ -38,14 +38,14 @@ const Employee = () => {
   };
 
   const handleUpdate = (id: string) => {
-    setTitle("Update");
+    setTitle("Update Employee");
     setIsAction("Edit");
     setDataToEdit(data?.find((item) => item.id === id));
     handleOpenDialog();
   };
 
   const handleView = (id: string) => {
-    setTitle("View");
+    setTitle("View Employee");
     setIsAction("View");
     setDataToEdit(data?.find((item) => item.id === id));
     handleOpenDialog();

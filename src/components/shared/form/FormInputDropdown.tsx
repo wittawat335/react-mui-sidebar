@@ -1,11 +1,11 @@
 import {
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
-  FormHelperText,
 } from "@mui/material";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 interface Option {
   label: string;
@@ -15,6 +15,7 @@ interface Option {
 interface FormInputProps {
   name: string;
   label: string;
+  control: any;
   isAction: string;
   options: Option[];
 }
@@ -22,13 +23,10 @@ interface FormInputProps {
 const FormInputDropdown = ({
   name,
   label,
+  control,
   isAction,
   options,
 }: FormInputProps) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
   const generateSingleOptions = () => {
     return options.map((option: any) => {
       return (
@@ -55,7 +53,6 @@ const FormInputDropdown = ({
         control={control}
         name={name}
       />
-      {/* {error && <FormHelperText>{error}</FormHelperText>} */}
     </FormControl>
   );
 };

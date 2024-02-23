@@ -1,29 +1,21 @@
-import { Control, Controller, useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 
 interface FormInputProps {
   name: string;
   label: string;
+  control: any;
   isAction: string;
 }
 
-const FormInputText = ({ name, label, isAction }: FormInputProps) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
+const FormInputText = ({ name, control, label, isAction }: FormInputProps) => {
   return (
     <Controller
       name={name}
       control={control}
-      render={({
-        field: { onChange, value },
-        fieldState: { error },
-        formState,
-      }) => (
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
           helperText={error ? error.message : null}
-          //size="small"
           inputProps={{ readOnly: isAction == "View" ? true : false }}
           error={!!error}
           onChange={onChange}

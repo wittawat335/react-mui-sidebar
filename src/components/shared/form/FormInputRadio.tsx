@@ -2,8 +2,9 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
+  FormLabel,
   Radio,
-  RadioGroup
+  RadioGroup,
 } from "@mui/material";
 import { useFormContext, Controller } from "react-hook-form";
 
@@ -15,35 +16,26 @@ interface IOptionTypes {
 }
 
 interface IFormElementTypes {
+  label: string;
   name: string;
+  control: any;
   options: IOptionTypes[];
 }
 
 export default function FormInputRadio({
+  label,
   name,
-  options
+  control,
+  options,
 }: IFormElementTypes) {
-  const {
-    control,
-    register,
-    formState: { errors }
-  } = useFormContext();
-
-  /* const [theValue, setTheValue] = useState(control._defaultValues[name]);
-
-  const handleChange = (event) => {
-    console.log(event.target.value);
-
-    setTheValue(event.target.value);
-  }; */
-
   return (
     <Controller
       name={name}
-      defaultValue=""
+      //defaultValue=""
       control={control}
       render={({ field }) => (
         <FormControl fullWidth>
+          <FormLabel component="legend">{label}</FormLabel>
           <RadioGroup
             {...field}
             row
@@ -59,7 +51,6 @@ export default function FormInputRadio({
               />
             ))}
           </RadioGroup>
-          <FormHelperText>{String(errors[name]?.message ?? "")}</FormHelperText>
         </FormControl>
       )}
     />

@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
@@ -16,6 +16,8 @@ import {
   FormInputDate,
   FormInputDropdown,
 } from "@/components/shared/form";
+import { useAppSelector } from "@/hooks/hooks";
+import { selectAuth } from "@/features/auth/authSlice";
 
 interface FormProps {
   isAction: string;
@@ -29,35 +31,63 @@ const Items = [
   { label: "other", value: "Other" },
 ];
 
-const genderItems = [
-  { id: "1", label: "Active", value: "1" },
-  { id: "2", label: "InActive", value: "0" },
+const GenderItems = [
+  { id: "1", label: "Male", value: "M" },
+  { id: "2", label: "Female", value: "F" },
+];
+
+const ActiveItems = [
+  { id: "1", label: "Yes", value: "1" },
+  { id: "2", label: "No", value: "0" },
 ];
 
 const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
+  const { user } = useAppSelector(selectAuth);
   const [addEmployee, { isSuccess: addSuccess }] = useAddEmployeeMutation();
   const [updateEmployee, { isSuccess: updateSuccess }] =
     useUpdateEmployeeMutation();
+
   const methods = useForm<EmployeeSchema>({
     resolver: zodResolver(EmployeeValidation),
     defaultValues: {
-      firstName: dataToEdit?.firstName ? dataToEdit?.firstName : "test@",
-      lastName: dataToEdit?.lastName ? dataToEdit?.lastName : "test",
-      email: dataToEdit?.email ? dataToEdit?.email : "test@example.com",
-      phoneNumber: dataToEdit?.phoneNumber ? dataToEdit?.phoneNumber : "",
+      id: dataToEdit?.id ? dataToEdit.id : "",
+      employeeId: dataToEdit?.employeeId ? dataToEdit?.employeeId : 0,
+      fullName: dataToEdit?.fullName ? dataToEdit?.fullName : "",
+      firstName: dataToEdit?.firstName ? dataToEdit?.firstName : "react",
+      lastName: dataToEdit?.lastName ? dataToEdit?.lastName : "test-insert",
+      email: dataToEdit?.email ? dataToEdit?.email : "react@example.com",
+      phoneNumber: dataToEdit?.phoneNumber
+        ? dataToEdit?.phoneNumber
+        : "0933262899",
       department: dataToEdit?.department ? dataToEdit?.department : "",
-      // dateOfBirth: dataToEdit?.dateOfBirth
-      //   ? dataToEdit?.dateOfBirth
-      //   : new Date(),
-      active: dataToEdit?.active ? dataToEdit?.active : "0",
+      createdBy: dataToEdit?.createdBy ? dataToEdit?.createdBy : user?.username,
+      //createdOn: dataToEdit?.createdOn ? dataToEdit?.createdOn : new Date(),
+      modifiedBy: dataToEdit?.modifiedBy
+        ? dataToEdit?.modifiedBy
+        : user?.username,
+      //modifiedOn: dataToEdit?.modifiedOn ? dataToEdit?.modifiedOn : new Date(),
+      gender: dataToEdit?.gender ? dataToEdit?.gender : "M",
+      active: dataToEdit?.active ? dataToEdit?.active : "1",
     },
     mode: "onChange",
   });
+
   const {
-    register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    reset,
+    control,
+    formState: { isSubmitting },
   } = methods;
+
+  const submit = async (request: EmployeeSchema) => {
+    try {
+      isAction == "New"
+        ? await addEmployee(request)
+        : await updateEmployee(request);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
 
   const isOnSubmit = useCallback((values: EmployeeSchema) => {
     window.alert(JSON.stringify(values, null, 4));
@@ -78,58 +108,95 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
   }, [updateSuccess]);
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(isOnSubmit)}>
-        <Grid container>
-          {" "}
-          <Grid item xs={12} md={6}>
-            <Stack spacing={2} margin={2}>
-              <FormInputText
-                name={"firstName"}
-                label={"First Name"}
-                isAction={isAction}
-              />
-              <FormInputText
-                name={"lastName"}
-                label={"Last Name"}
-                isAction={isAction}
-              />
-              <FormInputText
-                name={"email"}
-                label={"E-mail"}
-                isAction={isAction}
-              />
-              <FormInputText
-                name={"phoneNumber"}
-                label={"Phone Number"}
-                isAction={isAction}
-              />
-            </Stack>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Stack spacing={2} margin={2}>
-              <FormInputDropdown
-                name="department"
-                label="Department"
-                isAction={isAction}
-                options={Items}
-              />
-              <FormInputDate name="dateOfBirth" label="DateOfBirth" />
-              <FormInputRadio name="active" options={genderItems} />
-              {isAction != "View" ? (
-                <Button
-                  variant="contained"
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  Save
-                </Button>
-              ) : null}
-            </Stack>
-          </Grid>
+    <form onSubmit={handleSubmit(isOnSubmit)}>
+      <Grid container>
+        {" "}
+        <Grid item xs={12} sm={12} md={6}>
+          <Stack spacing={2} margin={2}>
+            <FormInputText
+              name={"firstName"}
+              label={"First Name"}
+              control={control}
+              isAction={isAction}
+            />
+            <FormInputText
+              name={"lastName"}
+              label={"Last Name"}
+              control={control}
+              isAction={isAction}
+            />
+            <FormInputText
+              name={"email"}
+              label={"E-mail"}
+              control={control}
+              isAction={isAction}
+            />
+            <FormInputText
+              name={"phoneNumber"}
+              label={"Phone Number"}
+              control={control}
+              isAction={isAction}
+            />
+            <FormInputDropdown
+              name="department"
+              label="Department"
+              isAction={isAction}
+              control={control}
+              options={Items}
+            />
+            <FormInputRadio
+              label={"Gender"}
+              name="gender"
+              options={GenderItems}
+              control={control}
+            />
+          </Stack>
         </Grid>
-      </form>
-    </FormProvider>
+        <Grid item xs={12} sm={12} md={6}>
+          <Stack spacing={2} margin={2}>
+            {/* <FormInputDate
+              name="dateOfBirth"
+              label="Hire Date"
+              control={control}
+            /> */}
+            <FormInputText
+              name={"createdBy"}
+              label={"Created By"}
+              control={control}
+              isAction={isAction}
+            />
+            <FormInputDate
+              name="createdOn"
+              label="Created Date"
+              control={control}
+            />
+            <FormInputText
+              name={"modifiedBy"}
+              label={"Modified By"}
+              control={control}
+              isAction={isAction}
+            />
+            <FormInputDate
+              name="modifiedOn"
+              label="Modified Date"
+              control={control}
+            />
+
+            <FormInputRadio
+              label={"Active"}
+              name="active"
+              options={ActiveItems}
+              control={control}
+            />
+            {isAction != "View" ? (
+              <Button variant="contained" type="submit" disabled={isSubmitting}>
+                Save
+              </Button>
+            ) : null}
+          </Stack>
+        </Grid>
+      </Grid>
+    </form>
   );
 };
 export default EmployeeForm;

@@ -46,15 +46,7 @@ const EmployeeList = ({ data, handleNew, handleUpdate, handleView }: Props) => {
   const columns = [
     {
       name: "fullName",
-      label: "Full Name",
-    },
-    {
-      name: "phoneNumber",
-      label: "Phone Number",
-    },
-    {
-      name: "email",
-      label: "E-Mail",
+      label: "Employee Name",
     },
     {
       name: "department",
@@ -79,6 +71,30 @@ const EmployeeList = ({ data, handleNew, handleUpdate, handleView }: Props) => {
         ),
       },
     },
+    {
+      name: "email",
+      label: "Email",
+    },
+    {
+      name: "gender",
+      label: "Gender",
+      options: {
+        customBodyRender: (value: string) => (
+          <p
+            className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
+              value === "M" ? "bg-blue-700" : "bg-rose-600"
+            }`}
+          >
+            {value === "M" ? "Male" : "Female"}
+          </p>
+        ),
+      },
+    },
+    {
+      name: "phoneNumber",
+      label: "Phone Number",
+    },
+
     {
       name: "active",
       label: "Active",
@@ -156,7 +172,7 @@ const EmployeeList = ({ data, handleNew, handleUpdate, handleView }: Props) => {
           </Box>
         </Box>
         <MUIDataTable
-          title={"List"}
+          title={"Employee List"}
           data={data}
           columns={columns}
           options={options}
