@@ -37,7 +37,7 @@ export const UserValidation = z.object({
 
 export const EmployeeValidation = z.object({
   id: z.string(),
-  employeeId: z.number(),
+  employeeId: z.string(),
   fullName: z.string(),
   firstName: z
     .string()
@@ -58,6 +58,18 @@ export const EmployeeValidation = z.object({
   active: z.string(),
 });
 
+export const DepartmentValidation = z.object({
+  id: z.string(),
+  departmentId: z.string(),
+  departmentName: z.string(),
+  active: z.string(),
+  createdBy: z.string(),
+  //createdOn: z.date(),
+  modifiedBy: z.string(),
+  //modifiedOn: z.date(),
+});
+
+export type DepartmenSchema = z.infer<typeof DepartmentValidation>;
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 export type productSchema = z.infer<typeof ProductValidation>;
 export type UserSchema = z.infer<typeof UserValidation>;

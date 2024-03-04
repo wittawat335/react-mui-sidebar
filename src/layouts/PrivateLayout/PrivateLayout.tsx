@@ -5,8 +5,6 @@ import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { useEffect } from "react";
 import { setUser } from "@/features/auth/authSlice";
 import "../../styles/index.css";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const PrivateLayout = () => {
   const dispatch = useAppDispatch();

@@ -51,7 +51,7 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
     resolver: zodResolver(EmployeeValidation),
     defaultValues: {
       id: dataToEdit?.id ? dataToEdit.id : "",
-      employeeId: dataToEdit?.employeeId ? dataToEdit?.employeeId : 0,
+      employeeId: dataToEdit?.employeeId ? dataToEdit?.employeeId : "",
       fullName: dataToEdit?.fullName ? dataToEdit?.fullName : "",
       firstName: dataToEdit?.firstName ? dataToEdit?.firstName : "react",
       lastName: dataToEdit?.lastName ? dataToEdit?.lastName : "test-insert",

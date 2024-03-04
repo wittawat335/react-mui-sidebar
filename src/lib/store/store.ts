@@ -7,6 +7,8 @@ import { productsApi } from "@/features/products/prouductApi";
 import { userApi } from "@/features/users/userApi";
 import { roleApi } from "@/features/roles/roleApi";
 import { employeeApi } from "@/features/employees/services/employeeApi";
+import { departmentApi } from "@/features/department/services/departmentApi";
+import { environments } from "@/config/constants";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +18,7 @@ const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [roleApi.reducerPath]: roleApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
+    [departmentApi.reducerPath]: departmentApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
@@ -24,9 +27,10 @@ const store = configureStore({
       userApi.middleware,
       roleApi.middleware,
       employeeApi.middleware,
+      departmentApi.middleware,
     ]),
 
-  devTools: appConfig.environments == "Devlopment" ? true : false,
+  devTools: appConfig.environments == environments.Development ? true : false,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

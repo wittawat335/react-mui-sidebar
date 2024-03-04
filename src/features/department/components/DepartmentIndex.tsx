@@ -1,55 +1,24 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { IDepartment } from "@/types/Department";
 import { Breakpoint, Container } from "@mui/material";
-import { useGetEmployeesQuery } from "../services/employeeApi";
-import { IEmployee } from "@/types/Employee";
-import EmployeeList from "./EmployeeList";
-import EmployeeForm from "./EmployeeForm";
+import { useState } from "react";
+import { useGetDepartmentsQuery } from "../services/departmentApi";
+import { useNavigate } from "react-router-dom";
 import Loader from "@/components/ui/Loader";
+import DepartmentList from "./DepartmentList";
 import { MuiDialog } from "@/components/shared";
+import DepartmentForm from "./DepartmentForm";
 
-const Employee = () => {
+const DepartmentIndex = () => {
   const [title, setTitle] = useState("New");
   const [maxWidth, setMaxWidth] = useState<Breakpoint | false>("sm");
   const [openDialog, setOpenDialog] = useState(false);
   const [isAction, setIsAction] = useState("New");
-  const [dataToEdit, setDataToEdit] = useState<IEmployee | undefined>(
+  const [dataToEdit, setDataToEdit] = useState<IDepartment | undefined>(
     undefined
   );
   const { data, isError, error, isFetching, isLoading, isSuccess } =
-    useGetEmployeesQuery();
+    useGetDepartmentsQuery();
   const navigate = useNavigate();
-
-  if (isError) {
-    console.log({ error });
-    navigate("/unauthorized");
-  }
-
-  if (isLoading || isFetching) {
-    return <Loader />;
-  }
-
-  const handleNew = () => {
-    setTitle("New Employee");
-    setIsAction("New");
-    setMaxWidth("md");
-    setDataToEdit(undefined);
-    handleOpenDialog();
-  };
-
-  const handleUpdate = (id: string) => {
-    setTitle("Update Employee");
-    setIsAction("Edit");
-    setDataToEdit(data?.find((item) => item.id === id));
-    handleOpenDialog();
-  };
-
-  const handleView = (id: string) => {
-    setTitle("View Employee");
-    setIsAction("View");
-    setDataToEdit(data?.find((item) => item.id === id));
-    handleOpenDialog();
-  };
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -59,11 +28,39 @@ const Employee = () => {
     setOpenDialog(false);
   };
 
+  if (isError) {
+    console.log({ error });
+    navigate("/unauthorized");
+  }
+
+  if (isLoading || isFetching) return <Loader />;
+
+  const handleNew = () => {
+    setTitle("New Department");
+    setIsAction("New");
+    setDataToEdit(undefined);
+    handleOpenDialog();
+  };
+
+  const handleUpdate = (id: string) => {
+    setTitle("Update Department");
+    setIsAction("Edit");
+    setDataToEdit(data?.find((item) => item.id === id));
+    handleOpenDialog();
+  };
+
+  const handleView = (id: string) => {
+    setTitle("View Department");
+    setIsAction("View");
+    setDataToEdit(data?.find((item) => item.id === id));
+    handleOpenDialog();
+  };
+
   return (
     <>
       <Container maxWidth={false} sx={{ p: 2 }}>
         {isSuccess ? (
-          <EmployeeList
+          <DepartmentList
             data={data}
             handleNew={handleNew}
             handleUpdate={handleUpdate}
@@ -77,7 +74,7 @@ const Employee = () => {
           maxWidth={maxWidth}
           setOpenPopup={setOpenDialog}
         >
-          <EmployeeForm
+          <DepartmentForm
             isAction={isAction}
             dataToEdit={dataToEdit}
             onClose={handleCloseDialog}
@@ -88,4 +85,4 @@ const Employee = () => {
   );
 };
 
-export default Employee;
+export default DepartmentIndex;

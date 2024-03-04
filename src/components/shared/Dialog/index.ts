@@ -1,1 +1,1 @@
-export { default } from "./DialogCustom";
+export { default } from "./MuiDialog";

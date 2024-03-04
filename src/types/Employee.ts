@@ -1,6 +1,6 @@
 export interface IEmployee {
   id: string | null;
-  employeeId: number | null;
+  employeeId: string | null;
   firstName: string;
   lastName: string;
   fullName: string;

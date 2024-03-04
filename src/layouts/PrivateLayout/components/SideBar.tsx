@@ -223,6 +223,13 @@ const SideBar = (props: SideBarProps) => {
                 {" "}
                 Employee{" "}
               </MenuItem>
+              <MenuItem
+                onClick={() => navigate("/department")}
+                icon={<TableViewIcon />}
+              >
+                {" "}
+                Department{" "}
+              </MenuItem>
 
               <SubMenu label="Manage" icon={<ManageAccountsOutlined />}>
                 <MenuItem

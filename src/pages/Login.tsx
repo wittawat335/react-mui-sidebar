@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
 import { messages } from "@/config/messages";
 import { MuiLoadingButton } from "@/components/shared";
@@ -22,7 +22,7 @@ import { useLoginMutation } from "@/features/auth/authApi";
 import { isAuthenticated, setUser } from "@/features/auth/authSlice";
 
 export default function Login() {
-  const [login, { data: loginData, isLoading, isSuccess, isError }] =
+  const [login, { data: loginData, isLoading, isSuccess, isError, error }] =
     useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -44,12 +44,16 @@ export default function Login() {
       dispatch(setUser(loginData));
       dispatch(isAuthenticated(true));
       toast.success(messages.login_success);
+
       navigate("/");
     }
   }, [isSuccess]);
 
   useEffect(() => {
-    if (isError) toast.error((isError as any).data.message);
+    if (isError) {
+      console.log({ error });
+      toast.error(JSON.stringify(error?.data));
+    }
   }, [isError]);
 
   return (

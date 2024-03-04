@@ -17,7 +17,7 @@ type DialogProps = {
   setOpenPopup: (open: boolean) => void;
 };
 
-const DialogCustom: FC<DialogProps> = (props) => {
+const MuiDialog: FC<DialogProps> = (props) => {
   const { title, children, openPopup, maxWidth, setOpenPopup } = props;
   return (
     <Dialog
@@ -48,4 +48,4 @@ const DialogCustom: FC<DialogProps> = (props) => {
   );
 };
 
-export default DialogCustom;
+export default MuiDialog;
