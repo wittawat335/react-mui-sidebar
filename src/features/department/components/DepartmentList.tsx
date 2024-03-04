@@ -11,9 +11,12 @@ import Swal from "sweetalert2";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import Moment from "moment";
+import { IAuth } from "@/types/Auth";
 
 type Props = {
   data: Array<IDepartment>;
+  user: IAuth | null;
   handleNew: (e: MouseEvent<HTMLButtonElement>) => void;
   handleUpdate: (id: string) => void;
   handleView: (id: string) => void;
@@ -21,6 +24,7 @@ type Props = {
 
 const DepartmentList = ({
   data,
+  user,
   handleNew,
   handleUpdate,
   handleView,
@@ -62,11 +66,11 @@ const DepartmentList = ({
             className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
               value === "User"
                 ? "bg-green-500"
-                : value === "Employee"
+                : value === "IT"
                 ? "bg-teal-600"
-                : value === "Manager"
+                : value === "Marketing"
                 ? "bg-cyan-600"
-                : value === "Administrator"
+                : value === "Developer"
                 ? "bg-sky-700"
                 : "bg-indigo-600"
             }`}
@@ -74,6 +78,33 @@ const DepartmentList = ({
             {value}
           </p>
         ),
+      },
+    },
+
+    {
+      name: "createdBy",
+      label: "CreatedBy",
+    },
+    {
+      name: "createdOn",
+      label: "Created On",
+      options: {
+        customBodyRender: (value: Date) => {
+          return <>{Moment(value).format("DD/MM/YYYY HH:mm")}</>;
+        },
+      },
+    },
+    {
+      name: "modifiedBy",
+      label: "Modifie dBy",
+    },
+    {
+      name: "modifiedOn",
+      label: "Modified On",
+      options: {
+        customBodyRender: (value: Date) => {
+          return <>{Moment(value).format("DD/MM/YYYY HH:mm")}</>;
+        },
       },
     },
     {
@@ -106,7 +137,6 @@ const DepartmentList = ({
                 >
                   <VisibilityOutlinedIcon />
                 </IconButton>
-
                 <IconButton
                   aria-label="edit"
                   color="warning"
@@ -114,7 +144,7 @@ const DepartmentList = ({
                 >
                   <EditOutlinedIcon />
                 </IconButton>
-
+                
                 <IconButton
                   aria-label="delete"
                   color="error"

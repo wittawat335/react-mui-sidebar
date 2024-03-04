@@ -32,7 +32,7 @@ export const departmentApi = createApi({
       invalidatesTags: ["departments"],
     }),
 
-    updateDepartment: builder.mutation<void, IDepartment>({
+    updateDepartment: builder.mutation<void, Omit<IDepartment, "id">>({
       query: (request) => ({
         url: "/Department",
         method: "PUT",

@@ -7,8 +7,11 @@ import Loader from "@/components/ui/Loader";
 import DepartmentList from "./DepartmentList";
 import { MuiDialog } from "@/components/shared";
 import DepartmentForm from "./DepartmentForm";
+import { useAppSelector } from "@/hooks/hooks";
+import { selectAuth } from "@/features/auth/authSlice";
 
 const DepartmentIndex = () => {
+  const { user } = useAppSelector(selectAuth);
   const [title, setTitle] = useState("New");
   const [maxWidth, setMaxWidth] = useState<Breakpoint | false>("sm");
   const [openDialog, setOpenDialog] = useState(false);
@@ -30,7 +33,7 @@ const DepartmentIndex = () => {
 
   if (isError) {
     console.log({ error });
-    navigate("/unauthorized");
+    //navigate("/unauthorized");
   }
 
   if (isLoading || isFetching) return <Loader />;
@@ -62,6 +65,7 @@ const DepartmentIndex = () => {
         {isSuccess ? (
           <DepartmentList
             data={data}
+            user={user}
             handleNew={handleNew}
             handleUpdate={handleUpdate}
             handleView={handleView}
@@ -75,6 +79,7 @@ const DepartmentIndex = () => {
           setOpenPopup={setOpenDialog}
         >
           <DepartmentForm
+            user={user}
             isAction={isAction}
             dataToEdit={dataToEdit}
             onClose={handleCloseDialog}
