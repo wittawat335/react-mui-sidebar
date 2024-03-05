@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect } from "react";
-import { IDepartment } from "@/types/Department";
+import { IDepartment, IDepartmentList } from "@/types/Department";
 import { Box, ButtonGroup, IconButton, Paper } from "@mui/material";
 import { MuiButton } from "@/components/shared";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
@@ -13,9 +13,10 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Moment from "moment";
 import { IAuth } from "@/types/Auth";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
-  data: Array<IDepartment>;
+  data: Array<IDepartmentList>;
   user: IAuth | null;
   handleNew: (e: MouseEvent<HTMLButtonElement>) => void;
   handleUpdate: (id: string) => void;
@@ -29,7 +30,8 @@ const DepartmentList = ({
   handleUpdate,
   handleView,
 }: Props) => {
-  const [deleteData, { isSuccess: deleteDataSuccess }] =
+  const navigate = useNavigate();
+  const [deleteData, { isSuccess: deleteDataSuccess, isError, error }] =
     useDeleteDepartmentMutation();
 
   const handleDelete = async (id: string) => {
@@ -103,7 +105,11 @@ const DepartmentList = ({
       label: "Modified On",
       options: {
         customBodyRender: (value: Date) => {
-          return <>{Moment(value).format("DD/MM/YYYY HH:mm")}</>;
+          return (
+            <>
+              {Moment(value).format("DD/MM/YYYY HH:mm")}
+            </>
+          );
         },
       },
     },
@@ -114,10 +120,10 @@ const DepartmentList = ({
         customBodyRender: (value: string) => (
           <p
             className={`capitalize px-3 py-1 inline-block rounded-full text-slate-50 ${
-              value ? "bg-green-600" : "bg-rose-600"
+              value == "1" ? "bg-green-600" : "bg-rose-600"
             }`}
           >
-            {value ? <FaCheck /> : <FaXmark />}
+            {value == "1" ? <FaCheck /> : <FaXmark />}
           </p>
         ),
       },
@@ -144,7 +150,7 @@ const DepartmentList = ({
                 >
                   <EditOutlinedIcon />
                 </IconButton>
-                
+
                 <IconButton
                   aria-label="delete"
                   color="error"
@@ -166,6 +172,11 @@ const DepartmentList = ({
     rowsPerPageOptions: [5, 10, 25, 100],
   };
 
+  if (isError) {
+    console.log({ error });
+    navigate("/unauthorized");
+  }
+
   useEffect(() => {
     if (deleteDataSuccess) toast.success(messages.delete_success);
   }, [deleteDataSuccess]);
@@ -178,7 +189,7 @@ const DepartmentList = ({
           <Box>
             <MuiButton onClick={handleNew} variant="contained" color="info">
               {" "}
-              New
+              New Department
             </MuiButton>
           </Box>
         </Box>

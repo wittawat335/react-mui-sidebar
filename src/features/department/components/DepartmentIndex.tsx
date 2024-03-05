@@ -1,4 +1,4 @@
-import { IDepartment } from "@/types/Department";
+import { IDepartmentList } from "@/types/Department";
 import { Breakpoint, Container } from "@mui/material";
 import { useState } from "react";
 import { useGetDepartmentsQuery } from "../services/departmentApi";
@@ -16,7 +16,7 @@ const DepartmentIndex = () => {
   const [maxWidth, setMaxWidth] = useState<Breakpoint | false>("sm");
   const [openDialog, setOpenDialog] = useState(false);
   const [isAction, setIsAction] = useState("New");
-  const [dataToEdit, setDataToEdit] = useState<IDepartment | undefined>(
+  const [dataToEdit, setDataToEdit] = useState<IDepartmentList | undefined>(
     undefined
   );
   const { data, isError, error, isFetching, isLoading, isSuccess } =
@@ -33,7 +33,7 @@ const DepartmentIndex = () => {
 
   if (isError) {
     console.log({ error });
-    //navigate("/unauthorized");
+    navigate("/unauthorized");
   }
 
   if (isLoading || isFetching) return <Loader />;

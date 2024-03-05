@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { appConfig } from "@/config/appConfig";
 import { RootState } from "@/lib/store/store";
-import { IDepartment } from "@/types/Department";
+import { IDepartment, IDepartmentList } from "@/types/Department";
 
 export const departmentApi = createApi({
   reducerPath: "departmentApi",
@@ -18,7 +18,7 @@ export const departmentApi = createApi({
   }),
   tagTypes: ["departments"],
   endpoints: (builder) => ({
-    getDepartments: builder.query<IDepartment[], void>({
+    getDepartments: builder.query<IDepartmentList[], void>({
       query: () => "/Department",
       providesTags: ["departments"],
     }),
