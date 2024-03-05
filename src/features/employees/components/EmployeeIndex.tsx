@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Breakpoint, Container } from "@mui/material";
 import { useGetEmployeesQuery } from "../services/employeeApi";
-import { IEmployee } from "@/types/Employee";
+import { IEmployeeList } from "@/types/Employee";
 import EmployeeList from "./EmployeeList";
 import EmployeeForm from "./EmployeeForm";
 import Loader from "@/components/ui/Loader";
@@ -13,7 +13,7 @@ const Employee = () => {
   const [maxWidth, setMaxWidth] = useState<Breakpoint | false>("sm");
   const [openDialog, setOpenDialog] = useState(false);
   const [isAction, setIsAction] = useState("New");
-  const [dataToEdit, setDataToEdit] = useState<IEmployee | undefined>(
+  const [dataToEdit, setDataToEdit] = useState<IEmployeeList | undefined>(
     undefined
   );
   const { data, isError, error, isFetching, isLoading, isSuccess } =

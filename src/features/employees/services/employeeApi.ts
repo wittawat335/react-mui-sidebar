@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { appConfig } from "@/config/appConfig";
 import { RootState } from "@/lib/store/store";
-import { IEmployee } from "@/types/Employee";
+import { IEmployee, IEmployeeList } from "@/types/Employee";
 
 export const employeeApi = createApi({
   reducerPath: "employeeApi",
@@ -18,7 +18,7 @@ export const employeeApi = createApi({
   }),
   tagTypes: ["employees"],
   endpoints: (builder) => ({
-    getEmployees: builder.query<IEmployee[], void>({
+    getEmployees: builder.query<IEmployeeList[], void>({
       query: () => "/employee",
       providesTags: ["employees"],
     }),

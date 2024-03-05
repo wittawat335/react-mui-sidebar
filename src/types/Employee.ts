@@ -9,8 +9,12 @@ export interface IEmployee {
   //dateOfBirth: Date | null;
   gender: string;
   //address: string;
-  department: string;
+  departmentId: string;
   active: string | null;
+}
+
+export interface IEmployeeList extends IEmployee {
+  departmentName: string;
   createdBy: string | null;
   createdOn: Date | null;
   modifiedBy: string | null;

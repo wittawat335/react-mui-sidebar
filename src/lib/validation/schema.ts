@@ -53,7 +53,7 @@ export const EmployeeValidation = z.object({
   //createdOn: z.date(),
   modifiedBy: z.string(),
   //modifiedOn: z.date(),
-  department: z.string(),
+  departmentId: z.string(),
   gender: z.string(),
   active: z.string(),
 });

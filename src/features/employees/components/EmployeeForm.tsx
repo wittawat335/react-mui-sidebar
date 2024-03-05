@@ -18,6 +18,7 @@ import {
 } from "@/components/shared/form";
 import { useAppSelector } from "@/hooks/hooks";
 import { selectAuth } from "@/features/auth/authSlice";
+import { ActiveItems, GenderItems } from "@/data/data";
 
 interface FormProps {
   isAction: string;
@@ -26,19 +27,9 @@ interface FormProps {
 }
 
 const Items = [
-  { label: "IT", value: "IT" },
+  { label: "IT", value: "DEP001" },
   { label: "female", value: "Female" },
   { label: "other", value: "Other" },
-];
-
-const GenderItems = [
-  { id: "1", label: "Male", value: "M" },
-  { id: "2", label: "Female", value: "F" },
-];
-
-const ActiveItems = [
-  { id: "1", label: "Yes", value: "1" },
-  { id: "2", label: "No", value: "0" },
 ];
 
 const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
@@ -59,12 +50,12 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
       phoneNumber: dataToEdit?.phoneNumber
         ? dataToEdit?.phoneNumber
         : "0933262899",
-      department: dataToEdit?.department ? dataToEdit?.department : "",
-      createdBy: dataToEdit?.createdBy ? dataToEdit?.createdBy : user?.username,
+      departmentId: dataToEdit?.departmentId ? dataToEdit?.departmentId : "",
+      //createdBy: dataToEdit?.createdBy ? dataToEdit?.createdBy : user?.username,
       //createdOn: dataToEdit?.createdOn ? dataToEdit?.createdOn : new Date(),
-      modifiedBy: dataToEdit?.modifiedBy
-        ? dataToEdit?.modifiedBy
-        : user?.username,
+      //modifiedBy: dataToEdit?.modifiedBy
+      //  ? dataToEdit?.modifiedBy
+       // : user?.username,
       //modifiedOn: dataToEdit?.modifiedOn ? dataToEdit?.modifiedOn : new Date(),
       gender: dataToEdit?.gender ? dataToEdit?.gender : "M",
       active: dataToEdit?.active ? dataToEdit?.active : "1",
@@ -138,7 +129,7 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
               isAction={isAction}
             />
             <FormInputDropdown
-              name="department"
+              name="departmentId"
               label="Department"
               isAction={isAction}
               control={control}

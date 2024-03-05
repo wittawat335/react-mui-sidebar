@@ -1,4 +1,4 @@
-import { IEmployee } from "@/types/Employee";
+import { IEmployeeList } from "@/types/Employee";
 import { MouseEvent, useEffect } from "react";
 import { useDeleteEmployeeMutation } from "../services/employeeApi";
 import Swal from "sweetalert2";
@@ -13,7 +13,7 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 type Props = {
-  data: Array<IEmployee>;
+  data: Array<IEmployeeList>;
   handleNew: (e: MouseEvent<HTMLButtonElement>) => void;
   handleUpdate: (id: string) => void;
   handleView: (id: string) => void;
@@ -49,7 +49,7 @@ const EmployeeList = ({ data, handleNew, handleUpdate, handleView }: Props) => {
       label: "Employee Name",
     },
     {
-      name: "department",
+      name: "departmentName",
       label: "Department",
       options: {
         customBodyRender: (value: string) => (
