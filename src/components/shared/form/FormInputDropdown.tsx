@@ -18,6 +18,8 @@ interface FormInputProps {
   control: any;
   isAction: string;
   options: Option[];
+  //options: any[];
+  optionLabel: string;
 }
 
 const FormInputDropdown = ({
@@ -26,12 +28,22 @@ const FormInputDropdown = ({
   control,
   isAction,
   options,
+  optionLabel,
 }: FormInputProps) => {
+  // const generateSingleOptions = () => {
+  //   return options.map((option: any) => {
+  //     return (
+  //       <MenuItem key={option.value} value={option.value}>
+  //         {option.label}
+  //       </MenuItem>
+  //     );
+  //   });
+  // };
   const generateSingleOptions = () => {
     return options.map((option: any) => {
       return (
-        <MenuItem key={option.value} value={option.value}>
-          {option.label}
+        <MenuItem key={option[name]} value={option[name]}>
+          {option[optionLabel]}
         </MenuItem>
       );
     });

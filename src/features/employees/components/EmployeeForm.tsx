@@ -19,6 +19,7 @@ import {
 import { useAppSelector } from "@/hooks/hooks";
 import { selectAuth } from "@/features/auth/authSlice";
 import { ActiveItems, GenderItems } from "@/data/data";
+import { useGetDepartmentsQuery } from "@/features/department/services/departmentApi";
 
 interface FormProps {
   isAction: string;
@@ -26,15 +27,11 @@ interface FormProps {
   onClose: () => void;
 }
 
-const Items = [
-  { label: "IT", value: "DEP001" },
-  { label: "female", value: "Female" },
-  { label: "other", value: "Other" },
-];
-
 const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
   const { user } = useAppSelector(selectAuth);
+
   const [addEmployee, { isSuccess: addSuccess }] = useAddEmployeeMutation();
+  const { data, isSuccess } = useGetDepartmentsQuery();
   const [updateEmployee, { isSuccess: updateSuccess }] =
     useUpdateEmployeeMutation();
 
@@ -52,11 +49,9 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
         : "0933262899",
       departmentId: dataToEdit?.departmentId ? dataToEdit?.departmentId : "",
       //createdBy: dataToEdit?.createdBy ? dataToEdit?.createdBy : user?.username,
-      //createdOn: dataToEdit?.createdOn ? dataToEdit?.createdOn : new Date(),
       //modifiedBy: dataToEdit?.modifiedBy
       //  ? dataToEdit?.modifiedBy
-       // : user?.username,
-      //modifiedOn: dataToEdit?.modifiedOn ? dataToEdit?.modifiedOn : new Date(),
+      // : user?.username,
       gender: dataToEdit?.gender ? dataToEdit?.gender : "M",
       active: dataToEdit?.active ? dataToEdit?.active : "1",
     },
@@ -128,13 +123,17 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
               control={control}
               isAction={isAction}
             />
-            <FormInputDropdown
-              name="departmentId"
-              label="Department"
-              isAction={isAction}
-              control={control}
-              options={Items}
-            />
+            {isSuccess ? (
+              <FormInputDropdown
+                name="departmentId"
+                label="Department"
+                isAction={isAction}
+                control={control}
+                options={data}
+                optionLabel="departmentName"
+              />
+            ) : null}
+
             <FormInputRadio
               label={"Gender"}
               name="gender"
