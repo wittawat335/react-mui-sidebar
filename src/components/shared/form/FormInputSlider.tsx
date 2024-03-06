@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { FormLabel, Slider } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
 
-interface FormInputProps {
+type FormInputProps = {
   name: string;
   control: Control;
   setValue: (name: string, value: any) => void;

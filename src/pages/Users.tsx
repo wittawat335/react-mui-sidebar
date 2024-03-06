@@ -1,4 +1,4 @@
-import UserIndex from "@/features/users/UserIndex";
+import UserIndex from "@/features/users/components/UserIndex";
 
 const Users = () => {
   return (

@@ -30,7 +30,7 @@ import dayjs from "dayjs";
 
 // export default FormInputDate;
 
-interface IFormElementTypes {
+type IFormElementTypes = {
   name: string;
   label: string;
   control: any;
@@ -38,12 +38,12 @@ interface IFormElementTypes {
   defaultValue?: string;
 }
 
-export default function FormInputDate({
+const FormInputDate = ({
   name,
   label,
   control,
   defaultValue,
-}: IFormElementTypes) {
+}: IFormElementTypes) => {
   //const [value, setValue] = React.useState<string | null>(null);
   //const [value, setValue] = React.useState(dayjs("2022-04-17T15:30"));
   return (
@@ -80,11 +80,14 @@ export default function FormInputDate({
             format="YYYY-MM-DD"
             views={["year", "month", "day"]}
             slots={{
-              textField: (params) => <TextField variant="outlined" {...params} />,
+              textField: (params) => (
+                <TextField variant="outlined" {...params} />
+              ),
             }}
           />
         </LocalizationProvider>
       )}
     />
   );
-}
+};
+export default FormInputDate;

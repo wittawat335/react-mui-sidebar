@@ -3,7 +3,7 @@ import { Box, ButtonGroup, Paper } from "@mui/material";
 import { MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import { useDeleteUserMutation } from "./userApi";
+import { useDeleteUserMutation } from "../services/userApi";
 import { IUser } from "@/types/User";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -126,13 +126,9 @@ const UserList = ({
         <Box display="flex" m={1}>
           <Box sx={{ flexGrow: 1 }}></Box>
           <Box>
-            <MuiButton
-              onClick={handleNewUser}
-              variant="contained"
-              color="info"
-            >
+            <MuiButton onClick={handleNewUser} variant="contained" color="info">
               {" "}
-              Add User 
+              Add User
             </MuiButton>
           </Box>
         </Box>

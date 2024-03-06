@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Checkbox,
   FormControl,
@@ -7,12 +7,12 @@ import {
 } from "@mui/material";
 import { Controller, Control } from "react-hook-form";
 
-interface Option {
+type Option = {
   label: string;
   value: string;
 }
 
-interface FormInputProps {
+type FormInputProps = {
   name: string;
   control: Control;
   setValue: (name: string, value: any) => void;

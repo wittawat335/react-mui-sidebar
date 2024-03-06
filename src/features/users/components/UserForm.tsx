@@ -1,67 +1,31 @@
-import { useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import {
-  Box,
-  Button,
-  Chip,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Radio,
-  RadioGroup,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  TextField,
-  Theme,
-  useTheme,
-} from "@mui/material";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useGetRolesQuery } from "@/features/roles/roleApi";
+import { IAuth } from "@/types/Auth";
+import { IUser } from "@/types/User";
+import { Button, SelectChangeEvent, Stack } from "@mui/material";
+import { useAddUserMutation, useUpdateUserMutation } from "../services/userApi";
+import { Controller, useForm } from "react-hook-form";
 import { UserSchema, UserValidation } from "@/lib/validation/schema";
-import { useGetRolesQuery } from "../roles/roleApi";
-import { useAddUserMutation, useUpdateUserMutation } from "./services/userApi";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
-import { IUser } from "@/types/User";
-import CheckIcon from "@mui/icons-material/Check";
-import { FormInputRadio, FormInputText } from "@/components/shared/form";
 import { ActiveItems } from "@/data/data";
+import {
+  FormInputMultiDropdown,
+  FormInputRadio,
+  FormInputText,
+  MultipleSelectChip,
+} from "@/components/shared/form";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-function getStyles(
-  name: string,
-  roleName: readonly string[] | undefined,
-  theme: Theme
-) {
-  return {
-    fontWeight:
-      roleName?.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
-interface FormProps {
+type FormProps = {
+  auth: IAuth | null;
   isAction: string;
   dataToEdit: IUser | undefined;
   onClose: () => void;
-}
+};
 
-export default function UserForm({ onClose, dataToEdit, isAction }: FormProps) {
-  const theme = useTheme();
-  const { data: roles, isSuccess: roleSuccess } = useGetRolesQuery();
+const UserForm = ({ auth, onClose, dataToEdit, isAction }: FormProps) => {
+  const { data: roleList, isSuccess: roleSuccess } = useGetRolesQuery();
   const [addUser, { isSuccess: addUserSuccess }] = useAddUserMutation();
   const [updateUser, { isSuccess: updateSuccess }] = useUpdateUserMutation();
   const [selectedRoles, setSelectedRoles] = useState<string[] | undefined>(
@@ -69,10 +33,9 @@ export default function UserForm({ onClose, dataToEdit, isAction }: FormProps) {
   );
 
   const {
-    register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<UserSchema>({
     resolver: zodResolver(UserValidation),
     defaultValues: {
@@ -84,6 +47,7 @@ export default function UserForm({ onClose, dataToEdit, isAction }: FormProps) {
       phonenumber: dataToEdit?.phonenumber
         ? dataToEdit?.phonenumber
         : "093xxxxxxx",
+      roles: isAction == "Edit" ? dataToEdit?.roles : [],
       active: dataToEdit?.active ? dataToEdit?.active : "1",
     },
   });
@@ -94,13 +58,6 @@ export default function UserForm({ onClose, dataToEdit, isAction }: FormProps) {
     } catch (error) {
       console.log({ error });
     }
-  };
-
-  const handleChange = (event: SelectChangeEvent<typeof selectedRoles>) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedRoles(typeof value === "string" ? value.split(",") : value);
   };
 
   useEffect(() => {
@@ -136,7 +93,6 @@ export default function UserForm({ onClose, dataToEdit, isAction }: FormProps) {
           control={control}
           isAction={isAction}
         />
-
         {isAction === "New" ? (
           <FormInputText
             name={"password"}
@@ -145,57 +101,36 @@ export default function UserForm({ onClose, dataToEdit, isAction }: FormProps) {
             isAction={isAction}
           />
         ) : null}
-
         <FormInputText
           name={"phonenumber"}
           label={"Phone Number"}
           control={control}
           isAction={isAction}
         />
-
         <FormInputText
           name={"fullname"}
           label={"Fullname"}
           control={control}
           isAction={isAction}
         />
-
-        {/* Roles DDl */}
-        <FormControl>
-          <InputLabel>Role</InputLabel>
-          <Select
-            {...register("roles", { required: "roles is required" })}
-            multiple
-            value={selectedRoles}
-            onChange={handleChange}
-            input={<OutlinedInput label="Chip" />}
-            inputProps={{ readOnly: isAction == "View" ? true : false }}
-            renderValue={(selected) => (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
+        {roleSuccess ? (
+          <Controller
+            name="roles"
+            control={control}
+            rules={{ required: "Please fill out category !" }}
+            render={({ field: { onChange, value } }) => (
+              <MultipleSelectChip
+                onChange={onChange}
+                value={value}
+                chipList={roleList}
+                //data={dataToEdit?.roles}
+                label={"roles"}
+                //name={"roles"}
+                isAction={isAction}
+              />
             )}
-            MenuProps={MenuProps}
-          >
-            {roleSuccess
-              ? roles?.map((item) => (
-                  <MenuItem
-                    key={item.id}
-                    value={item.name}
-                    style={getStyles(item.name, selectedRoles, theme)}
-                  >
-                    {item.name}
-                    {selectedRoles?.includes(item.name) ? (
-                      <CheckIcon color="info" />
-                    ) : null}
-                  </MenuItem>
-                ))
-              : null}
-          </Select>
-        </FormControl>
-
+          />
+        ) : null}
         <FormInputRadio
           label={"Active"}
           name="active"
@@ -210,4 +145,6 @@ export default function UserForm({ onClose, dataToEdit, isAction }: FormProps) {
       </Stack>
     </form>
   );
-}
+};
+
+export default UserForm;

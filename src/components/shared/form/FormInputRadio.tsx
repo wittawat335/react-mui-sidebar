@@ -6,28 +6,28 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { useFormContext, Controller } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
-interface IOptionTypes {
+type IOptionTypes = {
   id: string;
   label: string;
   value: string;
   desc?: string;
-}
+};
 
-interface IFormElementTypes {
+type IFormElementTypes = {
   label: string;
   name: string;
   control: any;
   options: IOptionTypes[];
-}
+};
 
-export default function FormInputRadio({
+const FormInputRadio = ({
   label,
   name,
   control,
   options,
-}: IFormElementTypes) {
+}: IFormElementTypes) => {
   return (
     <Controller
       name={name}
@@ -55,4 +55,6 @@ export default function FormInputRadio({
       )}
     />
   );
-}
+};
+
+export default FormInputRadio;

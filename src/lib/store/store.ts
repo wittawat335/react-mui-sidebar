@@ -4,7 +4,7 @@ import { appConfig } from "@/config/appConfig";
 import { authApi } from "@/features/auth/authApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { productsApi } from "@/features/products/prouductApi";
-import { userApi } from "@/features/users/userApi";
+import { userApi } from "@/features/users/services/userApi";
 import { roleApi } from "@/features/roles/roleApi";
 import { employeeApi } from "@/features/employees/services/employeeApi";
 import { departmentApi } from "@/features/department/services/departmentApi";

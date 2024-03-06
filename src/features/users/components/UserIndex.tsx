@@ -1,4 +1,4 @@
-import { useGetUsersQuery } from "./userApi";
+import { useGetUsersQuery } from "../services/userApi";
 import { useState } from "react";
 import { IUser } from "@/types/User";
 import { useNavigate } from "react-router-dom";
@@ -12,9 +12,12 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
-import UserForm from "./MuiForm";
+import UserForm from "./UserForm";
+import { useAppSelector } from "@/hooks/hooks";
+import { selectAuth } from "@/features/auth/authSlice";
 
 const UserIndex = () => {
+  const { user } = useAppSelector(selectAuth);
   const [title, setTitle] = useState("New User");
   const [openDialog, setOpenDialog] = useState(false);
   const [isAction, setIsAction] = useState("New");
@@ -87,6 +90,7 @@ const UserIndex = () => {
           </DialogTitle>
           <DialogContent>
             <UserForm
+              auth={user}
               isAction={isAction}
               dataToEdit={dataToEdit}
               onClose={handleCloseDialog}

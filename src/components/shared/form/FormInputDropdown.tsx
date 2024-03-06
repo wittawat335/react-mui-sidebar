@@ -7,20 +7,14 @@ import {
 } from "@mui/material";
 import { Controller } from "react-hook-form";
 
-interface Option {
-  label: string;
-  value: string;
-}
-
-interface FormInputProps {
+type FormInputProps = {
   name: string;
   label: string;
   control: any;
   isAction: string;
-  options: Option[];
-  //options: any[];
+  options: any[] | undefined;
   optionLabel: string;
-}
+};
 
 const FormInputDropdown = ({
   name,
@@ -30,17 +24,8 @@ const FormInputDropdown = ({
   options,
   optionLabel,
 }: FormInputProps) => {
-  // const generateSingleOptions = () => {
-  //   return options.map((option: any) => {
-  //     return (
-  //       <MenuItem key={option.value} value={option.value}>
-  //         {option.label}
-  //       </MenuItem>
-  //     );
-  //   });
-  // };
   const generateSingleOptions = () => {
-    return options.map((option: any) => {
+    return options?.map((option: any) => {
       return (
         <MenuItem key={option[name]} value={option[name]}>
           {option[optionLabel]}
