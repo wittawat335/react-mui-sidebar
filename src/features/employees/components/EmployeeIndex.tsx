@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Breakpoint, Container } from "@mui/material";
 import { useGetEmployeesQuery } from "../services/employeeApi";
 import { IEmployeeList } from "@/types/Employee";
+import { Loader, MuiDialog } from "@/components/shared";
 import EmployeeList from "./EmployeeList";
 import EmployeeForm from "./EmployeeForm";
-import Loader from "@/components/ui/Loader";
-import { MuiDialog } from "@/components/shared";
 
 const Employee = () => {
   const [title, setTitle] = useState("New");

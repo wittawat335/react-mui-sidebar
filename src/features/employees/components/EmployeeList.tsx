@@ -3,8 +3,7 @@ import { MouseEvent, useEffect } from "react";
 import { useDeleteEmployeeMutation } from "../services/employeeApi";
 import Swal from "sweetalert2";
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import { Box, ButtonGroup, IconButton, Paper } from "@mui/material";
-import { MuiButton } from "@/components/shared";
+import { Box, Button, ButtonGroup, IconButton, Paper } from "@mui/material";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
@@ -165,10 +164,10 @@ const EmployeeList = ({ data, handleNew, handleUpdate, handleView }: Props) => {
         <Box display="flex" m={1}>
           <Box sx={{ flexGrow: 1 }}></Box>
           <Box>
-            <MuiButton onClick={handleNew} variant="contained" color="info">
+            <Button onClick={handleNew} variant="contained" color="info">
               {" "}
               New Employee
-            </MuiButton>
+            </Button>
           </Box>
         </Box>
         <MUIDataTable

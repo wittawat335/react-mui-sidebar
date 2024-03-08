@@ -1,19 +1,18 @@
 import { MouseEvent, useEffect } from "react";
-import { IDepartment, IDepartmentList } from "@/types/Department";
-import { Box, ButtonGroup, IconButton, Paper } from "@mui/material";
-import { MuiButton } from "@/components/shared";
-import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
+import { IDepartmentList } from "@/types/Department";
+import { Box, Button, ButtonGroup, IconButton, Paper } from "@mui/material";
 import { toast } from "react-toastify";
 import { useDeleteDepartmentMutation } from "../services/departmentApi";
 import { messages } from "@/config/messages";
 import { FaCheck, FaXmark } from "react-icons/fa6";
+import { IAuth } from "@/types/Auth";
+import { useNavigate } from "react-router-dom";
+import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import Swal from "sweetalert2";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Moment from "moment";
-import { IAuth } from "@/types/Auth";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
   data: Array<IDepartmentList>;
@@ -105,11 +104,7 @@ const DepartmentList = ({
       label: "Modified On",
       options: {
         customBodyRender: (value: Date) => {
-          return (
-            <>
-              {Moment(value).format("DD/MM/YYYY HH:mm")}
-            </>
-          );
+          return <>{Moment(value).format("DD/MM/YYYY HH:mm")}</>;
         },
       },
     },
@@ -187,10 +182,10 @@ const DepartmentList = ({
         <Box display="flex" m={1}>
           <Box sx={{ flexGrow: 1 }}></Box>
           <Box>
-            <MuiButton onClick={handleNew} variant="contained" color="info">
+            <Button onClick={handleNew} variant="contained" color="info">
               {" "}
               New Department
-            </MuiButton>
+            </Button>
           </Box>
         </Box>
         <MUIDataTable

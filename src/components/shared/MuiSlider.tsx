@@ -7,14 +7,9 @@ type FormInputProps = {
   control: Control;
   setValue: (name: string, value: any) => void;
   label: string;
-}
+};
 
-const FormInputSlider = ({
-  name,
-  control,
-  setValue,
-  label,
-}: FormInputProps) => {
+const MuiSlider = ({ name, control, setValue, label }: FormInputProps) => {
   const [sliderValue, setSliderValue] = React.useState<number>(30);
 
   useEffect(() => {
@@ -46,4 +41,4 @@ const FormInputSlider = ({
   );
 };
 
-export default FormInputSlider;
+export default MuiSlider;

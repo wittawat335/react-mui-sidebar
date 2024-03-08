@@ -10,7 +10,6 @@ import {
   Home,
   Login,
   Register,
-  Test,
   Unauthorized,
   Users,
 } from "./pages";
@@ -31,7 +30,6 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/employee" element={<Employee />} />
           <Route path="/department" element={<Department />} />
-          <Route path="/test" element={<Test />} />
         </Route>
         {/* 404 & 401*/}
         <Route path="/unauthorized" element={<Unauthorized />} />

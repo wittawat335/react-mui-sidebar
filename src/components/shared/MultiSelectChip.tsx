@@ -44,7 +44,7 @@ type MultipleSelectChipProps = {
   onChange: (selectedChips: string[]) => void;
 };
 
-const MultipleSelectChip = ({
+const MultiSelectChip = ({
   //name,
   //control,
   value,
@@ -100,4 +100,4 @@ const MultipleSelectChip = ({
   );
 };
 
-export default MultipleSelectChip;
+export default MultiSelectChip;

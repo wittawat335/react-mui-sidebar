@@ -1,7 +1,7 @@
 import { useGetRolesQuery } from "@/features/roles/roleApi";
 import { IAuth } from "@/types/Auth";
 import { IUser } from "@/types/User";
-import { Button, SelectChangeEvent, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useAddUserMutation, useUpdateUserMutation } from "../services/userApi";
 import { Controller, useForm } from "react-hook-form";
 import { UserSchema, UserValidation } from "@/lib/validation/schema";
@@ -11,11 +11,10 @@ import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
 import { ActiveItems } from "@/data/data";
 import {
-  FormInputMultiDropdown,
-  FormInputRadio,
-  FormInputText,
-  MultipleSelectChip,
-} from "@/components/shared/form";
+  MuiRadioGroup,
+  MuiTextField,
+  MultiSelectChip,
+} from "@/components/shared";
 
 type FormProps = {
   auth: IAuth | null;
@@ -28,9 +27,6 @@ const UserForm = ({ auth, onClose, dataToEdit, isAction }: FormProps) => {
   const { data: roleList, isSuccess: roleSuccess } = useGetRolesQuery();
   const [addUser, { isSuccess: addUserSuccess }] = useAddUserMutation();
   const [updateUser, { isSuccess: updateSuccess }] = useUpdateUserMutation();
-  const [selectedRoles, setSelectedRoles] = useState<string[] | undefined>(
-    isAction != "New" ? dataToEdit?.roles : []
-  );
 
   const {
     handleSubmit,
@@ -81,33 +77,33 @@ const UserForm = ({ auth, onClose, dataToEdit, isAction }: FormProps) => {
   return (
     <form onSubmit={handleSubmit(isOnSubmit)}>
       <Stack spacing={2} margin={2}>
-        <FormInputText
+        <MuiTextField
           name={"email"}
           label={"E-mail"}
           control={control}
           isAction={isAction}
         />
-        <FormInputText
+        <MuiTextField
           name={"username"}
           label={"User Name"}
           control={control}
           isAction={isAction}
         />
         {isAction === "New" ? (
-          <FormInputText
+          <MuiTextField
             name={"password"}
             label={"Password"}
             control={control}
             isAction={isAction}
           />
         ) : null}
-        <FormInputText
+        <MuiTextField
           name={"phonenumber"}
           label={"Phone Number"}
           control={control}
           isAction={isAction}
         />
-        <FormInputText
+        <MuiTextField
           name={"fullname"}
           label={"Fullname"}
           control={control}
@@ -119,19 +115,17 @@ const UserForm = ({ auth, onClose, dataToEdit, isAction }: FormProps) => {
             control={control}
             rules={{ required: "Please fill out category !" }}
             render={({ field: { onChange, value } }) => (
-              <MultipleSelectChip
+              <MultiSelectChip
                 onChange={onChange}
                 value={value}
                 chipList={roleList}
-                //data={dataToEdit?.roles}
                 label={"roles"}
-                //name={"roles"}
                 isAction={isAction}
               />
             )}
           />
         ) : null}
-        <FormInputRadio
+        <MuiRadioGroup
           label={"Active"}
           name="active"
           options={ActiveItems}

@@ -10,14 +10,14 @@ import { Controller, Control } from "react-hook-form";
 type Option = {
   label: string;
   value: string;
-}
+};
 
 type FormInputProps = {
   name: string;
   control: Control;
   setValue: (name: string, value: any) => void;
   label: string;
-}
+};
 
 const options: Option[] = [
   {
@@ -30,12 +30,7 @@ const options: Option[] = [
   },
 ];
 
-const FormInputMultiCheckbox = ({
-  name,
-  control,
-  setValue,
-  label,
-}: FormInputProps) => {
+const MultiCheckbox = ({ name, control, setValue, label }: FormInputProps) => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const handleSelect = (value: string) => {
@@ -83,4 +78,4 @@ const FormInputMultiCheckbox = ({
   );
 };
 
-export default FormInputMultiCheckbox;
+export default MultiCheckbox;

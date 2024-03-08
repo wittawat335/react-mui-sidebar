@@ -10,9 +10,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { DepartmenSchema, DepartmentValidation } from "@/lib/validation/schema";
 import { Button, Grid, Stack } from "@mui/material";
-import { FormInputRadio, FormInputText } from "@/components/shared/form";
 import { IAuth } from "@/types/Auth";
 import { ActiveItems } from "@/data/data";
+import { MuiRadioGroup, MuiTextField } from "@/components/shared";
 
 type FormProps = {
   user: IAuth | null;
@@ -67,7 +67,7 @@ const DepartmentForm = ({ user, onClose, dataToEdit, isAction }: FormProps) => {
           {" "}
           <Grid item xs={12} sm={12} md={12}>
             <Stack spacing={2} margin={2}>
-              <FormInputText
+              <MuiTextField
                 name={"departmentName"}
                 label={"Datepartment Name"}
                 control={control}
@@ -96,19 +96,19 @@ const DepartmentForm = ({ user, onClose, dataToEdit, isAction }: FormProps) => {
           {" "}
           <Grid item xs={12} sm={12} md={12}>
             <Stack spacing={2} margin={2}>
-              <FormInputText
+              <MuiTextField
                 name={"departmentId"}
                 label={"Department ID"}
                 control={control}
                 isAction={isAction}
               />
-              <FormInputText
+              <MuiTextField
                 name={"departmentName"}
                 label={"Department Name"}
                 control={control}
                 isAction={isAction}
               />
-              <FormInputRadio
+              <MuiRadioGroup
                 label={"Active"}
                 name="active"
                 options={ActiveItems}

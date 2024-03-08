@@ -3,7 +3,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { appConfig } from "@/config/appConfig";
 import { authApi } from "@/features/auth/authApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { productsApi } from "@/features/products/prouductApi";
 import { userApi } from "@/features/users/services/userApi";
 import { roleApi } from "@/features/roles/roleApi";
 import { employeeApi } from "@/features/employees/services/employeeApi";
@@ -14,7 +13,6 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer,
-    [productsApi.reducerPath]: productsApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [roleApi.reducerPath]: roleApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
@@ -23,7 +21,6 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       authApi.middleware,
-      productsApi.middleware,
       userApi.middleware,
       roleApi.middleware,
       employeeApi.middleware,

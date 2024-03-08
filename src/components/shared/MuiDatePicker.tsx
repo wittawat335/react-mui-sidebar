@@ -36,9 +36,9 @@ type IFormElementTypes = {
   control: any;
   required?: boolean;
   defaultValue?: string;
-}
+};
 
-const FormInputDate = ({
+const MuiDatePicker = ({
   name,
   label,
   control,
@@ -90,4 +90,4 @@ const FormInputDate = ({
     />
   );
 };
-export default FormInputDate;
+export default MuiDatePicker;

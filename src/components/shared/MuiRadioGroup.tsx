@@ -22,12 +22,7 @@ type IFormElementTypes = {
   options: IOptionTypes[];
 };
 
-const FormInputRadio = ({
-  label,
-  name,
-  control,
-  options,
-}: IFormElementTypes) => {
+const MuiRadioGroup = ({ label, name, control, options }: IFormElementTypes) => {
   return (
     <Controller
       name={name}
@@ -57,4 +52,4 @@ const FormInputRadio = ({
   );
 };
 
-export default FormInputRadio;
+export default MuiRadioGroup;

@@ -16,7 +16,7 @@ type FormInputProps = {
   optionLabel: string;
 };
 
-const FormInputDropdown = ({
+const MuiSelectField = ({
   name,
   label,
   control,
@@ -54,4 +54,4 @@ const FormInputDropdown = ({
   );
 };
 
-export default FormInputDropdown;
+export default MuiSelectField;

@@ -6,9 +6,9 @@ type FormInputProps = {
   label: string;
   control: any;
   isAction: string;
-}
+};
 
-const FormInputText = ({ name, control, label, isAction }: FormInputProps) => {
+const MuiTextField = ({ name, control, label, isAction }: FormInputProps) => {
   return (
     <Controller
       name={name}
@@ -29,4 +29,4 @@ const FormInputText = ({ name, control, label, isAction }: FormInputProps) => {
   );
 };
 
-export default FormInputText;
+export default MuiTextField;

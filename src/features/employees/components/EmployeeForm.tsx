@@ -1,25 +1,24 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
 import { IEmployee } from "@/types/Employee";
 import { EmployeeSchema, EmployeeValidation } from "@/lib/validation/schema";
-import {
-  useAddEmployeeMutation,
-  useUpdateEmployeeMutation,
-} from "../services/employeeApi";
 import { Button, Grid, Stack } from "@mui/material";
-import {
-  FormInputRadio,
-  FormInputText,
-  FormInputDate,
-  FormInputDropdown,
-} from "@/components/shared/form";
 import { useAppSelector } from "@/hooks/hooks";
 import { selectAuth } from "@/features/auth/authSlice";
 import { ActiveItems, GenderItems } from "@/data/data";
 import { useGetDepartmentsQuery } from "@/features/department/services/departmentApi";
+import {
+  useAddEmployeeMutation,
+  useUpdateEmployeeMutation,
+} from "../services/employeeApi";
+import {
+  MuiRadioGroup,
+  MuiSelectField,
+  MuiTextField,
+} from "@/components/shared";
 
 interface FormProps {
   isAction: string;
@@ -29,9 +28,8 @@ interface FormProps {
 
 const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
   const { user } = useAppSelector(selectAuth);
-
-  const [addEmployee, { isSuccess: addSuccess }] = useAddEmployeeMutation();
   const { data, isSuccess } = useGetDepartmentsQuery();
+  const [addEmployee, { isSuccess: addSuccess }] = useAddEmployeeMutation();
   const [updateEmployee, { isSuccess: updateSuccess }] =
     useUpdateEmployeeMutation();
 
@@ -60,7 +58,6 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
 
   const {
     handleSubmit,
-    reset,
     control,
     formState: { isSubmitting },
   } = methods;
@@ -74,10 +71,6 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
       console.log({ error });
     }
   };
-
-  const isOnSubmit = useCallback((values: EmployeeSchema) => {
-    window.alert(JSON.stringify(values, null, 4));
-  }, []);
 
   useEffect(() => {
     if (addSuccess) {
@@ -94,37 +87,37 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
   }, [updateSuccess]);
 
   return (
-    <form onSubmit={handleSubmit(isOnSubmit)}>
+    <form onSubmit={handleSubmit(submit)}>
       <Grid container>
         {" "}
         <Grid item xs={12} sm={12} md={6}>
           <Stack spacing={2} margin={2}>
-            <FormInputText
+            <MuiTextField
               name={"firstName"}
               label={"First Name"}
               control={control}
               isAction={isAction}
             />
-            <FormInputText
+            <MuiTextField
               name={"lastName"}
               label={"Last Name"}
               control={control}
               isAction={isAction}
             />
-            <FormInputText
+            <MuiTextField
               name={"email"}
               label={"E-mail"}
               control={control}
               isAction={isAction}
             />
-            <FormInputText
+            <MuiTextField
               name={"phoneNumber"}
               label={"Phone Number"}
               control={control}
               isAction={isAction}
             />
             {isSuccess ? (
-              <FormInputDropdown
+              <MuiSelectField
                 name="departmentId"
                 label="Department"
                 isAction={isAction}
@@ -134,7 +127,7 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
               />
             ) : null}
 
-            <FormInputRadio
+            <MuiRadioGroup
               label={"Gender"}
               name="gender"
               options={GenderItems}
@@ -144,35 +137,32 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <Stack spacing={2} margin={2}>
-            {/* <FormInputDate
-              name="dateOfBirth"
-              label="Hire Date"
-              control={control}
-            /> */}
-            <FormInputText
+            <MuiTextField
               name={"createdBy"}
               label={"Created By"}
               control={control}
               isAction={isAction}
             />
-            <FormInputDate
+            <MuiTextField
               name="createdOn"
               label="Created Date"
               control={control}
+              isAction={isAction}
             />
-            <FormInputText
+            <MuiTextField
               name={"modifiedBy"}
               label={"Modified By"}
               control={control}
               isAction={isAction}
             />
-            <FormInputDate
+            <MuiTextField
               name="modifiedOn"
               label="Modified Date"
               control={control}
+              isAction={isAction}
             />
 
-            <FormInputRadio
+            <MuiRadioGroup
               label={"Active"}
               name="active"
               options={ActiveItems}

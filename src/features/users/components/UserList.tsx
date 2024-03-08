@@ -1,5 +1,4 @@
-import { MuiButton } from "@/components/shared";
-import { Box, ButtonGroup, Paper } from "@mui/material";
+import { Box, Button, ButtonGroup, Paper } from "@mui/material";
 import { MouseEvent, useEffect } from "react";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import { FaCheck, FaXmark } from "react-icons/fa6";
@@ -100,8 +99,8 @@ const UserList = ({
           return (
             <>
               <ButtonGroup variant="outlined" aria-label="Basic button group">
-                <MuiButton onClick={() => handleUpdateUser(id)}>Edit</MuiButton>
-                <MuiButton onClick={() => handleDelete(id)}>Delete</MuiButton>
+                <Button onClick={() => handleUpdateUser(id)}>Edit</Button>
+                <Button onClick={() => handleDelete(id)}>Delete</Button>
               </ButtonGroup>
             </>
           );
@@ -126,10 +125,10 @@ const UserList = ({
         <Box display="flex" m={1}>
           <Box sx={{ flexGrow: 1 }}></Box>
           <Box>
-            <MuiButton onClick={handleNewUser} variant="contained" color="info">
+            <Button onClick={handleNewUser} variant="contained" color="info">
               {" "}
               Add User
-            </MuiButton>
+            </Button>
           </Box>
         </Box>
         <MUIDataTable

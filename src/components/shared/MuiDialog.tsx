@@ -6,7 +6,6 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { FC } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 type DialogProps = {
@@ -17,7 +16,7 @@ type DialogProps = {
   setOpenPopup: (open: boolean) => void;
 };
 
-const MuiDialog: FC<DialogProps> = (props) => {
+const MuiDialog = (props: DialogProps) => {
   const { title, children, openPopup, maxWidth, setOpenPopup } = props;
   return (
     <Dialog
