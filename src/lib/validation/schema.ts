@@ -36,7 +36,6 @@ export const UserValidation = z.object({
 });
 
 export const EmployeeValidation = z.object({
-  id: z.string(),
   employeeId: z.string(),
   fullName: z.string(),
   firstName: z

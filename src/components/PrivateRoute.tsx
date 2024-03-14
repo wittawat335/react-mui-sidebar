@@ -1,4 +1,4 @@
-import { selectAuth } from "@/features/auth/authSlice";
+import { selectAuth } from "@/features/auth/services/authSlice";
 import { useSelector } from "react-redux";
 import RedirectToLogin from "./RedirectToLogin";
 

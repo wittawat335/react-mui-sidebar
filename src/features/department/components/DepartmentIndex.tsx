@@ -3,11 +3,11 @@ import { Breakpoint, Container } from "@mui/material";
 import { useState } from "react";
 import { useGetDepartmentsQuery } from "../services/departmentApi";
 import { useNavigate } from "react-router-dom";
-import DepartmentList from "./DepartmentList";
 import { Loader, MuiDialog } from "@/components/shared";
-import DepartmentForm from "./DepartmentForm";
 import { useAppSelector } from "@/hooks/hooks";
-import { selectAuth } from "@/features/auth/authSlice";
+import { selectAuth } from "@/features/auth/services/authSlice";
+import DepartmentList from "./DepartmentList";
+import DepartmentForm from "./DepartmentForm";
 
 const DepartmentIndex = () => {
   const { user } = useAppSelector(selectAuth);
@@ -18,8 +18,14 @@ const DepartmentIndex = () => {
   const [dataToEdit, setDataToEdit] = useState<IDepartmentList | undefined>(
     undefined
   );
-  const { data, isError, error, isFetching, isLoading, isSuccess } =
-    useGetDepartmentsQuery();
+  const {
+    data: Departments,
+    isError,
+    error,
+    isFetching,
+    isLoading,
+    isSuccess: fetchingSuccess,
+  } = useGetDepartmentsQuery();
   const navigate = useNavigate();
 
   const handleOpenDialog = () => {
@@ -47,23 +53,23 @@ const DepartmentIndex = () => {
   const handleUpdate = (id: string) => {
     setTitle("Update Department");
     setIsAction("Edit");
-    setDataToEdit(data?.find((item) => item.id === id));
+    setDataToEdit(Departments?.find((item) => item.id === id));
     handleOpenDialog();
   };
 
   const handleView = (id: string) => {
     setTitle("View Department");
     setIsAction("View");
-    setDataToEdit(data?.find((item) => item.id === id));
+    setDataToEdit(Departments?.find((item) => item.id === id));
     handleOpenDialog();
   };
 
   return (
     <>
       <Container maxWidth={false} sx={{ p: 2 }}>
-        {isSuccess ? (
+        {fetchingSuccess ? (
           <DepartmentList
-            data={data}
+            data={Departments}
             user={user}
             handleNew={handleNew}
             handleUpdate={handleUpdate}

@@ -1,9 +1,9 @@
-import { IDepartmentList } from "@/types/Department";
+import { IDepartment, IDepartmentList } from "@/types/Department";
 import {
   useAddDepartmentMutation,
   useUpdateDepartmentMutation,
 } from "../services/departmentApi";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,24 +22,16 @@ type FormProps = {
 };
 
 const DepartmentForm = ({ user, onClose, dataToEdit, isAction }: FormProps) => {
-  const [addDepartment, { isSuccess: addSuccess }] = useAddDepartmentMutation();
+  const [
+    addDepartment,
+    { isSuccess: addSuccess, isError: isAddError, error: addError },
+  ] = useAddDepartmentMutation();
   const [updateDepartment, { isSuccess: updateSuccess }] =
     useUpdateDepartmentMutation();
 
   const methods = useForm<DepartmenSchema>({
     resolver: zodResolver(DepartmentValidation),
-    defaultValues: {
-      departmentId: dataToEdit?.departmentId ? dataToEdit?.departmentId : "",
-      departmentName: dataToEdit?.departmentName
-        ? dataToEdit?.departmentName
-        : "",
-      active: dataToEdit?.active ? dataToEdit?.active : "1",
-      createdBy: dataToEdit?.createdBy
-        ? dataToEdit?.createdBy!
-        : user?.username!,
-      modifiedBy:
-        isAction != "Edit" ? dataToEdit?.modifiedBy! : user?.username!,
-    },
+    values: dataToEdit,
     mode: "onChange",
   });
 
@@ -51,18 +43,27 @@ const DepartmentForm = ({ user, onClose, dataToEdit, isAction }: FormProps) => {
   } = methods;
 
   const submit = async (request: DepartmenSchema) => {
-    try {
-      isAction == "New"
-        ? await addDepartment(request)
-        : await updateDepartment(request);
-    } catch (error) {
-      console.log({ error });
-    }
+    isAction == "New"
+      ? await addDepartment(request)
+      : await updateDepartment(request);
   };
+
+  const isOnSubmit = useCallback((values: DepartmenSchema) => {
+    window.alert(JSON.stringify(values, null, 4));
+  }, []);
+
+  useEffect(() => {
+    if (isAddError) {
+      if (addError?.data.StatusCode === 400)
+        toast.error(JSON.stringify(addError?.data?.Message));
+
+      console.log(addError?.data);
+    }
+  }, [isAddError]);
 
   const NewForm = () => {
     return (
-      <form onSubmit={handleSubmit(submit)}>
+      <form onSubmit={handleSubmit(isOnSubmit)}>
         <Grid container>
           {" "}
           <Grid item xs={12} sm={12} md={12}>
@@ -91,7 +92,7 @@ const DepartmentForm = ({ user, onClose, dataToEdit, isAction }: FormProps) => {
 
   const EditForm = () => {
     return (
-      <form onSubmit={handleSubmit(submit)}>
+      <form onSubmit={handleSubmit(isOnSubmit)}>
         <Grid container>
           {" "}
           <Grid item xs={12} sm={12} md={12}>
@@ -130,18 +131,26 @@ const DepartmentForm = ({ user, onClose, dataToEdit, isAction }: FormProps) => {
     );
   };
 
+  //useEffect(() => {
+  //  reset(dataToEdit);
+  // }, [reset]);
+
+  //useEffect(() => {
+  // console.log(dataToEdit);
+  //}, [dataToEdit]);
+
   useEffect(() => {
     if (addSuccess) {
-      reset();
       toast.success(messages.add_success);
+      reset();
       onClose();
     }
   }, [addSuccess]);
 
   useEffect(() => {
     if (updateSuccess) {
-      reset();
       toast.success(messages.update_success);
+      reset();
       onClose();
     }
   }, [updateSuccess]);

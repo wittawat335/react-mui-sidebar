@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { messages } from "@/config/messages";
-import { IEmployee } from "@/types/Employee";
+import { IEmployeeList } from "@/types/Employee";
 import { EmployeeSchema, EmployeeValidation } from "@/lib/validation/schema";
-import { Button, Grid, Stack } from "@mui/material";
+import { Button, Grid, Stack, TextField } from "@mui/material";
 import { useAppSelector } from "@/hooks/hooks";
-import { selectAuth } from "@/features/auth/authSlice";
+import { selectAuth } from "@/features/auth/services/authSlice";
 import { ActiveItems, GenderItems } from "@/data/data";
 import { useGetDepartmentsQuery } from "@/features/department/services/departmentApi";
 import {
@@ -18,17 +18,19 @@ import {
   MuiRadioGroup,
   MuiSelectField,
   MuiTextField,
+  MuiTextFieldArea,
 } from "@/components/shared";
 
 interface FormProps {
   isAction: string;
-  dataToEdit: IEmployee | undefined;
+  dataToEdit: IEmployeeList | undefined;
   onClose: () => void;
 }
 
 const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
   const { user } = useAppSelector(selectAuth);
-  const { data, isSuccess } = useGetDepartmentsQuery();
+  const { data: Departments, isSuccess: fetchingSuccess } =
+    useGetDepartmentsQuery();
   const [addEmployee, { isSuccess: addSuccess }] = useAddEmployeeMutation();
   const [updateEmployee, { isSuccess: updateSuccess }] =
     useUpdateEmployeeMutation();
@@ -36,7 +38,6 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
   const methods = useForm<EmployeeSchema>({
     resolver: zodResolver(EmployeeValidation),
     defaultValues: {
-      id: dataToEdit?.id ? dataToEdit.id : "",
       employeeId: dataToEdit?.employeeId ? dataToEdit?.employeeId : "",
       fullName: dataToEdit?.fullName ? dataToEdit?.fullName : "",
       firstName: dataToEdit?.firstName ? dataToEdit?.firstName : "react",
@@ -46,10 +47,8 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
         ? dataToEdit?.phoneNumber
         : "0933262899",
       departmentId: dataToEdit?.departmentId ? dataToEdit?.departmentId : "",
-      //createdBy: dataToEdit?.createdBy ? dataToEdit?.createdBy : user?.username,
-      //modifiedBy: dataToEdit?.modifiedBy
-      //  ? dataToEdit?.modifiedBy
-      // : user?.username,
+      createdBy: dataToEdit?.createdBy ? dataToEdit?.createdBy : user?.username,
+      modifiedBy: isAction == "New" ? user?.username! : dataToEdit?.modifiedBy!,
       gender: dataToEdit?.gender ? dataToEdit?.gender : "M",
       active: dataToEdit?.active ? dataToEdit?.active : "1",
     },
@@ -93,6 +92,12 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
         <Grid item xs={12} sm={12} md={6}>
           <Stack spacing={2} margin={2}>
             <MuiTextField
+              name={"employeeId"}
+              label={"EmployeeId"}
+              control={control}
+              isAction={isAction}
+            />
+            <MuiTextField
               name={"firstName"}
               label={"First Name"}
               control={control}
@@ -116,16 +121,22 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
               control={control}
               isAction={isAction}
             />
-            {isSuccess ? (
+            {fetchingSuccess ? (
               <MuiSelectField
                 name="departmentId"
                 label="Department"
                 isAction={isAction}
                 control={control}
-                options={data}
+                options={Departments}
                 optionLabel="departmentName"
               />
             ) : null}
+            <MuiTextField
+              name="createdOn"
+              label="Hire Date"
+              control={control}
+              isAction={isAction}
+            />
 
             <MuiRadioGroup
               label={"Gender"}
@@ -137,6 +148,15 @@ const EmployeeForm = ({ onClose, dataToEdit, isAction }: FormProps) => {
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <Stack spacing={2} margin={2}>
+            <MuiTextFieldArea
+              name={"address"}
+              label={"Address"}
+              control={control}
+              isAction={isAction}
+              rows={4}
+              maxRows={4}
+            />
+
             <MuiTextField
               name={"createdBy"}
               label={"Created By"}

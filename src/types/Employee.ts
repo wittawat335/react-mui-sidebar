@@ -6,9 +6,9 @@ export interface IEmployee {
   fullName: string;
   phoneNumber: string;
   email: string;
-  //dateOfBirth: Date | null;
+  dateOfBirth: Date | null;
   gender: string;
-  //address: string;
+  address: string;
   departmentId: string;
   active: string | null;
 }

@@ -19,7 +19,7 @@ import { FaReact } from "react-icons/fa";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks/hooks";
-import { selectAuth } from "@/features/auth/authSlice";
+import { selectAuth } from "@/features/auth/services/authSlice";
 import ManageAccountsOutlined from "@mui/icons-material/ManageAccountsOutlined";
 import AdminPanelSettingsOutlined from "@mui/icons-material/AdminPanelSettingsOutlined";
 

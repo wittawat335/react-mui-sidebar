@@ -1,7 +1,7 @@
-import authReducer from "../../features/auth/authSlice";
+import authReducer from "../../features/auth/services/authSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { appConfig } from "@/config/appConfig";
-import { authApi } from "@/features/auth/authApi";
+import { authApi } from "@/features/auth/services/authApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { userApi } from "@/features/users/services/userApi";
 import { roleApi } from "@/features/roles/roleApi";

@@ -15,8 +15,14 @@ const Employee = () => {
   const [dataToEdit, setDataToEdit] = useState<IEmployeeList | undefined>(
     undefined
   );
-  const { data, isError, error, isFetching, isLoading, isSuccess } =
-    useGetEmployeesQuery();
+  const {
+    data: Employees,
+    isError,
+    error,
+    isFetching,
+    isLoading,
+    isSuccess: fetchingSuccess,
+  } = useGetEmployeesQuery();
   const navigate = useNavigate();
 
   if (isError) {
@@ -39,14 +45,14 @@ const Employee = () => {
   const handleUpdate = (id: string) => {
     setTitle("Update Employee");
     setIsAction("Edit");
-    setDataToEdit(data?.find((item) => item.id === id));
+    setDataToEdit(Employees?.find((item) => item.id === id));
     handleOpenDialog();
   };
 
   const handleView = (id: string) => {
     setTitle("View Employee");
     setIsAction("View");
-    setDataToEdit(data?.find((item) => item.id === id));
+    setDataToEdit(Employees?.find((item) => item.id === id));
     handleOpenDialog();
   };
 
@@ -61,9 +67,9 @@ const Employee = () => {
   return (
     <>
       <Container maxWidth={false} sx={{ p: 2 }}>
-        {isSuccess ? (
+        {fetchingSuccess ? (
           <EmployeeList
-            data={data}
+            data={Employees}
             handleNew={handleNew}
             handleUpdate={handleUpdate}
             handleView={handleView}

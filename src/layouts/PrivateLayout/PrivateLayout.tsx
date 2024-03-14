@@ -3,7 +3,7 @@ import { Box, CssBaseline } from "@mui/material";
 import { Outlet, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { useEffect } from "react";
-import { setUser } from "@/features/auth/authSlice";
+import { setUser } from "@/features/auth/services/authSlice";
 import "../../styles/index.css";
 
 const PrivateLayout = () => {

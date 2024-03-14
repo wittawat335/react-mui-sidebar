@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import UserForm from "./UserForm";
 import { useAppSelector } from "@/hooks/hooks";
-import { selectAuth } from "@/features/auth/authSlice";
+import { selectAuth } from "@/features/auth/services/authSlice";
 
 const UserIndex = () => {
   const { user } = useAppSelector(selectAuth);

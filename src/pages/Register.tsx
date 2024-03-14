@@ -15,10 +15,10 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSignInAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { useRegisterMutation } from "@/features/auth/authApi";
+import { useRegisterMutation } from "@/features/auth/services/authApi";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/hooks/hooks";
-import { isAuthenticated, setUser } from "@/features/auth/authSlice";
+import { isAuthenticated, setUser } from "@/features/auth/services/authSlice";
 import { messages } from "@/config/messages";
 
 export default function Register() {

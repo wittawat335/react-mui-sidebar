@@ -2,17 +2,16 @@ import { MouseEvent, useEffect } from "react";
 import { IDepartmentList } from "@/types/Department";
 import { Box, Button, ButtonGroup, IconButton, Paper } from "@mui/material";
 import { toast } from "react-toastify";
-import { useDeleteDepartmentMutation } from "../services/departmentApi";
 import { messages } from "@/config/messages";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 import { IAuth } from "@/types/Auth";
-import { useNavigate } from "react-router-dom";
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables";
 import Swal from "sweetalert2";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Moment from "moment";
+import { useDeleteDepartmentMutation } from "../services/departmentApi";
 
 type Props = {
   data: Array<IDepartmentList>;
@@ -29,9 +28,10 @@ const DepartmentList = ({
   handleUpdate,
   handleView,
 }: Props) => {
-  const navigate = useNavigate();
-  const [deleteData, { isSuccess: deleteDataSuccess, isError, error }] =
-    useDeleteDepartmentMutation();
+  const [
+    deleteDepartment,
+    { isSuccess: deleteSuccess, isError: deleteIsError, error: deleteError },
+  ] = useDeleteDepartmentMutation();
 
   const handleDelete = async (id: string) => {
     try {
@@ -45,7 +45,7 @@ const DepartmentList = ({
         confirmButtonText: "Yes, delete it!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await deleteData(id);
+          await deleteDepartment(id);
         }
       });
     } catch (err) {
@@ -167,14 +167,17 @@ const DepartmentList = ({
     rowsPerPageOptions: [5, 10, 25, 100],
   };
 
-  if (isError) {
-    console.log({ error });
-    navigate("/unauthorized");
-  }
+  useEffect(() => {
+    if (deleteIsError) {
+      alert("1");
+    }
+  }, [deleteIsError]);
 
   useEffect(() => {
-    if (deleteDataSuccess) toast.success(messages.delete_success);
-  }, [deleteDataSuccess]);
+    if (deleteSuccess) {
+      toast.success(messages.delete_success);
+    }
+  }, [deleteSuccess]);
 
   return (
     <>
