@@ -65,7 +65,6 @@ const DepartmentForm = ({ user, onClose, dataToEdit, isAction }: FormProps) => {
     return (
       <form onSubmit={handleSubmit(isOnSubmit)}>
         <Grid container>
-          {" "}
           <Grid item xs={12} sm={12} md={12}>
             <Stack spacing={2} margin={2}>
               <MuiTextField
